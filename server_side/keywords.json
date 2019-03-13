@@ -1,0 +1,25 @@
+[
+  {
+    "1": ["weather","temparature","hot"]
+  },
+
+  {
+    "1":{
+      "url":"https://api.openweathermap.org/data/2.5/weather",
+      "parameters": {"q": "GPE"},
+      "defaults": {"q": "location"},
+      "apikey": {"appid": "3b0dabc605b0ed0d411b6119846d1321"},
+      "response": "json",
+      "data_to_receive": {
+        "name": {},
+        "weather": [
+          {
+            "main": {}
+          }
+        ],
+        "main": {"temp": {}}
+      },
+      "output_format": "Today in {name}, it is {temp} with {main}"
+    }
+  }
+]
