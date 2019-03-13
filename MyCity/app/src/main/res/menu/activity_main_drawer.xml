@@ -3,35 +3,37 @@
 	  xmlns:tools="http://schemas.android.com/tools"
 	  tools:showIn="navigation_view">
 
-	<group android:checkableBehavior="single">
-		<item
-				android:id="@+id/nav_camera"
-				android:icon="@drawable/subway"
-				android:title="Import"/>
-		<item
-				android:id="@+id/nav_gallery"
-				android:icon="@drawable/ic_menu_gallery"
-				android:title="Gallery"/>
-		<item
-				android:id="@+id/nav_slideshow"
-				android:icon="@drawable/ic_menu_slideshow"
-				android:title="Slideshow"/>
-		<item
-				android:id="@+id/nav_manage"
-				android:icon="@drawable/ic_menu_manage"
-				android:title="Tools"/>
-	</group>
-
-	<item android:title="Communicate">
+	<item android:title="@string/transport">
 		<menu>
 			<item
-					android:id="@+id/nav_share"
-					android:icon="@drawable/ic_menu_share"
-					android:title="Share"/>
+					android:id="@+id/transit"
+					android:icon="@drawable/subway"
+					android:title="Public Transit"/>
 			<item
-					android:id="@+id/nav_send"
-					android:icon="@drawable/ic_menu_send"
-					android:title="Send"/>
+					android:id="@+id/navigation"
+					android:icon="@drawable/navigation"
+					android:title="Navigation"/>
+			<item
+					android:id="@+id/parking"
+					android:icon="@drawable/parking"
+					android:title="Smart Parking"/>
+		</menu>
+	</item>
+
+	<item android:title="@string/foryou">
+		<menu>
+			<item
+					android:id="@+id/rating"
+					android:icon="@drawable/star"
+					android:title="Rate"/>
+			<item
+					android:id="@+id/voting"
+					android:icon="@drawable/check"
+					android:title="Vote"/>
+			<item
+					android:id="@+id/utilities"
+					android:icon="@drawable/house"
+					android:title="Utilities"/>
 		</menu>
 	</item>
 

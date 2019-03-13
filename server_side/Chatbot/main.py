@@ -18,9 +18,9 @@ def getData( searched, data, data_final ):
 				data_final[ key ] = data[ key ]
 			else:
 				getData( searched[ key ], data[ key ], data_final )
+parser = Parser()
 while True:
 	sentence = raw_input("You:")
-	parser = Parser()
 
 	#Parse the input
 	tokenized = nltk.word_tokenize( sentence )
