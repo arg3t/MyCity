@@ -1,9 +1,0 @@
-DROP TABLE IF EXISTS votings;
-
-CREATE TABLE votings (
-	id INTEGER PRIMARY KEY AUTOINCREMENT,
-	name TEXT NOT NULL,
-	desc TEXT,
-	img TEXT,
-	votes
-)
