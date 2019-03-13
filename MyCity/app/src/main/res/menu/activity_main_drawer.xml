@@ -28,11 +28,11 @@
 					android:title="Rate"/>
 			<item
 					android:id="@+id/voting"
-					android:icon="@drawable/check"
+					android:icon="@drawable/vote"
 					android:title="Vote"/>
 			<item
 					android:id="@+id/utilities"
-					android:icon="@drawable/house"
+					android:icon="@drawable/utility"
 					android:title="Utilities"/>
 		</menu>
 	</item>

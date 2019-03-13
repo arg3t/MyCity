@@ -80,7 +80,19 @@ public class MainActivity extends AppCompatActivity
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
 
+		if (id == R.id.voting) {
+//			R.id.page
+		} else if (id == R.id.parking) {
 
+		} else if (id == R.id.transit) {
+
+		} else if (id == R.id.navigation) {
+
+		} else if (id == R.id.rating) {
+
+		} else if (id == R.id.utilities) {
+
+		}
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);
