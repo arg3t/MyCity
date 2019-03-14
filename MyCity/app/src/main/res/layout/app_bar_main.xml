@@ -21,8 +21,14 @@
 
 	</android.support.design.widget.AppBarLayout>
 
-	<include  android:id="@+id/page" layout="@layout/content_main"/>
+	<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+				 android:id="@+id/page"
+				 android:layout_width="fill_parent"
+				 android:layout_height="wrap_content" >
 
+		<include android:id="@+id/include1" layout="@layout/voting_content" />
+
+	</ViewFlipper>
 	<android.support.design.widget.FloatingActionButton
 			android:id="@+id/fab"
 			android:layout_width="wrap_content"
