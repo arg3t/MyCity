@@ -9,17 +9,13 @@ app = Flask(__name__)
 api = Api(app)
 
 parser = reqparse.RequestParser()
-parser.add_argument('name')
+parser.add_argument('name', required=True)
 parser.add_argument('desc')
 parser.add_argument('img')
-parser.add_argument('votes')
+parser.add_argument('votes', required=True)
 
 with open(os.path.join(app.root_path, 'votings.json'), 'r') as f:
-	votings_json = json.load(f)
-	votings = {
-		v['id']: v
-		for v in votings_json
-	}
+	votings = json.load(f)
 
 class Votings(Resource):
 	def get(self):
@@ -30,13 +26,13 @@ class Votings(Resource):
 				'desc': v['desc'],
 				'img' : v['img']
 			}
-			for k, v in votings.items()
+			for v in votings
 		]
 		return voting
 		
 	def post(self):
 		args = parser.parse_args()
-		voting_id = max(votings.keys()) + 1
+		voting_id = max(len(votings)) + 1
 		voting = {
 			'id': voting_id,
 			'name': args['name'],
@@ -53,10 +49,10 @@ class Votings(Resource):
 			]
 		}
 		
-		votings[voting_id] = voting
-		votings_json.append(voting)
+		votings.append(voting)
+		
 		with open(os.path.join(app.root_path, 'votings.json'), 'w') as f:
-			json.dump(votings_json, f, indent=4)
+			json.dump(votings, f, indent=4)
 		
 		return voting
 		
@@ -64,13 +60,21 @@ class Votings(Resource):
 class Voting(Resource):
 	def get(self, voting_id):
 		try:
-			return votings[voting_id]
+			return votings[voting_id - 1]
 		except:
 			abort(404, error="Voting {} doesn't exist".format(voting_id)) 
 
+class Vote(Resource):
+        def get(self, voting_id, vote_id):
+                votings[voting_id - 1]['votes'][vote_id - 1]['votes'] += 1
+                with open(os.path.join(app.root_path, 'votings.json'), 'w') as f:
+                        json.dump(votings, f, indent=4)
+			
+                return votings[voting_id - 1]
 
 api.add_resource(Votings, '/votings', '/votings/')
 api.add_resource(Voting, '/votings/<int:voting_id>')
+api.add_resource(Vote, '/vote/<int:voting_id>/<int:vote_id>')
 
 @app.route('/img/<path:path>')
 def send_img(path):
