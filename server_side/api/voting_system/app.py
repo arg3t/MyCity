@@ -31,7 +31,10 @@ class Vote(Resource):
 		try:
 			doc = collection.find_one({'_id': ObjectId(voting_id)})
 			doc['_id'] = str(doc['_id'])
-			return doc
+			return {
+				k.replace('_id', 'id'): v
+				for k, v in doc.items()
+			}
 		except:
 			abort(404, error="Voting {} doesn't exist".format(voting_id)) 
 
