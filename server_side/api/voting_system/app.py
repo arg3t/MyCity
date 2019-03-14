@@ -62,7 +62,7 @@ class Voting(Resource):
 		try:
 			return votings[voting_id - 1]
 		except:
-			abort(404, error="Voting {} doesn't exist".format(voting_id)) 
+			abort(404, error="Voting {} doesn't exist".format(voting_id))
 
 class Vote(Resource):
         def get(self, voting_id, vote_id):
