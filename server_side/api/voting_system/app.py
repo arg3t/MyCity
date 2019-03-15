@@ -32,7 +32,7 @@ class Votings(Resource):
 		
 	def post(self):
 		args = parser.parse_args()
-		voting_id = max(len(votings)) + 1
+		voting_id = len(votings) + 1
 		voting = {
 			'id': voting_id,
 			'name': args['name'],
