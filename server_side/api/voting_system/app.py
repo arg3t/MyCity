@@ -65,12 +65,11 @@ class Voting(Resource):
 			abort(404, error="Voting {} doesn't exist".format(voting_id))
 
 class Vote(Resource):
-        def get(self, voting_id, vote_id):
-                votings[voting_id - 1]['votes'][vote_id - 1]['votes'] += 1
-                with open(os.path.join(app.root_path, 'votings.json'), 'w') as f:
-                        json.dump(votings, f, indent=4)
-			
-                return votings[voting_id - 1]
+	def get(self, voting_id, vote_id):
+		votings[voting_id - 1]['votes'][vote_id - 1]['votes'] += 1
+		with open(os.path.join(app.root_path, 'votings.json'), 'w') as f:
+			json.dump(votings, f, indent=4)
+		return votings[voting_id - 1]
 
 api.add_resource(Votings, '/votings', '/votings/')
 api.add_resource(Voting, '/votings/<int:voting_id>')
