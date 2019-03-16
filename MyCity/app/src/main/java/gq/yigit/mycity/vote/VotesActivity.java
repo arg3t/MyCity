@@ -1,4 +1,4 @@
-package gq.yigit.mycity;
+package gq.yigit.mycity.vote;
 
 public class VotesActivity {
 }

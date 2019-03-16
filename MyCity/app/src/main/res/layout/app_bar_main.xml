@@ -5,6 +5,7 @@
 		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:id="@+id/app_bar_main"
 		tools:context=".MainActivity">
 
 	<android.support.design.widget.AppBarLayout
@@ -20,15 +21,6 @@
 				app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
 	</android.support.design.widget.AppBarLayout>
-
-	<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
-				 android:id="@+id/page"
-				 android:layout_width="fill_parent"
-				 android:layout_height="wrap_content" >
-
-		<include android:id="@+id/include1" layout="@layout/voting_content" />
-
-	</ViewFlipper>
 	<android.support.design.widget.FloatingActionButton
 			android:id="@+id/fab"
 			android:layout_width="wrap_content"
