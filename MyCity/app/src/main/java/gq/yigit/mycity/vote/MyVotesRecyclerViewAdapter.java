@@ -1,9 +1,11 @@
 package gq.yigit.mycity.vote;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import gq.yigit.mycity.R;
@@ -32,10 +34,10 @@ public class MyVotesRecyclerViewAdapter extends RecyclerView.Adapter<MyVotesRecy
 	@Override
 	public void onBindViewHolder(final ViewHolder holder, int position) {
 
-
 		holder.mItem = mValues.get(position);
 		holder.mIdView.setText(mValues.get(position).name);
 		holder.mContentView.setText(mValues.get(position).details);
+		holder.mImageView.setImageBitmap(mValues.get(position).img);
 
 		holder.mView.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -56,6 +58,7 @@ public class MyVotesRecyclerViewAdapter extends RecyclerView.Adapter<MyVotesRecy
 		public final View mView;
 		public final TextView mIdView;
 		public final TextView mContentView;
+		public final ImageView mImageView;
 		public VoteItem mItem;
 
 		public ViewHolder(View view) {
@@ -63,6 +66,7 @@ public class MyVotesRecyclerViewAdapter extends RecyclerView.Adapter<MyVotesRecy
 			mView = view;
 			mIdView = (TextView) view.findViewById(R.id.item_number);
 			mContentView = (TextView) view.findViewById(R.id.content);
+			mImageView = (ImageView) view.findViewById(R.id.vote_img);
 		}
 
 		@Override

@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.*;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -76,14 +77,14 @@ public class MainActivity extends AppCompatActivity
 		if (id == R.id.action_settings) {
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
 			alert.setTitle("Set new server");
-			alert.setMessage("Server IP:");
+			alert.setMessage("Server URL:");
 			final EditText input = new EditText(this);
 			alert.setView(input);
 
 			alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					FileActions file_manager = new FileActions();
-					file_manager.writeToFile(input.getText().toString(),cntxt,"serverip.config");
+					file_manager.writeToFile(input.getText().toString(),cntxt,"server.config");
 				}
 			});
 
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity
 	}
 
 	public void onListFragmentInteraction(VotesContent.VoteItem vote){
-
+		Log.i("[INFO]",vote.id);
 	}
 
 }

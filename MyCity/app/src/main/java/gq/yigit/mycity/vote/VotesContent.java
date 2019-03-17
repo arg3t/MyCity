@@ -1,5 +1,7 @@
 package gq.yigit.mycity.vote;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,33 +13,23 @@ public class VotesContent {
 
 
 	public static final Map<String, VoteItem> ITEM_MAP = new HashMap<String, VoteItem>();
-	private static void addItem(VoteItem item) {
+	public static void addItem(VoteItem item) {
 		ITEMS.add(item);
 		ITEM_MAP.put(item.id, item);
 	}
 
-	private static VoteItem creaVoteItem(int position) {
-		return new VoteItem(String.valueOf(position), "Item " + position, makeDetails(position));
-	}
-
-	private static String makeDetails(int position) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Details about Item: ").append(position);
-		for (int i = 0; i < position; i++) {
-			builder.append("\nMore details information here.");
-		}
-		return builder.toString();
-	}
 
 	public static class VoteItem {
 		public final String id;
 		public final String name;
 		public final String details;
+		public final Bitmap img;
 
-		public VoteItem(String id, String name, String details) {
+		public VoteItem(String id, String name, String details, Bitmap img) {
 			this.id = id;
 			this.name = name;
 			this.details = details;
+			this.img = img;
 		}
 
 		@Override

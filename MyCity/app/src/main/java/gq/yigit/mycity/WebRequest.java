@@ -27,7 +27,8 @@ public class WebRequest extends AsyncTask<Void,Void,String> {
 	private List<responseListener> listeners = new ArrayList<>();
 
 
-	WebRequest(String url, boolean request_type, HashMap<String,String> request_content){
+	public WebRequest(String url, boolean request_type, HashMap<String,String> request_content){
+		//request_type=true:get else post
 
 		this.url = url;
 		this.request_content = request_content;
