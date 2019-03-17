@@ -5,7 +5,7 @@ import android.util.Log;
 
 import java.io.*;
 
-public class fileActions {
+public class FileActions {
 
 	public void writeToFile(String data, Context context, String file_name) {
 		try {

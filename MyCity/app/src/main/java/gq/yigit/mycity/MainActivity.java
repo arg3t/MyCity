@@ -3,9 +3,10 @@ package gq.yigit.mycity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.*;
@@ -16,13 +17,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.ViewFlipper;
-
-import java.io.*;
+import gq.yigit.mycity.vote.VotesContent;
+import gq.yigit.mycity.vote.VotesFragment;
 
 public class MainActivity extends AppCompatActivity
-		implements NavigationView.OnNavigationItemSelectedListener {
+		implements NavigationView.OnNavigationItemSelectedListener, VotesFragment.OnListFragmentInteractionListener {
 
 	public Context cntxt;
 
@@ -71,23 +70,21 @@ public class MainActivity extends AppCompatActivity
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
+
 		int id = item.getItemId();
 
 		//noinspection SimplifiableIfStatement
 		if (id == R.id.action_settings) {
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
 			alert.setTitle("Set new server");
-			alert.setMessage("Server IP:");
+			alert.setMessage("Server URL:");
 			final EditText input = new EditText(this);
 			alert.setView(input);
 
 			alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					fileActions file_manager = new fileActions();
-					file_manager.writeToFile(input.getText().toString(),cntxt,"serverip.config");
+					FileActions file_manager = new FileActions();
+					file_manager.writeToFile(input.getText().toString(),cntxt,"server.config");
 				}
 			});
 
@@ -109,14 +106,14 @@ public class MainActivity extends AppCompatActivity
 	public boolean onNavigationItemSelected(MenuItem item) {
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 		if (id == R.id.voting) {
-			ViewFlipper vf = (ViewFlipper)findViewById(R.id.page);
-			try {
-				vf.setDisplayedChild(1);
-			}catch (Exception e){
-				Log.e("[ERROR]",e.toString());
-			}
+			VotesFragment fragment = new VotesFragment();
+			fragmentTransaction.add(R.id.app_bar_main, fragment);
+			fragmentTransaction.commit();
+
 		} else if (id == R.id.parking) {
 
 		} else if (id == R.id.transit) {
@@ -132,6 +129,10 @@ public class MainActivity extends AppCompatActivity
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);
 		return true;
+	}
+
+	public void onListFragmentInteraction(VotesContent.VoteItem vote){
+		Log.i("[INFO]",vote.id);
 	}
 
 }
