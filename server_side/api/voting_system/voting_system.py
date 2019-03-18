@@ -1,7 +1,7 @@
 import os
 import json
 
-from flask import Flask, send_from_directory, request
+from flask import Flask, request
 from flask_restful import Resource, Api, abort
 
 app = Flask(__name__)
@@ -47,7 +47,7 @@ class Votings(Resource):
             'img' : args.get('img'),
             'votes': [
                 {
-                    'id'  : k,
+                    'id'  : k + 1,
                     'name': vote['name'],
                     'desc': vote.get('desc'),
                     'votes': 0
@@ -85,13 +85,9 @@ class Vote(Resource):
 
         return votings[voting_id - 1]
 
-api.add_resource(Votings, '/votings', '/votings/')
-api.add_resource(Voting, '/votings/<int:voting_id>')
-api.add_resource(Vote, '/vote', '/vote/')
-
-@app.route('/img/<path:path>')
-def send_img(path):
-    return send_from_directory('images', path)
-
 if __name__ == '__main__':
+    api.add_resource(Votings, '/votings', '/votings/')
+    api.add_resource(Voting, '/votings/<int:voting_id>', '/votings/<int:voting_id>/')
+    api.add_resource(Vote, '/vote', '/vote/')
+
     app.run(host='0.0.0.0', port=5000)

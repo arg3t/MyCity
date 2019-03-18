@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "name": "Bus Service",
+        "desc": "Our bus service in Ankara",
+        "img": "/img/voting.jpg",
+        "rates": [
+            {
+                "id": 1,
+                "score": 10,
+                "note": "IT WAS AWESOME"
+            },
+            {
+                "id": 2,
+                "score": 0,
+                "note": "The worst bus ride I have ever had"
+            },
+            {
+                "id": 3,
+                "score": 7,
+                "note": null
+            },
+            {
+                "id": 4,
+                "score": 1,
+                "note": null
+            }
+        ]
+    }
+]
