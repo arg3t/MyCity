@@ -1,4 +1,4 @@
-package gq.yigit.mycity.vote;
+package gq.yigit.mycity.votesFragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import gq.yigit.mycity.*;
-import gq.yigit.mycity.vote.VotesContent.VoteItem;
+import gq.yigit.mycity.votesFragment.VotesContent.VoteItem;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

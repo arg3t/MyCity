@@ -2,6 +2,7 @@ package gq.yigit.mycity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,11 +18,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
-import gq.yigit.mycity.vote.VotesContent;
-import gq.yigit.mycity.vote.VotesFragment;
+import gq.yigit.mycity.voteFragment.VoteFragment;
+import gq.yigit.mycity.votesFragment.VotesContent;
+import gq.yigit.mycity.votesFragment.VotesFragment;
 
 public class MainActivity extends AppCompatActivity
-		implements NavigationView.OnNavigationItemSelectedListener, VotesFragment.OnListFragmentInteractionListener {
+		implements NavigationView.OnNavigationItemSelectedListener, VotesFragment.OnListFragmentInteractionListener, MainFragment.OnFragmentInteractionListener, VoteFragment.OnFragmentInteractionListener {
 
 	public Context cntxt;
 
@@ -49,6 +51,11 @@ public class MainActivity extends AppCompatActivity
 
 		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
+		MainFragment fragment = new MainFragment();
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+		transaction.replace(R.id.app_bar_main, fragment);
+		transaction.addToBackStack(null);
+		transaction.commit();
 	}
 
 	@Override
@@ -111,7 +118,7 @@ public class MainActivity extends AppCompatActivity
 
 		if (id == R.id.voting) {
 			VotesFragment fragment = new VotesFragment();
-			fragmentTransaction.add(R.id.app_bar_main, fragment);
+			fragmentTransaction.replace(R.id.app_bar_main, fragment);
 			fragmentTransaction.commit();
 
 		} else if (id == R.id.parking) {
@@ -132,7 +139,15 @@ public class MainActivity extends AppCompatActivity
 	}
 
 	public void onListFragmentInteraction(VotesContent.VoteItem vote){
-		Log.i("[INFO]",vote.id);
+		VoteFragment fragment = new VoteFragment();
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+		transaction.replace(R.id.app_bar_main, fragment);
+		transaction.addToBackStack(null);
+		transaction.commit();
+	}
+
+	public void onFragmentInteraction(Uri uri){
+
 	}
 
 }

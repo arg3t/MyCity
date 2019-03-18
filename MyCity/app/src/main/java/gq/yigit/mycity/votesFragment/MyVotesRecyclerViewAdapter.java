@@ -1,7 +1,6 @@
-package gq.yigit.mycity.vote;
+package gq.yigit.mycity.votesFragment;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import gq.yigit.mycity.R;
-import gq.yigit.mycity.vote.VotesFragment.OnListFragmentInteractionListener;
-import gq.yigit.mycity.vote.VotesContent.VoteItem;
+import gq.yigit.mycity.votesFragment.VotesFragment.OnListFragmentInteractionListener;
+import gq.yigit.mycity.votesFragment.VotesContent.VoteItem;
 
 import java.util.List;
 

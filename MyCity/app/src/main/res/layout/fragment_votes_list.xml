@@ -11,7 +11,7 @@
 		android:layout_marginTop="60dp"
 		android:layout_marginRight="16dp"
 		app:layoutManager="LinearLayoutManager"
-		tools:context=".vote.VotesFragment"
+		tools:context=".votesFragment.VotesFragment"
 		tools:listitem="@layout/fragment_votes"
 		android:divider="@android:color/transparent"
 		android:dividerHeight="100.0sp"
