@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			 xmlns:tools="http://schemas.android.com/tools"
-			 android:layout_width="match_parent"
-			 android:layout_height="match_parent"
-			 tools:context=".voteFragment.VoteFragment">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent"
+			  tools:context=".voteFragment.VoteFragment" android:orientation="vertical">
 
 	<!-- TODO: Update blank fragment layout -->
-	<TextView
+	<ImageView
+			android:src="@android:color/background_dark"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:text="@string/hello_blank_fragment"/>
+			android:layout_height="236dp" android:id="@+id/header" android:layout_weight="1"/>
+	<Spinner
+			android:layout_width="199dp"
+			android:layout_height="24dp" android:id="@+id/vote"
+			app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+			app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+			app:layout_constraintHorizontal_bias="0.503" android:layout_marginTop="8dp"
+			app:layout_constraintTop_toBottomOf="@+id/description"/>
+	<TextView
+			android:text="TextView"
+			android:layout_width="282dp"
+			android:layout_height="wrap_content"
+			android:id="@+id/name"
+			app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
+			android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/header"
+			android:textSize="16sp" android:textColor="#000000"/>
+	<TextView
+			android:text="TextView"
+			android:layout_width="299dp"
+			android:layout_height="wrap_content"
+			android:id="@+id/description"
+			app:layout_constraintStart_toStartOf="@+id/name" android:layout_marginStart="28dp"
+			android:layout_marginTop="12dp" app:layout_constraintTop_toBottomOf="@+id/name"/>
+	<Button
+			android:text="Submit"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/submit" android:layout_marginTop="8dp"
+			app:layout_constraintTop_toBottomOf="@+id/vote" app:layout_constraintEnd_toEndOf="parent"
+			android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
+			android:layout_marginStart="8dp"/>
 
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

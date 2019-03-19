@@ -11,11 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import gq.yigit.mycity.*;
+import gq.yigit.mycity.R;
+import gq.yigit.mycity.tools.*;
 import gq.yigit.mycity.votesFragment.VotesContent.VoteItem;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 
 

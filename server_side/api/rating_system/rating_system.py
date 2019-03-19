@@ -2,7 +2,15 @@ import os
 import json
 
 from flask import Flask, request
+<<<<<<< HEAD
 from flask_restful import Resource, Api, abort
+=======
+<<<<<<< HEAD
+from flask_restful import Resource, Api
+=======
+from flask_restful import Resource, Api, abort
+>>>>>>> efe
+>>>>>>> yigit
 
 app = Flask(__name__)
 api = Api(app)
