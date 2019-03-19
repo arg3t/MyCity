@@ -10,36 +10,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 import gq.yigit.mycity.R;
 import gq.yigit.mycity.tools.*;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link VoteFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link VoteFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class VoteFragment extends Fragment implements responseListener, imageListener {
-	// TODO: Rename parameter arguments, choose names that match
-	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
 	private static final String ARG_PARAM1 = "param1";
 	private String url;
 	private String vote_id;
-
+	private String user_vote = "";
 	private OnFragmentInteractionListener mListener;
 
 	private ImageView header_img;
 	private TextView title;
 	private TextView desc;
+	private Spinner spinner;
 	private Button submit;
+	private Context cntxt;
 
 	public VoteFragment() {
 		// Required empty public constructor
@@ -66,21 +61,23 @@ public class VoteFragment extends Fragment implements responseListener, imageLis
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
-		header_img = container.findViewById(R.id.header);
-		title = container.findViewById(R.id.name);
-		desc = container.findViewById(R.id.description);
-		submit = container.findViewById(R.id.submit);
 
+		final View rootView = inflater.inflate(R.layout.fragment_vote, container, false);
+		header_img = rootView.findViewById(R.id.header);
+		title = rootView.findViewById(R.id.name);
+		desc = rootView.findViewById(R.id.description);
+		submit = rootView.findViewById(R.id.submit);
+		spinner = rootView.findViewById(R.id.vote);
 		FileActions file_manager = new FileActions();
 		url = file_manager.readFromFile(getContext(),"server.config").trim();
 		String url_vote = url + "/votings/" + vote_id;
-		WebRequest request_manager = new WebRequest(url_vote,true,new HashMap<String, String>());
-		request_manager.addListener(this);
-		request_manager.execute();
-		return inflater.inflate(R.layout.fragment_vote, container, false);
+		WebRequest data_request = new WebRequest(url_vote,true,new HashMap<String, String>());
+		data_request.addListener(this);
+		data_request.execute();
+		cntxt = getContext();
+		return rootView;
 	}
 
-	// TODO: Rename method, update argument and hook method into UI event
 	public void onButtonPressed(Uri uri) {
 		if (mListener != null) {
 			mListener.onFragmentInteraction(uri);
@@ -110,6 +107,7 @@ public class VoteFragment extends Fragment implements responseListener, imageLis
 	}
 
 	public void receivedResponse(boolean success,String response){
+		Log.i("[INFO]",response);
 		if(success){
 			try{
 				JSONObject vote_data = new JSONObject(response);
@@ -118,13 +116,57 @@ public class VoteFragment extends Fragment implements responseListener, imageLis
 				ImageDownload img_manager = new ImageDownload();
 				img_manager.addListener(this);
 				img_manager.execute(url+(String)vote_data.get("img"));
+
+				ArrayAdapter<String> adapter;
+				List<String> list;
+				list = new ArrayList<String>();
+
+				Iterator keys = vote_data.getJSONObject("votes").keys();
+				list.add("Please Select...");
+				while (keys.hasNext()) {
+					Object key = keys.next();
+					JSONObject value = vote_data.getJSONObject("votes").getJSONObject((String) key);
+					String component = value.getString("name");
+					list.add(component);
+				}
+
+				adapter = new ArrayAdapter<String>(getContext(),
+						android.R.layout.simple_spinner_item, list);
+				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				spinner.setAdapter(adapter);
+
 			}catch (Exception e){
 				Log.e("[ERROR]",e.getMessage());
 			}
+
+			spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+				@Override
+				public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+					Log.i("[INFO]",String.valueOf(position));
+					user_vote = String.valueOf(position);
+				}
+			@Override
+			public void onNothingSelected(AdapterView<?> parentView) {
+			}
+		});
 		}
 	}
 
 	public void imageDownloaded(Bitmap img){
 		header_img.setImageBitmap(img);
+		submit.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if(!user_vote.isEmpty()){
+					HashMap<String,String> params = new HashMap<>();
+					params.put("voting_id",vote_id);
+					params.put("vote_id",user_vote);
+					WebRequest vote_request = new WebRequest(url+"/vote",true, params);
+					vote_request.execute();
+				}else{
+					Toast.makeText(cntxt,"Please selet a vote!",Toast.LENGTH_SHORT);
+				}
+			}
+		});
 	}
 }
