@@ -75,11 +75,19 @@ class Vote(Resource):
     def get(self):
         """
         Example URL Query:
-        /vote?voting_id=<voting_id>&vote_id=<vote_id>
+        /vote?voting_id=<voting_id>&vote_id=<vote_id>&voter_id=<voter_id>
         """
         voting_id = int(request.args['voting_id'])
         vote_id = int(request.args['vote_id'])
-        votings[voting_id - 1]['votes'][vote_id - 1]['votes'] += 1
+        voter_id = int(request.args['voter_id'])
+        error = False
+        for i in range(votings[voting_id]["votes"]):
+            if(voter_id in votings[voting_id]["votes"][i]["votes"]):
+                error = True
+        if error:
+            return "An error occured"
+
+        votings[voting_id]["votes"][vote_id]["votes"].append(voter_id)
         with open(os.path.join(app.root_path, 'votings.json'), 'w') as f:
             json.dump(votings, f, indent=4)
 

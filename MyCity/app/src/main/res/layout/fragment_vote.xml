@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			 xmlns:tools="http://schemas.android.com/tools"
-			 android:layout_width="match_parent"
-			 android:layout_height="match_parent"
-			 tools:context=".voteFragment.VoteFragment">
+			  xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent"
+			  tools:context=".voteFragment.VoteFragment" android:orientation="vertical">
 
 	<!-- TODO: Update blank fragment layout -->
-	<TextView
+	<ImageView
+			android:src="@android:color/background_dark"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:text="@string/hello_blank_fragment"/>
+			android:layout_height="236dp" android:id="@+id/imageView2" android:layout_weight="1"/>
+	<Spinner
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" android:id="@+id/spinner2"/>
 
 </FrameLayout>

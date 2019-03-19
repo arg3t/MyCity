@@ -9,7 +9,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.*;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +17,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
+import gq.yigit.mycity.tools.FileActions;
 import gq.yigit.mycity.voteFragment.VoteFragment;
 import gq.yigit.mycity.votesFragment.VotesContent;
 import gq.yigit.mycity.votesFragment.VotesFragment;
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity
 			alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					FileActions file_manager = new FileActions();
-					file_manager.writeToFile(input.getText().toString(),cntxt,"server.config");
+					file_manager.writeToFile("http://" + input.getText().toString()+":5000",cntxt,"server.config");
 				}
 			});
 
@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity
 			VotesFragment fragment = new VotesFragment();
 			fragmentTransaction.replace(R.id.app_bar_main, fragment);
 			fragmentTransaction.commit();
+			fragmentTransaction.addToBackStack(null);
 
 		} else if (id == R.id.parking) {
 
@@ -139,11 +140,11 @@ public class MainActivity extends AppCompatActivity
 	}
 
 	public void onListFragmentInteraction(VotesContent.VoteItem vote){
-		VoteFragment fragment = new VoteFragment();
+		VoteFragment fragment = VoteFragment.newInstance(vote.id);
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.replace(R.id.app_bar_main, fragment);
-		transaction.addToBackStack(null);
 		transaction.commit();
+		transaction.addToBackStack(null);
 	}
 
 	public void onFragmentInteraction(Uri uri){
