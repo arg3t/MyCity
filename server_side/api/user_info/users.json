@@ -1,0 +1,15 @@
+[
+    {
+        "id": 1,
+        "username": "efe",
+        "realname": "Efe Aydın",
+        "avatar": "img/user1.png",
+        "stats": {
+            "bus_usage_week": 1,
+            "bus_usage_month": 5,
+            "bus_usage_year": 67
+        },
+       "points": 50
+    }
+
+]

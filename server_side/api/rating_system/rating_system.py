@@ -83,4 +83,4 @@ if __name__ == '__main__':
     api.add_resource(Rating, '/ratings/<int:rating_id>', '/ratings/<int:rating_id>/')
     api.add_resource(Rate, '/rate', '/rate/')
 
-app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000)
