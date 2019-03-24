@@ -8,12 +8,12 @@
             "1": {
                 "name": "Sample Vote 1",
                 "desc": "Sample description",
-                "votes": []
+                "votes": 0
             },
             "2": {
                 "name": "Sample Vote 2",
                 "desc": "Sample description",
-                "votes": []
+                "votes": 0
             }
         }
     },
@@ -23,16 +23,16 @@
         "desc": "wooting desc",
         "img": "/img/voting.jpg",
         "votes": {
-            "1":{
+            "1": {
                 "name": "woote 1",
                 "desc": "woote desc",
-                "votes": []
+                "votes": 2
             },
-            "2":{
+            "2": {
                 "id": 1,
                 "name": "woote 2",
                 "desc": "woote 3",
-                "votes": []
+                "votes": 0
             }
         }
     }

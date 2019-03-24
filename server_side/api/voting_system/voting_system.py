@@ -79,7 +79,7 @@ class Vote(Resource):
         """
         voting_id = int(request.args['voting_id'])
         vote_id = int(request.args['vote_id'])
-        votings[voting_id - 1]['votes'][vote_id - 1]['votes'] += 1
+        votings[int(voting_id-1)]['votes'][str(vote_id)]['votes'] += 1
         with open(os.path.join(app.root_path, 'votings.json'), 'w') as f:
             json.dump(votings, f, indent=4)
 

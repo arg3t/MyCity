@@ -157,14 +157,14 @@ public class VoteFragment extends Fragment implements responseListener, imageLis
 		submit.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if(!user_vote.isEmpty()){
+				if(!user_vote.isEmpty() && Integer.parseInt(user_vote) > 0){
 					HashMap<String,String> params = new HashMap<>();
 					params.put("voting_id",vote_id);
 					params.put("vote_id",user_vote);
 					WebRequest vote_request = new WebRequest(url+"/vote",true, params);
 					vote_request.execute();
 				}else{
-					Toast.makeText(cntxt,"Please selet a vote!",Toast.LENGTH_SHORT);
+					Toast.makeText(cntxt,"Please selet a vote!",Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
