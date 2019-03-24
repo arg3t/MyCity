@@ -8,11 +8,21 @@ import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
 import cz.msebera.android.httpclient.client.methods.HttpGet;
 import cz.msebera.android.httpclient.client.methods.HttpPost;
-import cz.msebera.android.httpclient.impl.client.HttpClientBuilder;
-import cz.msebera.android.httpclient.message.BasicNameValuePair;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import cz.msebera.android.httpclient.conn.scheme.PlainSocketFactory;
+import cz.msebera.android.httpclient.conn.scheme.Scheme;
+import cz.msebera.android.httpclient.conn.scheme.SchemeRegistry;
+import cz.msebera.android.httpclient.impl.client.HttpClientBuilder;
+import cz.msebera.android.httpclient.impl.conn.tsccm.ThreadSafeClientConnManager;
+import cz.msebera.android.httpclient.message.BasicNameValuePair;
+import cz.msebera.android.httpclient.params.BasicHttpParams;
+import cz.msebera.android.httpclient.params.HttpParams;
+import gq.yigit.mycity.MainActivity;
+import gq.yigit.mycity.R;
+
+import javax.net.ssl.*;
+import java.io.*;
+import java.security.KeyStore;
 import java.util.*;
 
 public class WebRequest extends AsyncTask<Void,Void,String> {
@@ -20,15 +30,37 @@ public class WebRequest extends AsyncTask<Void,Void,String> {
 	private HashMap<String,String> request_content;
 	private boolean request_type;//True = GET, False = POST
 
-	private HttpClient client = HttpClientBuilder.create().build();
+	private HttpClient client;
 	private HttpGet get_request;
 	private HttpPost post_request;
 	private HttpResponse response;
 	private List<responseListener> listeners = new ArrayList<>();
 
+	protected cz.msebera.android.httpclient.conn.ssl.SSLSocketFactory createAdditionalCertsSSLSocketFactory() {
+		try {
+			final KeyStore ks = KeyStore.getInstance("BKS");
 
+			// the bks file we generated above
+			final InputStream in = MainActivity.cntxt.getResources().openRawResource( R.raw.mystore);
+			try {
+				// don't forget to put the password used above in strings.xml/mystore_password
+				ks.load(in, MainActivity.cntxt.getString( R.string.mystore_password ).toCharArray());
+			} finally {
+				in.close();
+			}
+
+			return new AdditionalKeyStoresSSLSocketFactory(ks);
+
+		} catch( Exception e ) {
+			throw new RuntimeException(e);
+		}
+	}
 	public WebRequest(String url, boolean request_type, HashMap<String,String> request_content){
-		//request_type=true:get else post
+
+		final SchemeRegistry schemeRegistry = new SchemeRegistry();
+		schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 5000));
+		schemeRegistry.register(new Scheme("https", createAdditionalCertsSSLSocketFactory(), 5000));
+		client = HttpClientBuilder.create().setSSLSocketFactory(createAdditionalCertsSSLSocketFactory()).build();
 
 		this.url = url;
 		this.request_content = request_content;
@@ -98,5 +130,6 @@ public class WebRequest extends AsyncTask<Void,Void,String> {
 	public void addListener(responseListener toAdd) {
 		listeners.add(toAdd);
 	}
-
 }
+
+

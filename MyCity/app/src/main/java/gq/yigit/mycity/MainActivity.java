@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.*;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,16 +18,30 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
+import android.widget.Toast;
 import gq.yigit.mycity.tools.FileActions;
+import gq.yigit.mycity.tools.WebRequest;
+import gq.yigit.mycity.tools.responseListener;
 import gq.yigit.mycity.voteFragment.VoteFragment;
 import gq.yigit.mycity.votesFragment.VotesContent;
 import gq.yigit.mycity.votesFragment.VotesFragment;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity
-		implements NavigationView.OnNavigationItemSelectedListener, VotesFragment.OnListFragmentInteractionListener, MainFragment.OnFragmentInteractionListener, VoteFragment.OnFragmentInteractionListener {
+		implements
+		NavigationView.OnNavigationItemSelectedListener,
+		VotesFragment.OnListFragmentInteractionListener,
+		MainFragment.OnFragmentInteractionListener,
+		VoteFragment.OnFragmentInteractionListener,
+		responseListener{
 
-	public Context cntxt;
-
+	public static Context cntxt;
+	public static JSONArray userData;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,7 +63,13 @@ public class MainActivity extends AppCompatActivity
 				this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
-
+		FileActions file_manager = new FileActions();
+		String url = file_manager.readFromFile(cntxt,"server.config").trim();
+		HashMap<String,String> request = new HashMap<>();
+		request.put("a","b");
+		WebRequest login_manager = new WebRequest(url + "/login/",false,request);
+		login_manager.addListener(this);
+		login_manager.execute();
 		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
 		MainFragment fragment = new MainFragment();
@@ -91,7 +112,7 @@ public class MainActivity extends AppCompatActivity
 			alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					FileActions file_manager = new FileActions();
-					file_manager.writeToFile("http://" + input.getText().toString()+":5000",cntxt,"server.config");
+					file_manager.writeToFile("https://" + input.getText().toString()+":5000",cntxt,"server.config");
 				}
 			});
 
@@ -149,6 +170,19 @@ public class MainActivity extends AppCompatActivity
 
 	public void onFragmentInteraction(Uri uri){
 
+	}
+
+	public void receivedResponse(boolean success,String response){
+		if(success) {
+			try {
+				userData = new JSONArray(response);
+				if(!(boolean)userData.get(0)){
+					Toast.makeText(cntxt,"Please login again!",Toast.LENGTH_LONG).show();
+				}
+			}catch (Exception e){
+				Log.e("[ERROR]","Cannot receive userdata");
+			}
+		}
 	}
 
 }
