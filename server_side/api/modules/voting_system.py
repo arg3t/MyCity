@@ -1,14 +1,21 @@
 import os
 import json
 
+from . import utils
+
 from flask import Flask, request
 from flask_restful import Resource, Api, abort
 
 app = Flask(__name__)
 api = Api(app)
+db_path = os.path.join(app.root_path, 'databases', 'votings.json')
+user_db = os.path.join(app.root_path, 'databases', 'users.json')
 
-with open(os.path.join(app.root_path, 'votings.json'), 'r') as f:
+with open(db_path, 'r') as f:
     votings = json.load(f)
+
+with open(user_db, 'r') as f:
+    users = json.load(f)
 
 class Votings(Resource):
     def get(self):
@@ -45,6 +52,7 @@ class Votings(Resource):
             'name': args['name'],
             'desc': args.get('desc'),
             'img' : args.get('img'),
+            'voters': [],
             'votes': [
                 {
                     'id'  : k + 1,
@@ -58,16 +66,21 @@ class Votings(Resource):
 
         votings.append(voting)
 
-        with open(os.path.join(app.root_path, 'votings.json'), 'w') as f:
+        with open(db_path, 'w') as f:
             json.dump(votings, f, indent=4)
 
-        return voting
+        return {'message': 'Success'}
 
 
 class Voting(Resource):
     def get(self, voting_id):
         try:
-            return votings[voting_id - 1]
+            voting = votings[voting_id - 1]
+            for i in range(len(voting['votes'])):
+                del voting['votes'][str(i + 1)]['votes']
+
+            del voting['voters']
+            return voting
         except:
             abort(404, error="Voting {} doesn't exist".format(voting_id))
 
@@ -75,15 +88,24 @@ class Vote(Resource):
     def get(self):
         """
         Example URL Query:
-        /vote?voting_id=<voting_id>&vote_id=<vote_id>
+        /vote?voting_id=<voting_id>&vote_id=<vote_id>&voter_id=<user_id>
         """
-        voting_id = int(request.args['voting_id'])
-        vote_id = int(request.args['vote_id'])
-        votings[int(voting_id-1)]['votes'][str(vote_id)]['votes'] += 1
-        with open(os.path.join(app.root_path, 'votings.json'), 'w') as f:
-            json.dump(votings, f, indent=4)
 
-        return votings[voting_id - 1]
+        voter_id = request.args['voter_id']
+        voting_id = int(request.args['voting_id']) - 1
+        if utils.find_by_id(users, voter_id):
+            if voter_id not in votings[voting_id]['voters']:
+                vote_id = int(request.args['vote_id'])
+                votings[voting_id]['votes'][str(vote_id)]['votes'] += 1
+                votings[voting_id]['voters'].append(voter_id)
+                with open(db_path, 'w') as f:
+                    json.dump(votings, f, indent=4)
+
+                return {'message': 'Success'}
+
+            return {'error': 'Already voted'}
+
+        return {'error': 'User doesn\'t exists'}
 
 if __name__ == '__main__':
     api.add_resource(Votings, '/votings', '/votings/')

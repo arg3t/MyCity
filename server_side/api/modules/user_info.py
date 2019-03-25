@@ -1,30 +1,19 @@
 import os
 import json
-import hashlib
+
+from . import utils
 
 from flask import Flask, request
 from flask_restful import Resource, Api, abort
 
 app = Flask(__name__)
 api = Api(app)
+db_path = os.path.join(app.root_path, 'databases', 'users.json')
 
-with open(os.path.join(app.root_path, 'users.json'), 'r') as f:
+with open(db_path, 'r') as f:
     users = json.load(f)
 
-def md5(s):
-    return hashlib.md5(s.encode()).hexdigest()
-
 class Users(Resource):
-    def get(self):
-        user = [
-            {
-                'id'  : v['id'],
-                'username': v['username']
-            }
-            for v in users
-        ]
-        return user
-
     def post(self):
         """
         Example POST Data:
@@ -34,13 +23,13 @@ class Users(Resource):
         avatar=<avatar_url>& # OPTIONAL
         """
         args = request.form
-        user_id = len(users) + 1
+        user_id = utils.generate_id()
         user = {
             'id': user_id,
             'username': args['username'],
             'realname': args.get('realname'),
             'avatar' : args.get('avatar'),
-            'password': md5(args['password']),
+            'password': utils.md5(args['password']),
             'stats': {
                 'bus_usage_week': 0,
                 'bus_usage_month': 0,
@@ -51,7 +40,7 @@ class Users(Resource):
 
         users.append(user)
 
-        with open(os.path.join(app.root_path, 'users.json'), 'w') as f:
+        with open(db_path, 'w') as f:
             json.dump(users, f, indent=4)
 
         return user
@@ -59,7 +48,9 @@ class Users(Resource):
 class User(Resource):
     def get(self, user_id):
         try:
-            user = users[user_id - 1]
+            user = utils.find_by_id(users, user_id)
+            if not user:
+                raise Exception('User not found!')
             del user['password']
             return user
         except:
@@ -73,12 +64,13 @@ class Login(Resource):
         password=<password>
         """
         args = request.form
+        print(args)
         username = args['username']
-        passsword = md5(args['password'])
+        passsword = utils.md5(args['password'])
         for user in users:
             if user['username'] == username:
                 if user['password'] == passsword:
-                    return {'message': 'Login successful!'}
+                    return {'message': 'Login successful!', 'id': user['id']}
 
                 return {'error': 'Wrong password!'}
 
@@ -86,7 +78,7 @@ class Login(Resource):
 
 if __name__ == '__main__':
     api.add_resource(Users, '/users', '/users/')
-    api.add_resource(User, '/users/<int:user_id>', '/users/<int:user_id>/')
+    api.add_resource(User, '/users/<path:user_id>', '/users/<path:user_id>/')
     api.add_resource(Login, '/login', '/login/')
 
     app.run(host='0.0.0.0', port=5000)
