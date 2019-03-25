@@ -1,6 +1,5 @@
 package gq.yigit.mycity.tools;
 
-import android.net.wifi.WifiConfiguration;
 import android.os.AsyncTask;
 import android.util.Log;
 import cz.msebera.android.httpclient.HttpResponse;
@@ -17,17 +16,13 @@ import cz.msebera.android.httpclient.conn.scheme.Scheme;
 import cz.msebera.android.httpclient.conn.scheme.SchemeRegistry;
 import cz.msebera.android.httpclient.conn.ssl.SSLSocketFactory;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
-import cz.msebera.android.httpclient.impl.client.HttpClientBuilder;
 import cz.msebera.android.httpclient.impl.conn.tsccm.ThreadSafeClientConnManager;
 import cz.msebera.android.httpclient.message.BasicNameValuePair;
 import cz.msebera.android.httpclient.params.BasicHttpParams;
 import cz.msebera.android.httpclient.params.HttpParams;
 import cz.msebera.android.httpclient.params.HttpProtocolParams;
 import cz.msebera.android.httpclient.protocol.HTTP;
-import gq.yigit.mycity.MainActivity;
-import gq.yigit.mycity.R;
 
-import javax.net.ssl.*;
 import java.io.*;
 import java.security.KeyStore;
 import java.util.*;
@@ -46,7 +41,7 @@ public class WebRequest extends AsyncTask<Void,Void,String> {
 
 	public WebRequest(String url, boolean request_type, HashMap<String,String> request_content){
 
-		client = getNewHttpClient();
+		client = MySSLSocketFactory.getNewHttpClient();
 
 		this.url = url;
 		this.request_content = request_content;
@@ -115,29 +110,6 @@ public class WebRequest extends AsyncTask<Void,Void,String> {
 
 	public void addListener(responseListener toAdd) {
 		listeners.add(toAdd);
-	}
-	public HttpClient getNewHttpClient() {
-		try {
-			KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-			trustStore.load(null, null);
-
-			MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
-			sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-
-			HttpParams params = new BasicHttpParams();
-			HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-			HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
-
-			SchemeRegistry registry = new SchemeRegistry();
-			registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 5000));
-			registry.register(new Scheme("https", sf, 5000));
-
-			ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
-
-			return new DefaultHttpClient(ccm, params);
-		} catch (Exception e) {
-			return new DefaultHttpClient();
-		}
 	}
 }
 
