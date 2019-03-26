@@ -1,16 +1,23 @@
-[
-    {
+{
+    "efe":{
         "id": "9vard12ty0ad2yvwp3q53rsf3h43r2vq",
-        "username": "efe",
         "realname": "Efe Aydın",
         "avatar": "img/user1.png",
-        "password": "e10adc3949ba59abbe56e057f20f883e",
+        "password": "827ccb0eea8a706c4c34a16891f84e7b",
+        "email": "efeaydin@mycity.com",
         "stats": {
             "bus_usage_week": 1,
             "bus_usage_month": 5,
             "bus_usage_year": 67
         },
+        "daily_electricity_usage": [
+            10,
+            5,
+            5,
+            6,
+            7
+        ],
        "points": 50
     }
 
-]
+}

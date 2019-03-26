@@ -2,6 +2,7 @@ package gq.yigit.mycity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,9 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 import android.widget.Toast;
-import gq.yigit.mycity.tools.FileActions;
-import gq.yigit.mycity.tools.WebRequest;
-import gq.yigit.mycity.tools.responseListener;
+import gq.yigit.mycity.tools.*;
 import gq.yigit.mycity.voteFragment.VoteFragment;
 import gq.yigit.mycity.votesFragment.VotesContent;
 import gq.yigit.mycity.votesFragment.VotesFragment;
@@ -30,18 +29,20 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-import static java.security.AccessController.getContext;
-
 public class MainActivity extends AppCompatActivity
 		implements
 		NavigationView.OnNavigationItemSelectedListener,
 		VotesFragment.OnListFragmentInteractionListener,
 		MainFragment.OnFragmentInteractionListener,
 		VoteFragment.OnFragmentInteractionListener,
-		responseListener{
+		responseListener,
+		imageListener {
 
-	public static Context cntxt;
-	public static JSONArray userData;
+	public Context cntxt;
+	public static JSONObject userData;
+	public static Bitmap userAvatar;
+	private JSONArray receivedData;
+	private String url;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,9 +65,10 @@ public class MainActivity extends AppCompatActivity
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
 		FileActions file_manager = new FileActions();
-		String url = file_manager.readFromFile(cntxt,"server.config").trim();
+		url = file_manager.readFromFile(cntxt,"server.config").trim();
 		HashMap<String,String> request = new HashMap<>();
-		request.put("a","b");
+		request.put("username","efe");
+		request.put("password","12345");
 		WebRequest login_manager = new WebRequest(url + "/login/",false,request);
 		login_manager.addListener(this);
 		login_manager.execute();
@@ -175,14 +177,23 @@ public class MainActivity extends AppCompatActivity
 	public void receivedResponse(boolean success,String response){
 		if(success) {
 			try {
-				userData = new JSONArray(response);
-				if(!(boolean)userData.get(0)){
+				receivedData = new JSONArray(response);
+				if(!(boolean)receivedData.get(0)){
 					Toast.makeText(cntxt,"Please login again!",Toast.LENGTH_LONG).show();
+				}else{
+					String user_data_temp = receivedData.get(1).toString();
+					userData = new JSONObject(user_data_temp);
+					Log.i("[INFO]",userData.toString());
+					ImageDownload avatar_downloader = new ImageDownload();
+					avatar_downloader.addListener(this);
+					avatar_downloader.execute(url + userData.get("avatar"));
 				}
 			}catch (Exception e){
 				Log.e("[ERROR]","Cannot receive userdata");
 			}
 		}
 	}
-
+	public void imageDownloaded(Bitmap img){
+		userAvatar = img;
+	}
 }

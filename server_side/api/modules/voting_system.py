@@ -1,7 +1,7 @@
 import os
 import json
 
-from . import utils
+from api.modules import utils
 
 from flask import Flask, request
 from flask_restful import Resource, Api, abort
@@ -93,7 +93,7 @@ class Vote(Resource):
 
         voter_id = request.args['voter_id']
         voting_id = int(request.args['voting_id']) - 1
-        if utils.find_by_id(users, voter_id):
+        if utils.find_by_id( users, voter_id ):
             if voter_id not in votings[voting_id]['voters']:
                 vote_id = int(request.args['vote_id'])
                 votings[voting_id]['votes'][str(vote_id)]['votes'] += 1

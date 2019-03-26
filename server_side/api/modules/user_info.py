@@ -1,7 +1,7 @@
 import os
 import json
 
-from . import utils
+from api.modules import utils
 
 from flask import Flask, request
 from flask_restful import Resource, Api, abort
@@ -29,7 +29,7 @@ class Users(Resource):
             'username': args['username'],
             'realname': args.get('realname'),
             'avatar' : args.get('avatar'),
-            'password': utils.md5(args['password']),
+            'password': utils.md5( args[ 'password' ] ),
             'stats': {
                 'bus_usage_week': 0,
                 'bus_usage_month': 0,
@@ -48,7 +48,7 @@ class Users(Resource):
 class User(Resource):
     def get(self, user_id):
         try:
-            user = utils.find_by_id(users, user_id)
+            user = utils.find_by_id( users, user_id )
             if not user:
                 raise Exception('User not found!')
             del user['password']
@@ -63,18 +63,23 @@ class Login(Resource):
         username=<username>&
         password=<password>
         """
+        #Password for efe is 12345
         args = request.form
-        print(args)
         username = args['username']
-        passsword = utils.md5(args['password'])
-        for user in users:
-            if user['username'] == username:
-                if user['password'] == passsword:
-                    return {'message': 'Login successful!', 'id': user['id']}
+        passsword = utils.md5( args[ 'password' ] )
 
-                return {'error': 'Wrong password!'}
+        if not username in users:
+            return [False,{}]
 
-        return {'error': 'User not found!'}
+        user = (users[username]).copy()
+        if user['password'] == passsword:
+            user.pop("password")
+            return [True,json.dumps(user)]
+        else:
+            return [False,{}]
+
+
+
 
 if __name__ == '__main__':
     api.add_resource(Users, '/users', '/users/')

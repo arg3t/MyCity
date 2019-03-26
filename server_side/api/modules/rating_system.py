@@ -1,7 +1,7 @@
 import os
 import json
 
-from . import utils
+from api.modules import utils
 
 from flask import Flask, request
 from flask_restful import Resource, Api, abort
@@ -74,7 +74,7 @@ class Rate(Resource):
         note=<note>& # ADDITIONAL
         rater_id=<user_id>
         """
-        if utils.find_by_id(users, request.args['rater_id']):
+        if utils.find_by_id( users, request.args[ 'rater_id' ] ):
             rating_id = int(request.args['rating_id'])
             score = int(request.args['score'])
             if 0 >= score >= 10:
