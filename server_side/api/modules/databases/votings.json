@@ -4,11 +4,14 @@
         "name": "Test Voting",
         "desc": "Sample voting description",
         "img": "/img/voting.jpg",
+        "voters": [
+            "9vard12ty0ad2yvwp3q53rsf3h43r2vq"
+        ],
         "votes": {
             "1": {
                 "name": "Sample Vote 1",
                 "desc": "Sample description",
-                "votes": 0
+                "votes": 1
             },
             "2": {
                 "name": "Sample Vote 2",
@@ -22,6 +25,7 @@
         "name": "wooting",
         "desc": "wooting desc",
         "img": "/img/voting.jpg",
+        "voters": [],
         "votes": {
             "1": {
                 "name": "woote 1",
