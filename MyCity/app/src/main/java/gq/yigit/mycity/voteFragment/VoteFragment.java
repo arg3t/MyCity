@@ -13,12 +13,15 @@ import android.view.ViewGroup;
 import android.widget.*;
 import gq.yigit.mycity.R;
 import gq.yigit.mycity.tools.*;
+import gq.yigit.mycity.tools.WebRequest.responseListener;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
+import static gq.yigit.mycity.tools.ImageDownload.*;
 
 
 public class VoteFragment extends Fragment implements responseListener, imageListener {

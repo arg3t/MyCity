@@ -41,7 +41,7 @@ public class ImageDownload extends AsyncTask<String, Void, Bitmap> {
 		try {
 			String imageURL = URL[0];
 			HttpUriRequest request = new HttpGet(imageURL.toString());
-			HttpClient httpClient = MySSLSocketFactory.getNewHttpClient();
+			HttpClient httpClient = AcceptAllSSLSocketFactory.getNewHttpClient();
 			HttpResponse response = httpClient.execute(request);
 
 			StatusLine statusLine = response.getStatusLine();
@@ -72,5 +72,9 @@ public class ImageDownload extends AsyncTask<String, Void, Bitmap> {
 	public void addListener(imageListener toAdd) {
 		listeners.add(toAdd);
 	}
+	
+	public interface imageListener {
+	    public void imageDownloaded(Bitmap img);
+    }
 
 }

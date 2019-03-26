@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,30 +20,38 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import gq.yigit.mycity.tools.*;
+import gq.yigit.mycity.tools.WebRequest.responseListener;
 import gq.yigit.mycity.voteFragment.VoteFragment;
 import gq.yigit.mycity.votesFragment.VotesContent;
 import gq.yigit.mycity.votesFragment.VotesFragment;
+import gq.yigit.mycity.votesFragment.VotesFragment.OnListFragmentInteractionListener;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import static gq.yigit.mycity.tools.ImageDownload.*;
+import static gq.yigit.mycity.voteFragment.VoteFragment.*;
+
 public class MainActivity extends AppCompatActivity
 		implements
-		NavigationView.OnNavigationItemSelectedListener,
-		VotesFragment.OnListFragmentInteractionListener,
+		OnNavigationItemSelectedListener,
+		OnListFragmentInteractionListener,
 		MainFragment.OnFragmentInteractionListener,
-		VoteFragment.OnFragmentInteractionListener,
+		OnFragmentInteractionListener,
 		responseListener,
 		imageListener {
 
-	public Context cntxt;
-	public static JSONObject userData;
+	private Context cntxt;
+	private static JSONObject userData;
 	public static Bitmap userAvatar;
-	private JSONArray receivedData;
 	private String url;
+	private ImageView avatarView;
+	private TextView userName;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,6 +73,7 @@ public class MainActivity extends AppCompatActivity
 				this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
+
 		FileActions file_manager = new FileActions();
 		url = file_manager.readFromFile(cntxt,"server.config").trim();
 		HashMap<String,String> request = new HashMap<>();
@@ -72,9 +82,14 @@ public class MainActivity extends AppCompatActivity
 		WebRequest login_manager = new WebRequest(url + "/login/",false,request);
 		login_manager.addListener(this);
 		login_manager.execute();
+
 		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
 		MainFragment fragment = new MainFragment();
+
+		avatarView = findViewById(R.id.avatar);
+		userName = findViewById(R.id.uname);
+
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.replace(R.id.app_bar_main, fragment);
 		transaction.addToBackStack(null);
@@ -163,7 +178,7 @@ public class MainActivity extends AppCompatActivity
 	}
 
 	public void onListFragmentInteraction(VotesContent.VoteItem vote){
-		VoteFragment fragment = VoteFragment.newInstance(vote.id);
+		VoteFragment fragment = newInstance(vote.id);
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.replace(R.id.app_bar_main, fragment);
 		transaction.commit();
@@ -177,16 +192,19 @@ public class MainActivity extends AppCompatActivity
 	public void receivedResponse(boolean success,String response){
 		if(success) {
 			try {
-				receivedData = new JSONArray(response);
+				JSONArray receivedData = new JSONArray(response);
 				if(!(boolean)receivedData.get(0)){
 					Toast.makeText(cntxt,"Please login again!",Toast.LENGTH_LONG).show();
 				}else{
-					String user_data_temp = receivedData.get(1).toString();
-					userData = new JSONObject(user_data_temp);
+
+					userData = new JSONObject(receivedData.get(1).toString());
 					Log.i("[INFO]",userData.toString());
+
 					ImageDownload avatar_downloader = new ImageDownload();
 					avatar_downloader.addListener(this);
 					avatar_downloader.execute(url + userData.get("avatar"));
+
+					userName.setText(userData.getString("realname"));
 				}
 			}catch (Exception e){
 				Log.e("[ERROR]","Cannot receive userdata");
@@ -194,6 +212,11 @@ public class MainActivity extends AppCompatActivity
 		}
 	}
 	public void imageDownloaded(Bitmap img){
-		userAvatar = img;
+		try {
+			userAvatar = img;
+			avatarView.setImageBitmap(img);
+		}catch(Exception e){
+			Log.e("[ERROR]","Cannot set avatar!");
+		}
 	}
 }

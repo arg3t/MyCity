@@ -26,10 +26,10 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 
-public class MySSLSocketFactory extends SSLSocketFactory {
+public class AcceptAllSSLSocketFactory extends SSLSocketFactory {
 	SSLContext sslContext = SSLContext.getInstance("TLS");
 
-	public MySSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
+	public AcceptAllSSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
 		super(truststore);
 
 		TrustManager tm = new X509TrustManager() {
@@ -62,7 +62,7 @@ public class MySSLSocketFactory extends SSLSocketFactory {
 			KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
 			trustStore.load(null, null);
 
-			MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+			AcceptAllSSLSocketFactory sf = new AcceptAllSSLSocketFactory(trustStore);
 			sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
 
 			HttpParams params = new BasicHttpParams();

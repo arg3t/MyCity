@@ -41,7 +41,7 @@ public class WebRequest extends AsyncTask<Void,Void,String> {
 
 	public WebRequest(String url, boolean request_type, HashMap<String,String> request_content){
 
-		client = MySSLSocketFactory.getNewHttpClient();
+		client = AcceptAllSSLSocketFactory.getNewHttpClient();
 
 		this.url = url;
 		this.request_content = request_content;
@@ -111,6 +111,9 @@ public class WebRequest extends AsyncTask<Void,Void,String> {
 	public void addListener(responseListener toAdd) {
 		listeners.add(toAdd);
 	}
+	public interface responseListener {
+	    void receivedResponse(boolean success, String response);
+    }
 }
 
 

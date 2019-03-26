@@ -85,14 +85,14 @@ class Voting(Resource):
             abort(404, error="Voting {} doesn't exist".format(voting_id))
 
 class Vote(Resource):
-    def get(self):
+    def post(self):
         """
         Example URL Query:
         /vote?voting_id=<voting_id>&vote_id=<vote_id>&voter_id=<user_id>
         """
 
-        voter_id = request.args['voter_id']
-        voting_id = int(request.args['voting_id']) - 1
+        voter_id = request.form['voter_id']
+        voting_id = int(request.form['voting_id']) - 1
         if utils.find_by_id( users, voter_id ):
             if voter_id not in votings[voting_id]['voters']:
                 vote_id = int(request.args['vote_id'])
