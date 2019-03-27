@@ -1,4 +1,5 @@
 import os
+import copy
 import json
 
 from api.modules import utils
@@ -46,6 +47,7 @@ class Votings(Resource):
 
         """
         args = request.form
+        args = request.form
         voting_id = len(votings) + 1
         voting = {
             'id': voting_id,
@@ -75,10 +77,10 @@ class Votings(Resource):
 class Voting(Resource):
     def get(self, voting_id):
         try:
-            voting = votings[voting_id - 1].copy()
+            voting = copy.deepcopy(votings[voting_id - 1])
             for i in range(len(voting['votes'])):
-                voting['votes'][str(i + 1)]['votes'] = None
-            voting['voters'] = None
+                del voting['votes'][str(i + 1)]['votes']
+            del voting['voters']
 
             return voting
         except:
@@ -93,9 +95,9 @@ class Vote(Resource):
 
         voter_id = request.form['voter_id']
         voting_id = int(request.form['voting_id']) - 1
-        if utils.find_by_id( users, voter_id ):
+        if utils.find_by_id( users.values(), voter_id ):
             if voter_id not in votings[voting_id]['voters']:
-                vote_id = int(request.args['vote_id'])
+                vote_id = int(request.form['vote_id'])
                 votings[voting_id]['votes'][str(vote_id)]['votes'] += 1
                 votings[voting_id]['voters'].append(voter_id)
                 with open(db_path, 'w') as f:
