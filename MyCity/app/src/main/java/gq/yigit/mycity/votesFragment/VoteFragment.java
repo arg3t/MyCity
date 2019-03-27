@@ -1,4 +1,4 @@
-package gq.yigit.mycity.voteFragment;
+package gq.yigit.mycity.votesFragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;

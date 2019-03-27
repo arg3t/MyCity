@@ -25,7 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import gq.yigit.mycity.tools.*;
 import gq.yigit.mycity.tools.WebRequest.responseListener;
-import gq.yigit.mycity.voteFragment.VoteFragment;
+import gq.yigit.mycity.votesFragment.VoteFragment;
 import gq.yigit.mycity.votesFragment.VotesContent;
 import gq.yigit.mycity.votesFragment.VotesFragment;
 import gq.yigit.mycity.votesFragment.VotesFragment.OnListFragmentInteractionListener;
@@ -35,7 +35,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 import static gq.yigit.mycity.tools.ImageDownload.*;
-import static gq.yigit.mycity.voteFragment.VoteFragment.*;
+import static gq.yigit.mycity.votesFragment.VoteFragment.*;
 
 public class MainActivity extends AppCompatActivity
 		implements

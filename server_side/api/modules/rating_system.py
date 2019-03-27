@@ -65,7 +65,7 @@ class Rating(Resource):
             abort(404, error="Rating {} doesn't exist".format(rating_id))
 
 class Rate(Resource):
-    def get(self):
+    def post(self):
         """
         Example URL Query:
         /rate?
@@ -74,15 +74,15 @@ class Rate(Resource):
         note=<note>& # ADDITIONAL
         rater_id=<user_id>
         """
-        if utils.find_by_id( users.values(), request.args[ 'rater_id' ] ):
-            rating_id = int(request.args['rating_id'])
-            score = int(request.args['score'])
+        if utils.find_by_id( users.values(), request.form[ 'rater_id' ] ):
+            rating_id = int(request.form['rating_id'])
+            score = int(request.form['score'])
             if 0 >= score >= 10:
                 abort(500, 'Score should be between 0 and 10')
-            note = request.args.get('note')
+            note = request.form.get('note')
             ratings[rating_id - 1]['rates'].append({
                 'id': len(ratings[rating_id - 1]['rates']) + 1,
-                'rater': request.args['rater_id'],
+                'rater': request.form['rater_id'],
                 'score': score,
                 'note': note
             })
