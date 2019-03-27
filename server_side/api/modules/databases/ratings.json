@@ -4,6 +4,11 @@
         "name": "Bus Service",
         "desc": "Our bus service in Ankara",
         "img": "/img/voting.jpg",
+        "location": {
+            "latitude": 39.9404,
+            "longitude": 32.9101,
+            "diff": 0.3
+        },
         "rates": [
             {
                 "id": 1,

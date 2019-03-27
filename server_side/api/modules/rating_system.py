@@ -20,16 +20,30 @@ with open(user_db, 'r') as f:
 
 class Ratings(Resource):
     def get(self):
-        rating = [
-            {
-                'id'  : v['id'],
-                'name': v['name'],
-                'desc': v['desc'],
-                'img' : v['img']
-            }
-            for v in ratings
-        ]
-        return rating
+        """
+        Example URL Query:
+        latitude=<latitude>&
+        longitude=<longitude>
+        """
+        latitude = float(request.args['latitude'])
+        longitude = float(request.args['longitude'])
+        ret_data = []
+
+        for rating in ratings:
+            diff = rating['location']['diff']
+            rating_latitude = rating['location']['latitude']
+            rating_longitude = rating['location']['longitude']
+
+            if (rating_latitude - diff) < latitude < (rating_latitude + diff) and \
+               (rating_longitude - diff) < longitude < (rating_longitude + diff):
+                ret_data.append({
+                    'id': rating['id'],
+                    'name': rating['name'],
+                    'desc': rating['desc'],
+                    'img': rating['img']
+                })
+
+        return ret_data
 
     def post(self):
         """
@@ -65,24 +79,23 @@ class Rating(Resource):
             abort(404, error="Rating {} doesn't exist".format(rating_id))
 
 class Rate(Resource):
-    def get(self):
+    def post(self):
         """
-        Example URL Query:
-        /rate?
+        Example POST Data:
         rating_id=<rating_id>&
         score=<score>&
         note=<note>& # ADDITIONAL
         rater_id=<user_id>
         """
-        if utils.find_by_id( users.values(), request.args[ 'rater_id' ] ):
-            rating_id = int(request.args['rating_id'])
-            score = int(request.args['score'])
+        if utils.find_by_id( users.values(), request.form[ 'rater_id' ] ):
+            rating_id = int(request.form['rating_id'])
+            score = int(request.form['score'])
             if 0 >= score >= 10:
                 abort(500, 'Score should be between 0 and 10')
-            note = request.args.get('note')
+            note = request.form.get('note')
             ratings[rating_id - 1]['rates'].append({
                 'id': len(ratings[rating_id - 1]['rates']) + 1,
-                'rater': request.args['rater_id'],
+                'rater': request.form['rater_id'],
                 'score': score,
                 'note': note
             })
