@@ -11,9 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.*;
+import gq.yigit.mycity.MainActivity;
 import gq.yigit.mycity.R;
 import gq.yigit.mycity.tools.*;
 import gq.yigit.mycity.tools.WebRequest.responseListener;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -164,7 +166,12 @@ public class VoteFragment extends Fragment implements responseListener, imageLis
 					HashMap<String,String> params = new HashMap<>();
 					params.put("voting_id",vote_id);
 					params.put("vote_id",user_vote);
-					WebRequest vote_request = new WebRequest(url+"/vote",true, params);
+					try {
+						params.put("voter_id", MainActivity.userData.get("id").toString());
+					}catch (JSONException e){
+						Log.e("[ERROR]","Cannot get user data");
+					}
+					WebRequest vote_request = new WebRequest(url+"/vote",false, params);
 					vote_request.execute();
 				}else{
 					Toast.makeText(cntxt,"Please selet a vote!",Toast.LENGTH_SHORT).show();

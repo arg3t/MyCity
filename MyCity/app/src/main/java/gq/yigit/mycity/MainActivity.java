@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity
 		imageListener {
 
 	private Context cntxt;
-	private static JSONObject userData;
+	public static JSONObject userData;
 	public static Bitmap userAvatar;
 	private String url;
 	private ImageView avatarView;
