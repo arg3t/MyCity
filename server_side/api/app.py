@@ -1,8 +1,7 @@
 from flask import Flask, send_from_directory
 from flask_restful import Api
 
-from api.modules import rating_system
-from api.modules import user_info, voting_system
+from api.modules import user_info, voting_system, rating_system
 
 app = Flask(__name__)
 api = Api(app)

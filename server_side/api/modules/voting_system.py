@@ -75,11 +75,11 @@ class Votings(Resource):
 class Voting(Resource):
     def get(self, voting_id):
         try:
-            voting = votings[voting_id - 1]
+            voting = votings[voting_id - 1].copy()
             for i in range(len(voting['votes'])):
-                del voting['votes'][str(i + 1)]['votes']
+                voting['votes'][str(i + 1)]['votes'] = None
+            voting['voters'] = None
 
-            del voting['voters']
             return voting
         except:
             abort(404, error="Voting {} doesn't exist".format(voting_id))

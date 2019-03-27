@@ -64,6 +64,8 @@ public class WebRequest extends AsyncTask<Void,Void,String> {
 	}
 
 	protected String doInBackground(Void... params){
+		Log.d("[BOOKMARK]","Started background activity");
+
 		if(!request_type){
 			try {
 				post_request = new HttpPost(url);
@@ -77,7 +79,9 @@ public class WebRequest extends AsyncTask<Void,Void,String> {
 					iterator.remove();
 				}
 				post_request.setEntity(new UrlEncodedFormEntity(pairs));
+				Log.d("[BOOKMARK]","Started execute");
 				response = client.execute(post_request);
+				Log.d("[BOOKMARK]","Done execute");
 			}catch (Exception e){
 				Log.e("[ERROR](request:67): ", e.toString());
 			}

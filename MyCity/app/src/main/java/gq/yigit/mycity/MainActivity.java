@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity
 	private TextView userName;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.d("[BOOKMARK]","Started creating activity");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -81,19 +82,22 @@ public class MainActivity extends AppCompatActivity
 		request.put("password","12345");
 		WebRequest login_manager = new WebRequest(url + "/login/",false,request);
 		login_manager.addListener(this);
+		Log.d("[BOOKMARK]","Before executing login");
 		login_manager.execute();
 
 		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
 		MainFragment fragment = new MainFragment();
+		View header = navigationView.getHeaderView(0);
 
-		avatarView = findViewById(R.id.avatar);
-		userName = findViewById(R.id.uname);
+		avatarView = header.findViewById(R.id.avatar);
+		userName = header.findViewById(R.id.uname);
 
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.replace(R.id.app_bar_main, fragment);
 		transaction.addToBackStack(null);
 		transaction.commit();
+		Log.d("[BOOKMARK]","Done with main");
 	}
 
 	@Override
@@ -202,7 +206,7 @@ public class MainActivity extends AppCompatActivity
 
 					ImageDownload avatar_downloader = new ImageDownload();
 					avatar_downloader.addListener(this);
-					avatar_downloader.execute(url + userData.get("avatar"));
+					avatar_downloader.execute(url +"/img/"+ userData.get("id")+".png");
 
 					userName.setText(userData.getString("realname"));
 				}
@@ -214,7 +218,9 @@ public class MainActivity extends AppCompatActivity
 	public void imageDownloaded(Bitmap img){
 		try {
 			userAvatar = img;
-			avatarView.setImageBitmap(img);
+			if(userAvatar != null) {
+				avatarView.setImageBitmap(img);
+			}
 		}catch(Exception e){
 			Log.e("[ERROR]","Cannot set avatar!");
 		}
