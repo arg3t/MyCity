@@ -1,4 +1,5 @@
 import os
+import copy
 import json
 
 from api.modules import utils
@@ -35,6 +36,7 @@ class Users(Resource):
                 'bus_usage_month': 0,
                 'bus_usage_year': 0
             },
+            'daily_electricity_usage': [],
             'points': 0
         }
 
@@ -48,7 +50,7 @@ class Users(Resource):
 class User(Resource):
     def get(self, user_id):
         try:
-            user = utils.find_by_id( users, user_id )
+            user = utils.find_by_id( users.values(), user_id )
             if not user:
                 raise Exception('User not found!')
             del user['password']
@@ -66,20 +68,17 @@ class Login(Resource):
         #Password for efe is 12345
         args = request.form
         username = args['username']
-        passsword = utils.md5( args[ 'password' ] )
+        password = utils.md5( args[ 'password' ] )
 
         if not username in users:
-            return [False,{}]
+            return [False, {}]
 
-        user = (users[username]).copy()
-        if user['password'] == passsword:
-            user.pop("password")
-            return [True,json.dumps(user)]
+        user = copy.deepcopy(users[username])
+        if user['password'] == password:
+            del user["password"]
+            return [True, json.dumps(user)]
         else:
-            return [False,{}]
-
-
-
+            return [False, {}]
 
 if __name__ == '__main__':
     api.add_resource(Users, '/users', '/users/')

@@ -1,4 +1,5 @@
 import os
+import copy
 import json
 
 from api.modules import utils
@@ -57,9 +58,8 @@ class Ratings(Resource):
 class Rating(Resource):
     def get(self, rating_id):
         try:
-            rating = ratings[rating_id - 1]
+            rating = copy.deepcopy(ratings[rating_id - 1])
             del rating['rates']
-            del rating['raters']
             return rating
         except:
             abort(404, error="Rating {} doesn't exist".format(rating_id))
@@ -74,7 +74,7 @@ class Rate(Resource):
         note=<note>& # ADDITIONAL
         rater_id=<user_id>
         """
-        if utils.find_by_id( users, request.args[ 'rater_id' ] ):
+        if utils.find_by_id( users.values(), request.args[ 'rater_id' ] ):
             rating_id = int(request.args['rating_id'])
             score = int(request.args['score'])
             if 0 >= score >= 10:
