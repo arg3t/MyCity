@@ -1,5 +1,6 @@
 package gq.yigit.mycity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -23,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import gq.yigit.mycity.navigation.MapsFragment;
 import gq.yigit.mycity.tools.*;
 import gq.yigit.mycity.tools.WebRequest.responseListener;
 import gq.yigit.mycity.votesFragment.VoteFragment;
@@ -42,16 +44,19 @@ public class MainActivity extends AppCompatActivity
 		OnNavigationItemSelectedListener,
 		OnListFragmentInteractionListener,
 		MainFragment.OnFragmentInteractionListener,
+		RateFragment.OnFragmentInteractionListener,
+		MapsFragment.OnFragmentInteractionListener,
 		OnFragmentInteractionListener,
 		responseListener,
 		imageListener {
 
-	private Context cntxt;
+	public static Context cntxt;
 	public static JSONObject userData;
 	public static Bitmap userAvatar;
 	private String url;
 	private ImageView avatarView;
 	private TextView userName;
+	public static Activity mainActivity;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d("[BOOKMARK]","Started creating activity");
@@ -92,7 +97,7 @@ public class MainActivity extends AppCompatActivity
 
 		avatarView = header.findViewById(R.id.avatar);
 		userName = header.findViewById(R.id.uname);
-
+		mainActivity = this;
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.replace(R.id.app_bar_main, fragment);
 		transaction.addToBackStack(null);
@@ -163,18 +168,25 @@ public class MainActivity extends AppCompatActivity
 			fragmentTransaction.replace(R.id.app_bar_main, fragment);
 			fragmentTransaction.commit();
 			fragmentTransaction.addToBackStack(null);
-
 		} else if (id == R.id.parking) {
 
 		} else if (id == R.id.transit) {
 
 		} else if (id == R.id.navigation) {
-
+			MapsFragment fragment = new MapsFragment();
+			fragmentTransaction.replace(R.id.app_bar_main, fragment);
+			fragmentTransaction.commit();
+			fragmentTransaction.addToBackStack(null);
 		} else if (id == R.id.rating) {
-
+			RateFragment fragment = new RateFragment();
+			fragmentTransaction.replace(R.id.app_bar_main, fragment);
+			fragmentTransaction.commit();
+			fragmentTransaction.addToBackStack(null);
 		} else if (id == R.id.utilities) {
 
 		}
+
+
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);

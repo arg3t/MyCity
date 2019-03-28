@@ -45,7 +45,6 @@ public class VoteFragment extends Fragment implements responseListener, imageLis
 		// Required empty public constructor
 	}
 
-	// TODO: Rename and change types and number of parameters
 	public static VoteFragment newInstance(String voteid) {
 		VoteFragment fragment = new VoteFragment();
 		Bundle args = new Bundle();
