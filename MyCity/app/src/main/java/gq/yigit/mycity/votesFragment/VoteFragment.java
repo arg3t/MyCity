@@ -179,3 +179,7 @@ public class VoteFragment extends Fragment implements responseListener, imageLis
 		});
 	}
 }
+
+
+
+
