@@ -96,7 +96,7 @@ class Rate(Resource):
             if 0 >= score >= 10:
                 abort(500, 'Score should be between 0 and 10')
             note = request.form.get('note')
-            ratings[rating_id - 1]['rates']['9vard12ty0ad2yvwp3q53rsf3h43r2vq'] = {
+            ratings[rating_id - 1]['rates'][rater_id] = {
                 'id': len(ratings[rating_id - 1]['rates']) + 1,
                 'rater': request.form['rater_id'],
                 'score': score,
