@@ -9,25 +9,13 @@
             "longitude": 32.9101,
             "diff": 0.3
         },
-        "rates": [
-            {
-                "id": 1,
-                "score": 10,
-                "rater": "9vard12ty0ad2yvwp3q53rsf3h43r2vq",
-                "note": "IT WAS AWESOME"
-            },
-            {
+        "rates": {
+            "9vard12ty0ad2yvwp3q53rsf3h43r2vq": {
                 "id": 2,
                 "rater": "9vard12ty0ad2yvwp3q53rsf3h43r2vq",
-                "score": 10,
-                "note": null
-            },
-            {
-                "id": 3,
-                "rater": "9vard12ty0ad2yvwp3q53rsf3h43r2vq",
-                "score": 5,
-                "note": null
+                "score": 8,
+                "note": "Fuck you"
             }
-        ]
+        }
     }
 ]

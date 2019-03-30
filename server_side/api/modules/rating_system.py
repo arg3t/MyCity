@@ -18,15 +18,16 @@ with open(db_path, 'r') as f:
 with open(user_db, 'r') as f:
     users = json.load(f)
 
+
 class Ratings(Resource):
-    def get(self):
+    def post(self):
         """
-        Example URL Query:
+        Example POST Data:
         latitude=<latitude>&
         longitude=<longitude>
         """
-        latitude = float(request.args['latitude'])
-        longitude = float(request.args['longitude'])
+        latitude = float(request.form['latitude'])
+        longitude = float(request.form['longitude'])
         ret_data = []
 
         for rating in ratings:
@@ -45,29 +46,30 @@ class Ratings(Resource):
 
         return ret_data
 
-    def post(self):
-        """
-        Example POST Data:
-        name=<rating_name>&
-        desc=<rating_desc>& # OPTIONAL
-        img=<rating_img>&   # OPTIONAL
-        """
-        args = request.form
-        rating_id = len(ratings) + 1
-        rating = {
-            'id': rating_id,
-            'name': args['name'],
-            'desc': args.get('desc'),
-            'img' : args.get('img'),
-            'rates': []
-        }
+    # def post(self):
+    #    """
+    #    Example POST Data:
+    #    name=<rating_name>&
+    #    desc=<rating_desc>& # OPTIONAL
+    #    img=<rating_img>&   # OPTIONAL
+    #    """
+    #    args = request.form
+    #    rating_id = len(ratings) + 1
+    #    rating = {
+    #        'id': rating_id,
+    #        'name': args['name'],
+    #        'desc': args.get('desc'),
+    #       'img' : args.get('img'),
+    #        'rates': []
+    #    }
+    #
+    #    ratings.append(rating)
+    #
+    #    with open(db_path, 'w') as f:
+    #        json.dump(ratings, f, indent=4)
+    #
+    #    return rating
 
-        ratings.append(rating)
-
-        with open(db_path, 'w') as f:
-            json.dump(ratings, f, indent=4)
-
-        return rating
 
 class Rating(Resource):
     def get(self, rating_id):
@@ -77,6 +79,7 @@ class Rating(Resource):
             return rating
         except:
             abort(404, error="Rating {} doesn't exist".format(rating_id))
+
 
 class Rate(Resource):
     def post(self):
@@ -93,18 +96,19 @@ class Rate(Resource):
             if 0 >= score >= 10:
                 abort(500, 'Score should be between 0 and 10')
             note = request.form.get('note')
-            ratings[rating_id - 1]['rates'].append({
+            ratings[rating_id - 1]['rates']['9vard12ty0ad2yvwp3q53rsf3h43r2vq'] = {
                 'id': len(ratings[rating_id - 1]['rates']) + 1,
                 'rater': request.form['rater_id'],
                 'score': score,
                 'note': note
-            })
+            }
             with open(db_path, 'w') as f:
                 json.dump(ratings, f, indent=4)
 
             return {'message': 'Success'}
 
         return {'error': 'User doesn\'t exists'}
+
 
 if __name__ == '__main__':
     api.add_resource(Ratings, '/ratings', '/ratings/')

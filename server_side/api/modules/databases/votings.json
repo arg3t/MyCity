@@ -25,12 +25,14 @@
         "name": "wooting",
         "desc": "wooting desc",
         "img": "/img/voting.jpg",
-        "voters": [],
+        "voters": [
+            "9vard12ty0ad2yvwp3q53rsf3h43r2vq"
+        ],
         "votes": {
             "1": {
                 "name": "woote 1",
                 "desc": "woote desc",
-                "votes": 2
+                "votes": 3
             },
             "2": {
                 "id": 1,
