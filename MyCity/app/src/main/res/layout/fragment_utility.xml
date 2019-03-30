@@ -5,7 +5,7 @@
 											 xmlns:tools="http://schemas.android.com/tools"
 											 android:layout_width="match_parent"
 											 android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-											 tools:context=".utilityFragment.UtilityMain" android:orientation="vertical"
+											 tools:context=".utility.UtilityMain" android:orientation="vertical"
 											 android:layout_marginTop="55dp">
 
 
@@ -24,12 +24,14 @@
 			<android.support.design.widget.TabLayout
 					android:id="@+id/result_tabs"
 					android:background="#e8e8e8"
-					app:tabTextColor="#d5d5d5"
+					app:tabTextColor="#8e8e8e"
 					app:tabSelectedTextColor="@color/colorPrimary"
 					app:tabIndicatorColor="@color/colorPrimary"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					app:tabMode="scrollable"/>
+					app:tabMode="fixed"
+					app:tabMaxWidth="0dp"
+					app:tabGravity="fill"/>
 		</android.support.design.widget.AppBarLayout>
 		<android.support.v4.view.ViewPager
 				android:id="@+id/viewpager"

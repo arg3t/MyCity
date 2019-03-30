@@ -6,9 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -27,7 +25,7 @@ import android.widget.Toast;
 import gq.yigit.mycity.navigation.MapsFragment;
 import gq.yigit.mycity.tools.*;
 import gq.yigit.mycity.tools.WebRequest.responseListener;
-import gq.yigit.mycity.utilityFragment.UtilityMain;
+import gq.yigit.mycity.utility.UtilityMain;
 import gq.yigit.mycity.votesFragment.VoteFragment;
 import gq.yigit.mycity.votesFragment.VotesContent;
 import gq.yigit.mycity.votesFragment.VotesFragment;
@@ -67,14 +65,6 @@ public class MainActivity extends AppCompatActivity
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		cntxt = getApplicationContext();
-		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-		fab.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-						.setAction("Action", null).show();
-			}
-		});
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
