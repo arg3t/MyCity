@@ -27,6 +27,7 @@ import android.widget.Toast;
 import gq.yigit.mycity.navigation.MapsFragment;
 import gq.yigit.mycity.tools.*;
 import gq.yigit.mycity.tools.WebRequest.responseListener;
+import gq.yigit.mycity.utilityFragment.UtilityFragment;
 import gq.yigit.mycity.votesFragment.VoteFragment;
 import gq.yigit.mycity.votesFragment.VotesContent;
 import gq.yigit.mycity.votesFragment.VotesFragment;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity
 		MainFragment.OnFragmentInteractionListener,
 		RateFragment.OnFragmentInteractionListener,
 		MapsFragment.OnFragmentInteractionListener,
+		UtilityFragment.OnFragmentInteractionListener,
 		OnFragmentInteractionListener,
 		responseListener,
 		imageListener {
@@ -183,7 +185,10 @@ public class MainActivity extends AppCompatActivity
 			fragmentTransaction.commit();
 			fragmentTransaction.addToBackStack(null);
 		} else if (id == R.id.utilities) {
-
+			UtilityFragment fragment = new UtilityFragment();
+			fragmentTransaction.replace(R.id.app_bar_main, fragment);
+			fragmentTransaction.commit();
+			fragmentTransaction.addToBackStack(null);
 		}
 
 
