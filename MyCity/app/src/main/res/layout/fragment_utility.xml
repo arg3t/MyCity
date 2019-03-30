@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  xmlns:tools="http://schemas.android.com/tools"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-			  tools:context=".utilityFragment.UtilityFragment" android:orientation="vertical">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+											 xmlns:tools="http://schemas.android.com/tools"
+											 android:layout_width="match_parent"
+											 android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+											 tools:context=".utilityFragment.UtilityMain" android:orientation="vertical"
+											 android:layout_marginTop="55dp">
+
 
 
 	<android.support.design.widget.CoordinatorLayout
@@ -32,81 +34,10 @@
 		<android.support.v4.view.ViewPager
 				android:id="@+id/viewpager"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+				android:layout_height="wrap_content"
+				app:layout_behavior="@string/appbar_scrolling_view_behavior">
+		</android.support.v4.view.ViewPager>
 	</android.support.design.widget.CoordinatorLayout>
 
-	<com.jjoe64.graphview.GraphView
-			android:layout_width="match_parent"
-			android:layout_height="254dp"
-			android:id="@+id/utility_graph"/>
-	<LinearLayout
-			android:orientation="horizontal"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			>
-		<LinearLayout
-				android:orientation="vertical"
-				android:layout_width="wrap_content"
-				android:layout_height="match_parent">
-			<TextView
-					android:text="Your Points:"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content" android:id="@+id/textView"
-					android:textColor="@android:color/holo_orange_dark" android:textSize="16sp"
-					android:layout_marginVertical="4dp" android:layout_marginHorizontal="7dp"/>
-			<TextView
-					android:text="Your Bill:"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content" android:id="@+id/textView1"
-					android:textColor="@android:color/holo_orange_dark" android:textSize="16sp"
-					android:layout_marginVertical="4dp" android:layout_marginHorizontal="7dp"/>
-			<TextView
-					android:text="%Efficieny:"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content" android:id="@+id/textView2"
-					android:textColor="@android:color/holo_orange_dark" android:textSize="16sp"
-					android:layout_marginVertical="4dp" android:layout_marginHorizontal="7dp"/>
 
-		</LinearLayout>
-		<LinearLayout
-				android:orientation="vertical"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent">
-			<TextView
-					android:text="Content Here"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content" android:id="@+id/points_utility"
-					android:textColor="@android:color/black" android:textSize="16sp"
-					android:layout_marginVertical="4dp" android:layout_marginHorizontal="7dp"/>
-			<TextView
-					android:text="Content Here"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content" android:id="@+id/bill_utility"
-					android:textColor="@android:color/black" android:textSize="16sp"
-					android:layout_marginVertical="4dp" android:layout_marginHorizontal="7dp"/>
-			<TextView
-					android:text="Content Here"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content" android:id="@+id/efficieny_utility"
-					android:textColor="@android:color/black" android:textSize="16sp"
-					android:layout_marginVertical="4dp" android:layout_marginHorizontal="7dp"/>
-		</LinearLayout>
-	</LinearLayout>
-	<LinearLayout
-			android:orientation="horizontal"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-		<Button
-				android:text="Button"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/button" android:layout_weight="1"/>
-		<Button
-				android:text="Button"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/button2" android:layout_weight="1"/>
-	</LinearLayout>
-
-
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

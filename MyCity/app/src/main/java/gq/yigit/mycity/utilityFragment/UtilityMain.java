@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,19 +23,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class UtilityFragment extends Fragment {
+public class UtilityMain extends Fragment {
 
 
 
 
 	private OnFragmentInteractionListener mListener;
 
-	public UtilityFragment() {
+	public UtilityMain() {
 	}
 
 
-	public static UtilityFragment newInstance(String param1, String param2) {
-		UtilityFragment fragment = new UtilityFragment();
+	public static UtilityMain newInstance(String param1, String param2) {
+		UtilityMain fragment = new UtilityMain();
 		return fragment;
 	}
 
@@ -50,35 +49,16 @@ public class UtilityFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_utility, container, false);
-		GraphView graph = (GraphView) rootView.findViewById(R.id.utility_graph);
-		LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-				new DataPoint(0, 1),
-				new DataPoint(1, 5),
-				new DataPoint(2, 3)
-		});
-		LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>(new DataPoint[] {
-				new DataPoint(0, 4),
-				new DataPoint(1, 1),
-				new DataPoint(2, 7)
-		});
 
-		StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
-		staticLabelsFormatter.setHorizontalLabels(new String[] {"old", "middle", "new"});
-		staticLabelsFormatter.setVerticalLabels(new String[] {"low", "middle", "high"});
-		graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
 
-		series.setTitle("ideal");
-		series.setColor(Color.BLUE);
-		series2.setTitle("usage");
-		series2.setColor(Color.RED);
-		graph.addSeries(series);
-		graph.addSeries(series2);
 
+		// Setting ViewPager for each Tabs
 		ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
 		setupViewPager(viewPager);
-
+		// Set Tabs inside Toolbar
 		TabLayout tabs = (TabLayout) rootView.findViewById(R.id.result_tabs);
 		tabs.setupWithViewPager(viewPager);
+
 
 		return rootView;
 	}
@@ -93,7 +73,7 @@ public class UtilityFragment extends Fragment {
 
 
 		Adapter adapter = new Adapter(getChildFragmentManager());
-		adapter.addFragment(new UtilityFragment(), "Electricity");
+		adapter.addFragment(new UtilityElectricity(), "Electricity");
 		viewPager.setAdapter(adapter);
 
 
@@ -122,37 +102,41 @@ public class UtilityFragment extends Fragment {
 		// TODO: Update argument type and name
 		void onFragmentInteraction(Uri uri);
 	}
+
+	static class Adapter extends FragmentPagerAdapter {
+		private final List<Fragment> mFragmentList = new ArrayList<>();
+		private final List<String> mFragmentTitleList = new ArrayList<>();
+
+		public Adapter(FragmentManager manager) {
+			super(manager);
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			return mFragmentList.get(position);
+		}
+
+		@Override
+		public int getCount() {
+			return mFragmentList.size();
+		}
+
+		public void addFragment(Fragment fragment, String title) {
+			mFragmentList.add(fragment);
+			mFragmentTitleList.add(title);
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position) {
+			return mFragmentTitleList.get(position);
+		}
+	}
 }
 
 
-class Adapter extends FragmentPagerAdapter {
-	private final List<Fragment> mFragmentList = new ArrayList<>();
-	private final List<String> mFragmentTitleList = new ArrayList<>();
 
-	public Adapter(FragmentManager manager) {
-		super(manager);
-	}
 
-	@Override
-	public Fragment getItem(int position) {
-		return mFragmentList.get(position);
-	}
 
-	@Override
-	public int getCount() {
-		return mFragmentList.size();
-	}
-
-	public void addFragment(Fragment fragment, String title) {
-		mFragmentList.add(fragment);
-		mFragmentTitleList.add(title);
-	}
-
-	@Override
-	public CharSequence getPageTitle(int position) {
-		return mFragmentTitleList.get(position);
-	}
-}
 
 
 
