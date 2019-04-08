@@ -28,6 +28,7 @@ if __name__ == '__main__':
     api.add_resource(utility.Resources, '/resources', '/resources/')
 
     api.add_resource(denunciation.Alert, '/denunciation', '/denunciation/')
+    api.add_resource(denunciation.Denounce, '/denounce', '/denounce/')
 
     api.add_resource(navigation.Transit, '/transit', '/transit/')
 
