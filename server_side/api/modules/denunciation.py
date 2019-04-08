@@ -26,3 +26,28 @@ class Alert(Resource):
 			return {"success":True}
 		else:
 			return {"success":False,"penalty":"{}".format(100*(20-trust))}
+
+class Denounce(Resource):
+    def post(self):
+        args = request.form
+        reporter = args['id']
+        denunciation_info = args['info']
+        denunciation_priority = args['priority']
+        denunciation_location = {
+            "latitude": args['latitude'],
+            "longitude": args['longitude']
+        }
+
+        denunciation = {
+            'reporter': reporter,
+            'info': denunciation_info,
+            'priority': denunciation_priority,
+            'location': denunciation_location
+        }
+
+        denunciations.append(denunciation)
+
+        with open(db_path, 'w') as f:
+            json.dump(denunciations, f, indent=4)
+
+        return denunciation
