@@ -1,7 +1,7 @@
 from flask import Flask, send_from_directory
 from flask_restful import Api
 
-from api.modules import user_info, voting_system, rating_system, utility
+from api.modules import user_info, voting_system, rating_system, utility,denunciation,navigation
 
 app = Flask(__name__)
 api = Api(app)
@@ -26,5 +26,9 @@ if __name__ == '__main__':
     api.add_resource( user_info.Login, '/login', '/login/' )
 
     api.add_resource(utility.Resources, '/resources', '/resources/')
-    
+
+    api.add_resource(denunciation.Alert, '/denunciation', '/denunciation/')
+
+    api.add_resource(navigation.Transit, '/transit', '/transit/')
+
     app.run(host='0.0.0.0', port=5000, ssl_context=context)

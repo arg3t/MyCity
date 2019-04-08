@@ -83,13 +83,13 @@ public class WebRequest extends AsyncTask<Void,Void,String> {
 				response = client.execute(post_request);
 				Log.d("[BOOKMARK]","Done execute");
 			}catch (Exception e){
-				Log.e("[ERROR](request:67): ", e.toString());
+				Log.e("[ERROR](request:86): ", e.toString());
 			}
 		}else{
 			try {
 				response = client.execute(get_request);
 			}catch (Exception e){
-				Log.e("[ERROR](request:74): ", e.toString());
+				Log.e("[ERROR](request:92): ", e.toString());
 			}
 		}
 		try {
@@ -103,7 +103,7 @@ public class WebRequest extends AsyncTask<Void,Void,String> {
 			}
 			return line;
 		}catch(Exception e){
-			Log.e("[ERROR](request:87): ", e.toString());
+			Log.e("[ERROR](request:106): ", e.toString());
 		}
 		return "Error";
 	}

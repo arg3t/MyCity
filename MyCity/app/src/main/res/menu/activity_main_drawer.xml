@@ -34,6 +34,11 @@
 					android:id="@+id/utilities"
 					android:icon="@drawable/utility"
 					android:title="Utilities"/>
+
+			<item
+					android:id="@+id/denunciation"
+					android:icon="@drawable/denunciation"
+					android:title="Denunciation"/>
 		</menu>
 	</item>
 

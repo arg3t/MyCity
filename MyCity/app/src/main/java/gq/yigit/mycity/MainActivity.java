@@ -179,6 +179,11 @@ public class MainActivity extends AppCompatActivity
 			fragmentTransaction.replace(R.id.app_bar_main, fragment);
 			fragmentTransaction.commit();
 			fragmentTransaction.addToBackStack(null);
+		}else if(id == R.id.denunciation){
+			DenunciationFragment fragment = new DenunciationFragment();
+			fragmentTransaction.replace(R.id.app_bar_main, fragment);
+			fragmentTransaction.commit();
+			fragmentTransaction.addToBackStack(null);
 		}
 
 
