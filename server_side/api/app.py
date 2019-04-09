@@ -1,7 +1,7 @@
 from flask import Flask, send_from_directory
 from flask_restful import Api
 
-from api.modules import user_info, voting_system, rating_system, utility,denunciation,navigation
+from api.modules import user_info, voting_system, rating_system, utility, denunciation, navigation
 
 app = Flask(__name__)
 api = Api(app)
@@ -29,6 +29,7 @@ if __name__ == '__main__':
 
     api.add_resource(denunciation.Alert, '/denunciation', '/denunciation/')
     api.add_resource(denunciation.Denounce, '/denounce', '/denounce/')
+    api.add_resource(denunciation.Denunciations, '/denunciations', '/denunciations/')
 
     api.add_resource(navigation.Transit, '/transit', '/transit/')
 

@@ -34,6 +34,19 @@ class Alert(Resource):
             return {"success":False,"penalty":"{}".format(100*(20-trust))}
 
 
+class Denunciations(Resource):
+    def get(self):
+        return [
+            {
+                'id'  : v['id'],
+                'info': v['info'],
+                'priority': v['priority'],
+                'location' : v['location']
+            }
+            for v in denunciations
+        ]
+
+
 class Denounce(Resource):
     def post(self):
         args = request.form
@@ -47,6 +60,7 @@ class Denounce(Resource):
             }
 
             denunciation = {
+                'id': len(denunciations) + 1,
                 'reporter': reporter,
                 'info': denunciation_info,
                 'priority': denunciation_priority,
