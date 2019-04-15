@@ -47,7 +47,6 @@ class Votings(Resource):
 
         """
         args = request.form
-        args = request.form
         voting_id = len(votings) + 1
         voting = {
             'id': voting_id,
