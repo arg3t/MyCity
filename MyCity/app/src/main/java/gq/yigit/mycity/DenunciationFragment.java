@@ -112,7 +112,7 @@ public class DenunciationFragment extends Fragment implements WebRequest.respons
 					args.put("photo", "null");
 				}
 
-				WebRequest request = new WebRequest(url+"/denunciation",false,args);
+				WebRequest request = new WebRequest(url+"/denunciation",false,args,0);
 				request.addListener(activity);
 				request.execute();
 			}
@@ -177,7 +177,7 @@ public class DenunciationFragment extends Fragment implements WebRequest.respons
 		void onFragmentInteraction(Uri uri);
 	}
 
-	public void receivedResponse(boolean success, String response) {
+	public void receivedResponse(boolean success, String response,int id) {
 		try {
 			JSONObject received = new JSONObject(response);
 			if (reps % 2 == 0) {
@@ -213,7 +213,7 @@ public class DenunciationFragment extends Fragment implements WebRequest.respons
 							}
 							args.put("accepted","true");
 
-							WebRequest requestConfirm = new WebRequest(url+"/denunciation",false,args);
+							WebRequest requestConfirm = new WebRequest(url+"/denunciation",false,args,0);
 							requestConfirm.addListener(activity);
 							requestConfirm.execute();
 						}

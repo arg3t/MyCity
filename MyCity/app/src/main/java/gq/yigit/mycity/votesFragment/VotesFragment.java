@@ -69,7 +69,7 @@ public class VotesFragment extends Fragment implements responseListener, imageLi
 			}
 			FileActions file_manager = new FileActions();
 			url = (file_manager.readFromFile(context,"server.config")).trim();
-			WebRequest web_manager = new WebRequest(url + "/votings/",true,new HashMap<String,String>());
+			WebRequest web_manager = new WebRequest(url + "/votings/",true,new HashMap<String,String>(),0);
 			web_manager.addListener(this);
 			web_manager.execute();
 		}
@@ -98,7 +98,7 @@ public class VotesFragment extends Fragment implements responseListener, imageLi
 		void onListFragmentInteraction(VoteItem item);
 	}
 
-	public void receivedResponse(boolean success, String response){
+	public void receivedResponse(boolean success, String response,int id){
 
 		if(success) {
 			try {

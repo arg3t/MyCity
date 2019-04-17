@@ -36,7 +36,7 @@ public class UtilityMain extends Fragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);one_bus[i][j]
+		super.onCreate(savedInstanceState);
 
 	}
 
