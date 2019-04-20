@@ -10,10 +10,6 @@
 					android:icon="@drawable/subway"
 					android:title="Public Transit"/>
 			<item
-					android:id="@+id/navigation"
-					android:icon="@drawable/navigation"
-					android:title="Navigation"/>
-			<item
 					android:id="@+id/parking"
 					android:icon="@drawable/parking"
 					android:title="Smart Parking"/>
