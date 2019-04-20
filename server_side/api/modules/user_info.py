@@ -3,8 +3,6 @@ import copy
 import json
 import base64
 
-
-
 from api.modules import utils
 
 from flask import Flask, request
@@ -53,7 +51,7 @@ class Users(Resource):
 class User(Resource):
     def get(self, user_id):
         try:
-            user = utils.find_by_id( users.values(), user_id )
+            user = copy.deepcopy(utils.find_by_id( users.values(), user_id ))
             if not user:
                 raise Exception('User not found!')
             del user['password']

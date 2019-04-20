@@ -26,7 +26,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import gq.yigit.mycity.navigation.MapsFragment;
 import gq.yigit.mycity.navigation.TransitFragment;
 import gq.yigit.mycity.tools.*;
 import gq.yigit.mycity.tools.WebRequest.responseListener;
@@ -49,7 +48,6 @@ public class MainActivity extends AppCompatActivity
 		OnListFragmentInteractionListener,
 		MainFragment.OnFragmentInteractionListener,
 		RateFragment.OnFragmentInteractionListener,
-		MapsFragment.OnFragmentInteractionListener,
 		UtilityMain.OnFragmentInteractionListener,
 		TransitFragment.OnFragmentInteractionListener,
 		OnFragmentInteractionListener,
@@ -176,12 +174,7 @@ public class MainActivity extends AppCompatActivity
 			fragmentTransaction.replace(R.id.app_bar_main, fragment);
 			fragmentTransaction.commit();
 			fragmentTransaction.addToBackStack(null);
-		} else if (id == R.id.navigation) {
-			MapsFragment fragment = new MapsFragment();
-			fragmentTransaction.replace(R.id.app_bar_main, fragment);
-			fragmentTransaction.commit();
-			fragmentTransaction.addToBackStack(null);
-		} else if (id == R.id.rating) {
+		}  else if (id == R.id.rating) {
 			RateFragment fragment = new RateFragment();
 			fragmentTransaction.replace(R.id.app_bar_main, fragment);
 			fragmentTransaction.commit();
