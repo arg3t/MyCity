@@ -5,6 +5,9 @@
     "avatar": "/img/user1.png",
     "password": "827ccb0eea8a706c4c34a16891f84e7b",
     "email": "efeaydin@mycity.com",
+    "TC": "11111111111",
+    "tel": "0555 555 55 55",
+    "health": ["antibiotic allergy", "peanut allergy", "asthma"],
     "stats": {
       "bus_usage_week": 1,
       "bus_usage_month": 5,

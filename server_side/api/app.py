@@ -24,8 +24,7 @@ if __name__ == '__main__':
     api.add_resource( user_info.Users, '/users', '/users/' )
     api.add_resource( user_info.User, '/users/<path:user_id>', '/users/<path:user_id>/' )
     api.add_resource( user_info.Login, '/login', '/login/' )
-    api.add_resource(user_info.QRCode, '/qr', '/qr/')
-    api.add_resource(user_info.QRRead, '/qr_data', '/qr_data/')
+
 
     api.add_resource(utility.Resources, '/resources', '/resources/')
 
