@@ -115,7 +115,7 @@ public class RateFragment extends Fragment implements WebRequest.responseListene
 						Log.e("[ERROR]","An error occured with json!");
 					}
 					request.put("note",comment);
-					WebRequest rate_sender = new WebRequest(url + "/rate", false, request);
+					WebRequest rate_sender = new WebRequest(url + "/rate", false, request,0);
 					rate_sender.execute();
 				}
 			}
@@ -139,7 +139,7 @@ public class RateFragment extends Fragment implements WebRequest.responseListene
 		HashMap<String,String> request = new HashMap<>();
 		request.put("longitude",longitude);
 		request.put("latitude",latitude);
-		WebRequest web_manager = new WebRequest(url + "/ratings",false,request);
+		WebRequest web_manager = new WebRequest(url + "/ratings",false,request,0);
 		web_manager.addListener(this);
 		web_manager.execute();
 		return rootView;
@@ -175,7 +175,7 @@ public class RateFragment extends Fragment implements WebRequest.responseListene
 
 
 	@Override
-	public void receivedResponse(boolean success, String response) {
+	public void receivedResponse(boolean success, String response,int id) {
 		if(success){
 			try {
 				ratings = new JSONArray(response);
@@ -223,7 +223,7 @@ public class RateFragment extends Fragment implements WebRequest.responseListene
 	private void downloadImg(int i) throws JSONException {
 		ImageDownload downloader = new ImageDownload();
 		downloader.addListener(this);
-		downloader.execute(url + ((JSONObject) ratings.get(i)).get("img"));
+		downloader.execute(url + ((JSONObject) ratings.get(i)).get("type"));
 	}
 
 

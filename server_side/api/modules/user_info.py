@@ -3,15 +3,13 @@ import copy
 import json
 import base64
 
-import pyDes
-import qrcode
+
 
 from api.modules import utils
 
 from flask import Flask, request
 from flask_restful import Resource, Api, abort
 
-enc = pyDes.triple_des(b'Kz\n\x1a\xc1~\x05#\xf9\xad\xc8\xa2\x15\xd5J\x89\xe4RT\x8d\xb3?\x93\x1c')
 app = Flask(__name__)
 api = Api(app)
 db_path = os.path.join(app.root_path, 'databases', 'users.json')
@@ -85,34 +83,6 @@ class Login(Resource):
         else:
             return [False, {}]
 
-class QRCode(Resource):
-    def post(self):
-        """
-        POST Data:
-        id=<user_id>
-        """
-        user_id = request.form['id']
-        if utils.find_by_id(users.values(), user_id):
-            image_path = os.path.join(app.root_path, '..', 'images', user_id + '_qr' + '.png')
-            if not os.path.exists(image_path):
-                encrypted_id = enc.encrypt(user_id, padmode=2)
-                img = qrcode.make(base64.b64encode(encrypted_id).decode('utf-8'))
-                img.save(image_path)
-
-            return '/img/' + user_id + '_qr' + '.png'
-        else:
-            abort(404, error="User {} doesn't exist".format(user_id))
-
-class QRRead(Resource):
-    def post(self):
-        """
-        POST Data:
-        qr_data=<qr_data>
-        """
-
-        qr_data = base64.b64decode(request.form['qr_data'])
-        user_id = enc.decrypt(qr_data, padmode=2)
-        return utils.find_by_id(users.values(), user_id.decode())
 
 if __name__ == '__main__':
     api.add_resource(Users, '/users', '/users/')

@@ -1,14 +1,18 @@
 package gq.yigit.mycity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.*;
@@ -23,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import gq.yigit.mycity.navigation.MapsFragment;
+import gq.yigit.mycity.navigation.TransitFragment;
 import gq.yigit.mycity.tools.*;
 import gq.yigit.mycity.tools.WebRequest.responseListener;
 import gq.yigit.mycity.utility.UtilityMain;
@@ -46,6 +51,7 @@ public class MainActivity extends AppCompatActivity
 		RateFragment.OnFragmentInteractionListener,
 		MapsFragment.OnFragmentInteractionListener,
 		UtilityMain.OnFragmentInteractionListener,
+		TransitFragment.OnFragmentInteractionListener,
 		OnFragmentInteractionListener,
 		responseListener,
 		imageListener {
@@ -57,10 +63,13 @@ public class MainActivity extends AppCompatActivity
 	private ImageView avatarView;
 	private TextView userName;
 	public static Activity mainActivity;
+	public static String apikey = "AIzaSyBuOC03IHPA_6TPnfk18b0SAgD1uge4-dk";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d("[BOOKMARK]","Started creating activity");
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_main);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -77,7 +86,7 @@ public class MainActivity extends AppCompatActivity
 		HashMap<String,String> request = new HashMap<>();
 		request.put("username","efe");
 		request.put("password","12345");
-		WebRequest login_manager = new WebRequest(url + "/login/",false,request);
+		WebRequest login_manager = new WebRequest(url + "/login/",false,request,0);
 		login_manager.addListener(this);
 		Log.d("[BOOKMARK]","Before executing login");
 		login_manager.execute();
@@ -163,7 +172,10 @@ public class MainActivity extends AppCompatActivity
 		} else if (id == R.id.parking) {
 
 		} else if (id == R.id.transit) {
-
+			TransitFragment fragment = new TransitFragment();
+			fragmentTransaction.replace(R.id.app_bar_main, fragment);
+			fragmentTransaction.commit();
+			fragmentTransaction.addToBackStack(null);
 		} else if (id == R.id.navigation) {
 			MapsFragment fragment = new MapsFragment();
 			fragmentTransaction.replace(R.id.app_bar_main, fragment);
@@ -205,7 +217,7 @@ public class MainActivity extends AppCompatActivity
 
 	}
 
-	public void receivedResponse(boolean success,String response){
+	public void receivedResponse(boolean success,String response,int reqid){
 		if(success) {
 			try {
 				JSONArray receivedData = new JSONArray(response);

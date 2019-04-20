@@ -75,7 +75,7 @@ public class VoteFragment extends Fragment implements responseListener, imageLis
 		FileActions file_manager = new FileActions();
 		url = file_manager.readFromFile(getContext(),"server.config").trim();
 		String url_vote = url + "/votings/" + vote_id;
-		WebRequest data_request = new WebRequest(url_vote,true,new HashMap<String, String>());
+		WebRequest data_request = new WebRequest(url_vote,true,new HashMap<String, String>(),0);
 		data_request.addListener(this);
 		data_request.execute();
 		cntxt = getContext();
@@ -110,7 +110,7 @@ public class VoteFragment extends Fragment implements responseListener, imageLis
 		void onFragmentInteraction(Uri uri);
 	}
 
-	public void receivedResponse(boolean success,String response){
+	public void receivedResponse(boolean success,String response, int reqid){
 		Log.i("[INFO]",response);
 		if(success){
 			try{
@@ -170,7 +170,7 @@ public class VoteFragment extends Fragment implements responseListener, imageLis
 					}catch (JSONException e){
 						Log.e("[ERROR]","Cannot get user data");
 					}
-					WebRequest vote_request = new WebRequest(url+"/vote",false, params);
+					WebRequest vote_request = new WebRequest(url+"/vote",false, params,0);
 					vote_request.execute();
 				}else{
 					Toast.makeText(cntxt,"Please selet a vote!",Toast.LENGTH_SHORT).show();

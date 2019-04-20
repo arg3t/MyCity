@@ -69,7 +69,7 @@ public class UtilityElectricity extends Fragment implements WebRequest.responseL
 			Log.e("[ERROR]","User data not correct");
 		}
 		request.put("type","electricity");
-		WebRequest login_manager = new WebRequest(url + "/resources/",false,request);
+		WebRequest login_manager = new WebRequest(url + "/resources/",false,request,0);
 		login_manager.addListener(this);
 		login_manager.execute();
 
@@ -106,7 +106,7 @@ public class UtilityElectricity extends Fragment implements WebRequest.responseL
 		void onFragmentInteraction(Uri uri);
 	}
 
-	public void receivedResponse(boolean success, String result){
+	public void receivedResponse(boolean success, String result,int reqid){
 		if(success){
 			try{
 				electricityUsage = new JSONObject(result);

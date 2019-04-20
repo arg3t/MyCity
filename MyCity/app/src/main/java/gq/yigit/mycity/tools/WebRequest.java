@@ -37,9 +37,9 @@ public class WebRequest extends AsyncTask<Void,Void,String> {
 	private HttpPost post_request;
 	private HttpResponse response;
 	private List<responseListener> listeners = new ArrayList<>();
+	private int reqid = 0;
 
-
-	public WebRequest(String url, boolean request_type, HashMap<String,String> request_content){
+	public WebRequest(String url, boolean request_type, HashMap<String,String> request_content,int reqid){
 
 		client = AcceptAllSSLSocketFactory.getNewHttpClient();
 
@@ -61,6 +61,7 @@ public class WebRequest extends AsyncTask<Void,Void,String> {
 		}else{
 			post_request = new HttpPost(this.url);
 		}
+		this.reqid = reqid;
 	}
 
 	protected String doInBackground(Void... params){
@@ -109,14 +110,14 @@ public class WebRequest extends AsyncTask<Void,Void,String> {
 	}
 	protected void onPostExecute(String result){
 		for (responseListener hl : listeners)
-			hl.receivedResponse(!result.equals("Error"),result);
+			hl.receivedResponse(!result.equals("Error"),result,reqid);
 	}
 
 	public void addListener(responseListener toAdd) {
 		listeners.add(toAdd);
 	}
 	public interface responseListener {
-	    void receivedResponse(boolean success, String response);
+	    void receivedResponse(boolean success, String response,int id);
     }
 }
 
