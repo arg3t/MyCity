@@ -18,6 +18,7 @@
     </style>
 </head>
 <body>
+<audio id="audio" src="http://www.soundjay.com/button/beep-07.wav" autoplay="false"></audio>
 <div id="map"></div>
 <script>
       var map;
@@ -29,10 +30,12 @@
       }
 </script>
 <script>
+    var sound = document.getElementById("audio");
     var markers = [];
+    var denunciation_count = markers.length;
     setInterval(function() {
         for (var i = 0; i < markers.length; i++) {
-          markers[i].setMap(null);
+          markers.pop().setMap(null);
         }
         $.get("https://127.0.0.1:5000/denunciations", function(data, status){
             if (status == "success") {
@@ -47,6 +50,10 @@
                 });
             }
         });
+        if (denunciation_count < markers.length) {
+            sound.play();
+        }
+        denunciation_count = markers.length;
     }, 5000);
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuOC03IHPA_6TPnfk18b0SAgD1uge4-dk&callback=initMap"
