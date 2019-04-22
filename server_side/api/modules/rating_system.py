@@ -20,6 +20,17 @@ with open(user_db, 'r') as f:
 
 
 class Ratings(Resource):
+    def get(self):
+        return [
+            {
+                'id'  : v['id'],
+                'name': v['name'],
+                'desc': v['desc'],
+                'img' : v['img']
+            }
+            for v in ratings
+        ]
+
     def post(self):
         """
         Example POST Data:
@@ -74,9 +85,7 @@ class Ratings(Resource):
 class Rating(Resource):
     def get(self, rating_id):
         try:
-            rating = copy.deepcopy(ratings[rating_id - 1])
-            del rating['rates']
-            return rating
+            return ratings[rating_id - 1]
         except:
             abort(404, error="Rating {} doesn't exist".format(rating_id))
 
@@ -96,7 +105,7 @@ class Rate(Resource):
             if 0 >= score >= 10:
                 abort(500, 'Score should be between 0 and 10')
             note = request.form.get('note')
-            ratings[rating_id - 1]['rates'][rater_id] = {
+            ratings[rating_id - 1]['rates'][request.form['rater_id']] = {
                 'id': len(ratings[rating_id - 1]['rates']) + 1,
                 'rater': request.form['rater_id'],
                 'score': score,
