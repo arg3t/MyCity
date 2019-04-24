@@ -16,18 +16,50 @@ with open(db_path, 'r') as f:
 
 class Resources(Resource):
     def post(self):
+        """
+        POST Data:
+        user_id=<id>&type=<electricity|water>&bill=<bill>
+        :return:
+        """
         user = utils.find_by_id(users.values(), request.form['user_id'])
         if request.form["type"] == "electricity":
+            usage = user['daily_electricity_usage']
+            ideal = user['ideal_electricity_usage']
+
+            diff = [abs(a-b) for a in usage for b in ideal]
+
+            sum_diff = sum(diff)
+
+            point = 10 - (sum_diff * 0.0001)
+            eff = point * 10
+            bill = (int(request.form['bill']) * eff)/100
             return {
-                'daily_electricity_usage': user['daily_electricity_usage'],
-                'ideal_electricity_usage': user['ideal_electricity_usage']
+                'daily_electricity_usage': usage,
+                'ideal_electricity_usage': ideal,
+                'points': point,
+                'efficiency': eff,
+                'bill': bill
             }
 
         elif request.form["type"] == "water":
+            usage = user['daily_water_usage']
+            ideal = user['ideal_water_usage']
+
+            diff = [abs(a-b) for a in usage for b in ideal]
+
+            sum_diff = sum(diff)
+
+            point = 10 - (sum_diff * 0.0001)
+            eff = point * 10
+            bill = (int(request.form['bill']) * eff)/100
+
             return {
-            'daily_water_usage': user['daily_water_usage'],
-            'ideal_water_usage': user['ideal_water_usage']
-        }
+                'daily_water_usage': usage,
+                'ideal_water_usage': ideal,
+                'point': point,
+                'efficiency': eff,
+                'bill': bill
+            }
 
 if __name__ == '__main__':
     api.add_resource(Resources, '/resources', '/resources/')
