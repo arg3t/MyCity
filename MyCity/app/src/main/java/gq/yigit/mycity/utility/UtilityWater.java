@@ -1,32 +1,33 @@
 package gq.yigit.mycity.utility;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+import gq.yigit.mycity.MainActivity;
 import gq.yigit.mycity.R;
+import gq.yigit.mycity.tools.FileActions;
+import gq.yigit.mycity.tools.WebRequest;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link UtilityWater.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link UtilityWater#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class UtilityWater extends Fragment {
-	// TODO: Rename parameter arguments, choose names that match
-	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-	private static final String ARG_PARAM1 = "param1";
-	private static final String ARG_PARAM2 = "param2";
+import java.util.HashMap;
 
-	// TODO: Rename and change types of parameters
-	private String mParam1;
-	private String mParam2;
+
+public class UtilityWater extends Fragment implements WebRequest.responseListener {
+
+	private JSONObject waterUsage;
+	private GraphView graph;
 
 	private OnFragmentInteractionListener mListener;
 
@@ -34,38 +35,46 @@ public class UtilityWater extends Fragment {
 		// Required empty public constructor
 	}
 
-	/**
-	 * Use this factory method to create a new instance of
-	 * this fragment using the provided parameters.
-	 *
-	 * @param param1 Parameter 1.
-	 * @param param2 Parameter 2.
-	 * @return A new instance of fragment UtilityWater.
-	 */
-	// TODO: Rename and change types and number of parameters
+
 	public static UtilityWater newInstance(String param1, String param2) {
 		UtilityWater fragment = new UtilityWater();
-		Bundle args = new Bundle();
-		args.putString(ARG_PARAM1, param1);
-		args.putString(ARG_PARAM2, param2);
-		fragment.setArguments(args);
 		return fragment;
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (getArguments() != null) {
-			mParam1 = getArguments().getString(ARG_PARAM1);
-			mParam2 = getArguments().getString(ARG_PARAM2);
-		}
+
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	                         Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_utility_water, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_utility_water, container, false);;
+		graph = (GraphView) rootView.findViewById(R.id.utility_graph);
+
+
+		StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
+		staticLabelsFormatter.setHorizontalLabels(new String[] {"0", "2", "4", "6", "8", "10", "12", "14", "16", "18", "20", "22", "24"});
+		staticLabelsFormatter.setVerticalLabels(new String[] {"0", "5", "10","15","20"});
+		graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+
+		FileActions file_manager = new FileActions();
+		String url = file_manager.readFromFile(getContext(),"server.config").trim();
+		HashMap<String,String> request = new HashMap<>();
+		try {
+			request.put("user_id", MainActivity.userData.getString("id"));
+		}catch (JSONException e){
+			Log.e("[ERROR]","User data not correct");
+		}
+		request.put("type","water");
+		WebRequest login_manager = new WebRequest(url + "/resources/",false,request,0);
+		login_manager.addListener(this);
+		login_manager.execute();
+
+
+		return rootView;
 	}
 
 	// TODO: Rename method, update argument and hook method into UI event
@@ -91,18 +100,39 @@ public class UtilityWater extends Fragment {
 		mListener = null;
 	}
 
-	/**
-	 * This interface must be implemented by activities that contain this
-	 * fragment to allow an interaction in this fragment to be communicated
-	 * to the activity and potentially other fragments contained in that
-	 * activity.
-	 * <p>
-	 * See the Android Training lesson <a href=
-	 * "http://developer.android.com/training/basics/fragments/communicating.html"
-	 * >Communicating with Other Fragments</a> for more information.
-	 */
+
 	public interface OnFragmentInteractionListener {
 		// TODO: Update argument type and name
 		void onFragmentInteraction(Uri uri);
+	}
+
+	public void receivedResponse(boolean success, String result,int reqid){
+		if(success){
+			try{
+				waterUsage = new JSONObject(result);
+				LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {});
+				LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>(new DataPoint[] {});
+				for(int i = 0;i < waterUsage.getJSONArray("daily_water_usage").length();i++){
+					series.appendData(new DataPoint(i,waterUsage.getJSONArray("daily_water_usage").getInt(i)),
+							true,
+							100);
+				}
+
+				for(int i = 0;i < waterUsage.getJSONArray("ideal_water_usage").length();i++){
+					series2.appendData(new DataPoint(i,waterUsage.getJSONArray("ideal_water_usage").getInt(i)),
+							true,
+							100);
+				}
+				series.setTitle("ideal");
+				series.setColor(Color.BLUE);
+				series2.setTitle("usage");
+				series2.setColor(Color.RED);
+				graph.addSeries(series);
+				graph.addSeries(series2);
+
+			}catch (JSONException e){
+				Log.e("[ERROR]","Cannot interpret response from water service");
+			}
+		}
 	}
 }
