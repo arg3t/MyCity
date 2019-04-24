@@ -1,0 +1,16 @@
+#userpic{
+    height: 150px;
+    width: auto;
+    border: black 1px solid;
+}
+.inline{
+    display: inline-block;
+}
+
+td{
+    padding: 0px 5px;
+}
+
+table, td {
+    border: 1px solid black;
+}

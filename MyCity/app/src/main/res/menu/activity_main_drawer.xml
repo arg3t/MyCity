@@ -10,10 +10,6 @@
 					android:icon="@drawable/subway"
 					android:title="Public Transit"/>
 			<item
-					android:id="@+id/navigation"
-					android:icon="@drawable/navigation"
-					android:title="Navigation"/>
-			<item
 					android:id="@+id/parking"
 					android:icon="@drawable/parking"
 					android:title="Smart Parking"/>
@@ -34,6 +30,16 @@
 					android:id="@+id/utilities"
 					android:icon="@drawable/utility"
 					android:title="Utilities"/>
+
+			<item
+					android:id="@+id/denunciation"
+					android:icon="@drawable/denunciation"
+					android:title="Denunciation"/>
+
+			<item
+					android:id="@+id/qr_code"
+					android:icon="@drawable/qr_code"
+					android:title="QR Code"/>
 		</menu>
 	</item>
 

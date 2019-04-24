@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "reporter": "9vard12ty0ad2yvwp3q53rsf3h43r2vq",
+        "info": "There is a fire",
+        "priority": 8,
+        "location": {
+            "latitude": 39.9404,
+            "longitude": 32.9101
+        }
+    },
+    {
+        "id": 2,
+        "reporter": "9vard12ty0ad2yvwp3q53rsf3h43r2vq",
+        "info": "Vandalism",
+        "priority": "3",
+        "location": {
+            "latitude": 39.95,
+            "longitude": 32.87
+        }
+    }
+]

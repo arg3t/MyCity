@@ -9,3 +9,5 @@ MarkupSafe==1.1.1
 pytz==2018.9
 six==1.12.0
 Werkzeug==0.14.1
+pyDes==2.0.1
+Pillow==6.0.0

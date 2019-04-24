@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>Denunction Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      #map {
+        height: 100%;
+      }
+
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+</head>
+<body>
+<audio id="audio" src="http://www.soundjay.com/button/beep-07.wav" autoplay="false"></audio>
+<div id="map"></div>
+<script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 39.92, lng: 32.85},
+          zoom: 13
+        });
+      }
+</script>
+<script>
+    var sound = document.getElementById("audio");
+    var markers = [];
+    var denunciation_count = markers.length;
+    setInterval(function() {
+        for (var i = 0; i < markers.length; i++) {
+          markers.pop().setMap(null);
+        }
+        $.get("https://127.0.0.1:5000/denunciations", function(data, status){
+            if (status == "success") {
+                data.forEach(function(element) {
+                    var marker = new google.maps.Marker({
+                      position: { lat: element["location"]["latitude"], lng: element["location"]["longitude"]},
+                      map: map,
+                      label: element["priority"].toString(),
+                      title: element["info"]
+                    });
+                    markers.push(marker);
+                });
+            }
+        });
+        if (denunciation_count < markers.length) {
+            sound.play();
+        }
+        denunciation_count = markers.length;
+    }, 5000);
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuOC03IHPA_6TPnfk18b0SAgD1uge4-dk&callback=initMap"
+        async defer></script>
+</body>
+</html>
