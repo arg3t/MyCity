@@ -77,8 +77,6 @@ class Voting(Resource):
     def get(self, voting_id):
         try:
             voting = copy.deepcopy(votings[voting_id - 1])
-            for i in range(len(voting['votes'])):
-                del voting['votes'][str(i + 1)]['votes']
             del voting['voters']
 
             return voting
