@@ -25,12 +25,14 @@
         "name": "Park Ad\u0131 Oylamas\u0131",
         "desc": "Mahallemizin yeni park\u0131n\u0131n ad\u0131",
         "img": "/img/park.jpg",
-        "voters": [],
+        "voters": [
+            "9vard12ty0ad2yvwp3q53rsf3h43r2vq"
+        ],
         "votes": {
             "1": {
                 "name": "Mutlu Park",
                 "desc": "Mutlu park, mutlu isimlerle olur.",
-                "votes": 3
+                "votes": 4
             },
             "2": {
                 "name": "Yi\u011fit \u00c7olako\u011flu Park\u0131",

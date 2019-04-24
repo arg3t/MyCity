@@ -12,7 +12,7 @@
 		android:layout_marginRight="16dp"
 		app:layoutManager="LinearLayoutManager"
 		tools:context=".votesFragment.VotesFragment"
-		tools:listitem="@layout/fragment_votes"
+		tools:listitem="@layout/votes_list_item"
 		android:divider="@android:color/transparent"
 		android:dividerHeight="100.0sp"
 		android:clipChildren="false" android:clipToPadding="false" android:scrollbars="vertical"/>
