@@ -217,7 +217,7 @@ public class RateFragment extends Fragment implements WebRequest.responseListene
 	private void downloadImg(int i) throws JSONException {
 		ImageDownload downloader = new ImageDownload();
 		downloader.addListener(this);
-		downloader.execute(url + ((JSONObject) ratings.get(i)).get("type"));
+		downloader.execute(url + ((JSONObject) ratings.get(i)).get("img"));
 	}
 
 

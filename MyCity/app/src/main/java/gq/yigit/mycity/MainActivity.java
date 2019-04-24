@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity
 		RateFragment.OnFragmentInteractionListener,
 		UtilityMain.OnFragmentInteractionListener,
 		TransitFragment.OnFragmentInteractionListener,
+		QRFragment.OnFragmentInteractionListener,
 		OnFragmentInteractionListener,
 		responseListener,
 		imageListener {
@@ -189,6 +190,10 @@ public class MainActivity extends AppCompatActivity
 			fragmentTransaction.replace(R.id.app_bar_main, fragment);
 			fragmentTransaction.commit();
 			fragmentTransaction.addToBackStack(null);
+		}else if (id == R.id.qr_code){
+			QRFragment fragment= new QRFragment();
+			fragmentTransaction.replace(R.id.app_bar_main, fragment);
+			fragmentTransaction.commit();
 		}
 
 

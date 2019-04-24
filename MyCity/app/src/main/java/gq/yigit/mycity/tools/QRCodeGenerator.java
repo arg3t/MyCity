@@ -12,24 +12,34 @@ import com.google.zxing.common.BitMatrix;
 
 import java.util.Arrays;
 
+import static android.graphics.Color.BLACK;
+import static android.graphics.Color.WHITE;
+
 public class QRCodeGenerator {
     public static Bitmap Generate(String data, int height,int width) throws WriterException {
-        MultiFormatWriter writer = new MultiFormatWriter();
-        String finalData = Uri.encode(data);
 
-        // Use 1 as the height of the matrix as this is a 1D Barcode.
-        BitMatrix bm = writer.encode(finalData, BarcodeFormat.CODE_128, width, 1);
-        int bmWidth = bm.getWidth();
-
-        Bitmap imageBitmap = Bitmap.createBitmap(bmWidth, height, Bitmap.Config.ARGB_8888);
-
-        for (int i = 0; i < bmWidth; i++) {
-            // Paint columns of width 1
-            int[] column = new int[height];
-            Arrays.fill(column, bm.get(i, 0) ? Color.BLACK : Color.WHITE);
-            imageBitmap.setPixels(column, 0, 1, i, 0, 1, height);
+        BitMatrix result;
+        try {
+            result = new MultiFormatWriter().encode(data,
+                    BarcodeFormat.QR_CODE, width, height, null);
+        } catch (IllegalArgumentException iae) {
+            // Unsupported format
+            return null;
         }
 
-        return imageBitmap;
+        int w = result.getWidth();
+        int h = result.getHeight();
+        int[] pixels = new int[w * h];
+        for (int y = 0; y < h; y++) {
+            int offset = y * w;
+            for (int x = 0; x < w; x++) {
+                pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
+            }
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(pixels, 0, w, 0, 0, w, h);
+        return bitmap;
     }
 }
+
