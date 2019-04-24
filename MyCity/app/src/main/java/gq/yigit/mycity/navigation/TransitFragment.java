@@ -3,6 +3,7 @@ package gq.yigit.mycity.navigation;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -100,17 +102,14 @@ public class TransitFragment extends Fragment implements WebRequest.responseList
 		place_name = rootView.findViewById(R.id.place_name);
 		recyclerView = rootView.findViewById(R.id.route_view);
 		try {
-			LocationManager locationManager = (LocationManager)
-					getContext().getSystemService(cntxt.LOCATION_SERVICE);
-			Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-			longitude = String.valueOf((double)loc.getLongitude());
-			latitude = String.valueOf(loc.getLatitude());
+			latitude	 = "39.9127897";
+			longitude = "32.8073577";
+
 		}catch (SecurityException e){
 			Log.e("[ERROR]","An error occured with location permissions");
 		}
 		return rootView;
 	}
-
 	public void onButtonPressed(Uri uri) {
 		if (mListener != null) {
 			mListener.onFragmentInteraction(uri);
@@ -181,8 +180,8 @@ public class TransitFragment extends Fragment implements WebRequest.responseList
 				JSONObject route = new JSONObject(routes.getString(i));
 				TransitContent.addItem(new TransitContent.TransitItem(
 						route.getString("name"),
-						(new JSONArray(route.getString("stops")).getString(0)),
-						(new JSONArray(route.getString("stops")).getString(1)),
+						(new JSONArray(route.getString("names")).getString(0)),
+						(new JSONArray(route.getString("names")).getString(1)),
 						(new JSONArray(route.getString("time")).getString(0)),
 						(new JSONArray(route.getString("time")).getString(1)),
 						"bus"
@@ -208,6 +207,12 @@ class TransitContent {
 	public static void addItem(TransitItem item) {
 		ITEMS.add(item);
 		ITEM_MAP.put(item.endTime, item);
+	}
+	public static void resetItems(){
+		final List<TransitItem> ITEMS = new ArrayList<TransitItem>();
+
+
+		final Map<String, TransitItem> ITEM_MAP = new HashMap<String, TransitItem>();
 	}
 
 

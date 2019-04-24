@@ -159,8 +159,7 @@ class Transit(Resource):
 								  & set([x for n in stops_arr["dest"] for x in stops_arr["dest"][n]])))}
 
 		travel = {"routes":[], "total":[]}
-		#		time_cur = datetime.datetime.today().time()
-		time_cur = datetime.datetime.strptime("13:00", "%H:%M")
+		time_cur = datetime.datetime.today().time()
 
 		if len(one_bus) > 0:
 			for i in one_bus:
