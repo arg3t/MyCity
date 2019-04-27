@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.google.zxing.WriterException;
 
+import com.google.zxing.WriterException;
 import org.json.JSONException;
 
 import gq.yigit.mycity.tools.QRCodeGenerator;
@@ -46,8 +46,9 @@ public class QRFragment extends Fragment {
 	                         Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_qr, container, false);
 		qr_view = rootView.findViewById(R.id.qr_image);
+
 		try {
-			qr_img = QRCodeGenerator.Generate(MainActivity.userData.getString("id"),429,429);
+			qr_img = QRCodeGenerator.Generate(MainActivity.userData.getString("id"),1080,1080);
 			qr_view.setImageBitmap(qr_img);
 		}catch(JSONException e){
 			Log.e("[ERROR]","JSON error occured while generating qr code!");

@@ -1,7 +1,9 @@
 package gq.yigit.mycity.utility;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.ceylonlabs.imageviewpopup.ImagePopup;
+import com.google.zxing.WriterException;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
@@ -17,6 +24,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import gq.yigit.mycity.MainActivity;
 import gq.yigit.mycity.R;
 import gq.yigit.mycity.tools.FileActions;
+import gq.yigit.mycity.tools.QRCodeGenerator;
 import gq.yigit.mycity.tools.WebRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +36,14 @@ public class UtilityElectricity extends Fragment implements WebRequest.responseL
 
 	private JSONObject electricityUsage;
 	private GraphView graph;
+
+	private TextView bill;
+	private TextView points;
+	private TextView efficiency;
+
+	private Button qr_view;
+	private Button pay_bill;
+
 
 	private OnFragmentInteractionListener mListener;
 
@@ -53,6 +69,44 @@ public class UtilityElectricity extends Fragment implements WebRequest.responseL
 		// Inflate the layout for this fragment
 		View rootView = inflater.inflate(R.layout.fragment_utility_electricity, container, false);;
 		graph = (GraphView) rootView.findViewById(R.id.utility_graph);
+
+		points = rootView.findViewById(R.id.points_utility_electricity);
+		bill = rootView.findViewById(R.id.bill_utility_electricity);
+		efficiency = rootView.findViewById(R.id.efficiency_utility_electricity);
+
+		pay_bill = rootView.findViewById(R.id.pay_bill_electricity);
+		qr_view = rootView.findViewById(R.id.use_point_electricity);
+
+		pay_bill.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Toast.makeText(getContext(),"Bills paid successfully!",Toast.LENGTH_LONG).show();
+			}
+		});
+
+
+
+		final ImagePopup imagePopup = new ImagePopup(getContext());
+		imagePopup.setWindowHeight(712); // Optional
+		imagePopup.setWindowWidth(712); // Optional
+		imagePopup.setBackgroundColor(Color.WHITE);  // Optional
+		imagePopup.setFullScreen(true); // Optional
+		imagePopup.setImageOnClickClose(true);  // Optional
+		try {
+			imagePopup.initiatePopup(new BitmapDrawable(QRCodeGenerator.Generate(MainActivity.userData.getString("id"), 712, 712)));
+		}catch (JSONException e){
+			Log.e("[ERROR]","Cannot get user id");
+		}catch (WriterException e){
+			Log.e("[ERROR]","Writer exception occured");
+		}
+
+		qr_view.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				imagePopup.viewPopup();
+
+			}
+		});
 
 
 		StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
@@ -129,6 +183,10 @@ public class UtilityElectricity extends Fragment implements WebRequest.responseL
 				series2.setColor(Color.RED);
 				graph.addSeries(series);
 				graph.addSeries(series2);
+
+				points.setText(String.valueOf(((Double)electricityUsage.get("points")).intValue()));
+				bill.setText(String.valueOf(((Double)electricityUsage.get("bill")).intValue()));
+				efficiency.setText(String.valueOf(((Double)electricityUsage.get("efficiency")).intValue()));
 
 			}catch (JSONException e){
 				Log.e("[ERROR]","Cannot interpret response from electric service");

@@ -63,7 +63,7 @@ def time_diff(t1, t2):
 		if time2.minute - time1.minute >= 0:
 			response += str(abs(time2.hour - time1.hour))
 		else:
-			response += str(abs(time2.hour - time1.hour) - 1)
+			response += str(abs(abs(time2.hour - time1.hour)-1))
 
 	response += ":"
 
@@ -178,7 +178,7 @@ class Transit(Resource):
 								"http://88.255.141.66/mbl/android/action.asp?SID=0.8737969480190279&VER=3.1.0&LAN=tr"
 								"&UID"
 								"=%7BACB78701-2727-4E9A-AE62-28491D671A7D%7D-130570234&FNC=HatBilgileri",
-								"KOD={}".format(routes_arr["user"][j.strip()]))["data"][0]["table_durak"]
+								"KOD={}".format(j.strip()))["data"][0]["table_durak"]
 						bus_json["stops"][j.strip()] = [x["kod"] for x in stops]
 						routes_arr["user"][j.strip()] = bus_json["stops"][j.strip()]
 						for x in stops:
@@ -200,7 +200,7 @@ class Transit(Resource):
 								"http://88.255.141.66/mbl/android/action.asp?SID=0.8737969480190279&VER=3.1.0&LAN=tr"
 								"&UID"
 								"=%7BACB78701-2727-4E9A-AE62-28491D671A7D%7D-130570234&FNC=HatBilgileri",
-								"KOD={}".format(routes_arr["dest"][j.strip()]))["data"][0]["table_durak"]
+								"KOD={}".format(j.strip()))["data"][0]["table_durak"]
 						bus_json["stops"][j.strip()] = [x["kod"] for x in stops]
 						routes_arr["dest"][j.strip()] = bus_json["stops"][j.strip()]
 						for x in stops:
@@ -307,11 +307,17 @@ class Transit(Resource):
 			travel["routes"].pop(i)
 
 
+		if change:
+			bus_data = open("modules/databases/bus.json", "w")
+			bus_data.write(json.dumps(bus_json, indent=4, sort_keys=True))
+			bus_data.close()
 
 		for route in travel["routes"]:
 			start = route[0]["time"][0]
 			end = route[-1]["time"][1]
 			diff = time_diff(start, end)
+			print (route)
+			print (diff)
 			diff = time_sum(diff, time_diff(time_cur.strftime("%H:%M"), start))
 			diff = time_sum(diff, "00:05")
 			travel["total"].append(diff)

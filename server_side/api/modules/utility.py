@@ -18,7 +18,7 @@ class Resources(Resource):
     def post(self):
         """
         POST Data:
-        user_id=<id>&type=<electricity|water>&bill=<bill>
+        user_id=<id>&type=<electricity|water>
         :return:
         """
         user = utils.find_by_id(users.values(), request.form['user_id'])
@@ -32,7 +32,7 @@ class Resources(Resource):
 
             point = 10 - (sum_diff * 0.0001)
             eff = point * 10
-            bill = (int(request.form['bill']) * eff)/100
+            bill = ( user['electricity_bill'] * eff)/100
             return {
                 'daily_electricity_usage': usage,
                 'ideal_electricity_usage': ideal,
@@ -51,7 +51,7 @@ class Resources(Resource):
 
             point = 10 - (sum_diff * 0.0001)
             eff = point * 10
-            bill = (int(request.form['bill']) * eff)/100
+            bill = (user['water_bill'] * eff)/100
 
             return {
                 'daily_water_usage': usage,

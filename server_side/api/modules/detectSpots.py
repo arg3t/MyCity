@@ -1,13 +1,30 @@
-import xml.etree.ElementTree as ET
 import cv2
 import numpy as np
-import os
 import json
 from pysolar.solar import *
 from datetime import datetime
 
 
-	
+def generateAvg(locs,img,avgs):
+	time = datetime.strptime( "2019-04-27 17:52:00 -0300","%Y-%m-%d %H:%M:%S %z")
+	altitude = int(get_altitude(39.9127938,32.8073577,time))
+
+	loc_images = {}
+
+
+
+	for i in locs:
+		temp = locs[i]
+
+		crop_img = img[temp["y1"]:temp["y2"], temp["x1"]:temp["x2"]]
+
+		loc_images[i]=[crop_img]
+
+	vals = []
+	if altitude in avgs:
+		vals = avgs[altitude]
+
+
 	
 def timeAverage():
 	data_file = open("data.json","r")
@@ -25,8 +42,8 @@ def timeAverage():
 	data_file = open("data.json","w")
 	data_file.write(json.dumps(averages))
 	for key in averages:
-		time = datetime.strptime(averages[key]["date"] + " " + averages[key]["time"] + " -0300","%Y-%m-%d %H:%M:%S %z")
-		altitude = int(get_altitude(-25.4269081,-49.3318036,time))
+		time = datetime.strptime( "2019-04-27 17:52:00 -0300","%Y-%m-%d %H:%M:%S %z")
+		altitude = int(get_altitude(39.9127938,32.8073577,time))
 		altitudes[averages[key]["date"] + " " + averages[key]["time"] ] = altitude
 		if not (altitude in timely):
 			timely[altitude] = {}
@@ -71,30 +88,9 @@ def generateData(locations,image,show,averages):
 	for i in locations:
 		temp = locations[i]
 
-		pts = np.array([[int(temp[0]['x']),int(temp[0]['y'])],
-						[int(temp[1]['x']),int(temp[1]['y'])],
-						[int(temp[2]['x']),int(temp[2]['y'])],
-						[int(temp[3]['x']),int(temp[3]['y'])]])
+		crop_img = image[temp["y1"]:temp["y2"], temp["x1"]:temp["x2"]]
 
-		rect = cv2.boundingRect(pts)
-		x,y,w,h = rect
-		croped = image[y:y+h, x:x+w].copy()
-
-		pts = pts - pts.min(axis=0)
-
-		mask = np.zeros(croped.shape[:2], np.uint8)
-		cv2.drawContours(mask, [pts], -1, (255, 255, 255), -1, cv2.LINE_AA)
-
-		dst = cv2.bitwise_and(croped, croped, mask=mask)
-		bg = np.ones_like(croped, np.uint8)*255
-		cv2.bitwise_not(bg,bg, mask=mask)
-		dst2 = bg+ dst
-
-		split_len = len(dst2)//3
-
-		splitted = [dst2[:split_len,:],dst2[split_len:split_len*2,:],dst2[split_len*2:,:]]
-
-		loc_images[i]=[dst2]
+		loc_images[i]=[crop_img]
 
 
 
@@ -108,8 +104,6 @@ def generateData(locations,image,show,averages):
 			rgb = ["b","g","r"]
 			for col in loc_images[lot][i]:
 				for pix in col:
-					if (pix == [255,255,255]).all():
-						continue
 					different = False
 					print("[",end="")
 					for j in range(3):

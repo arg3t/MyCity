@@ -40,7 +40,9 @@
       return color;
     }
 
-    $.get("https://127.0.0.1:5000/votings", function(data, status){
+    $.get("https://127.0.0.1:5000/votings", function(dataStr, status){
+
+        data = $.parseJSON(dataStr)
         if (status == "success") {
             data.forEach(function(element) {
                 var a = document.createElement('a');
@@ -55,7 +57,8 @@
     });
 
     function graph(id) {
-        $.get("https://127.0.0.1:5000/votings/" + id, function(data, status){
+        $.get("https://127.0.0.1:5000/votings/" + id, function(dataStr, status){
+            data = $.parseJSON(dataStr)
             if (status == "success") {
                 config["data"]["datasets"][0]["label"] = data["name"]
                 config["data"]["datasets"][0]["data"] = []
