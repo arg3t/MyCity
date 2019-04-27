@@ -4,7 +4,7 @@ import json
 
 from api.modules import utils
 
-from flask import Flask, request
+from flask import Flask, request, Response
 from flask_restful import Resource, Api, abort
 
 app = Flask(__name__)
@@ -21,7 +21,8 @@ with open(user_db, 'r') as f:
 
 class Ratings(Resource):
     def get(self):
-        return [
+
+        resp = Response(json.dumps([
             {
                 'id'  : v['id'],
                 'name': v['name'],
@@ -29,7 +30,10 @@ class Ratings(Resource):
                 'img' : v['img']
             }
             for v in ratings
-        ]
+        ]))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+
+        return resp
 
     def post(self):
         """
@@ -85,7 +89,11 @@ class Ratings(Resource):
 class Rating(Resource):
     def get(self, rating_id):
         try:
-            return ratings[rating_id - 1]
+            resp = Response(json.dumps(ratings[rating_id - 1]))
+            resp.headers['Access-Control-Allow-Origin'] = '*'
+
+            return resp
+
         except:
             abort(404, error="Rating {} doesn't exist".format(rating_id))
 

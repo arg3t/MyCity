@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort,Response
 from multiprocessing import Process
 
 import requests
@@ -28,13 +28,19 @@ qr_reader = Reader()
 def set_data():
 	global user
 	user = json.loads(request.form['data'])
-	return ''
+	resp = Response("OK")
+	resp.headers['Access-Control-Allow-Origin'] = '*'
+	return resp
 
 @app.route('/get')
 def get_qr():
 	if user == {}:
 		abort(404)
-	return jsonify(user)
+
+	resp = Response(json.dumps(user))
+	resp.headers['Access-Control-Allow-Origin'] = '*'
+
+	return resp
 
 
 app.run(host='0.0.0.0', port=3000)

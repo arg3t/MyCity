@@ -33,13 +33,15 @@
     <script>
         setInterval(function() {
             $.get("http://127.0.0.1:3000/get", function(data, status){
+                userData = $.parseJSON(data)
                 if (status == "success") {
-                    document.getElementById("userpic").src = "https://0.0.0.0:5000" + data["avatar"];
-                    document.getElementById("name").innerHTML = data["realname"];
-                    document.getElementById("tc").innerHTML = data["TC"];
-                    document.getElementById("health").innerHTML = data["health"].join(", ");
-                    document.getElementById("number").innerHTML = data["tel"];
-                    document.getElementById("email").innerHTML = data["email"];
+                    console.log(data)
+                    document.getElementById("userpic").src = "https://0.0.0.0:5000" + userData["avatar"];
+                    document.getElementById("name").innerHTML = userData["realname"];
+                    document.getElementById("tc").innerHTML = userData["TC"];
+                    document.getElementById("health").innerHTML = userData["health"].join(", ");
+                    document.getElementById("number").innerHTML = userData["tel"];
+                    document.getElementById("email").innerHTML = userData["email"];
                 }
             });
         }, 2000);

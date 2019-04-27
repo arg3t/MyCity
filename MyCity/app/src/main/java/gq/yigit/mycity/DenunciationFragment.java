@@ -2,6 +2,7 @@ package gq.yigit.mycity;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -28,6 +29,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,7 +51,9 @@ public class DenunciationFragment extends Fragment implements WebRequest.respons
 	private EditText note;
 	private Bitmap img;
 	private ImageButton img_button;
-	private static final int CAMERA_REQUEST = 1888;
+	private static final int CAMERA_REQUEST = 100;
+
+	private Uri mImageUri;
 
 	public DenunciationFragment() {
 	}
@@ -72,12 +76,12 @@ public class DenunciationFragment extends Fragment implements WebRequest.respons
 
 
 
+
+
 		View rootView = inflater.inflate(R.layout.fragment_denunciation, container, false);
 		FileActions file_manager = new FileActions();
 		url = file_manager.readFromFile(getContext(),"server.config").trim();
 		activity=this;
-
-
 
 		submit = rootView.findViewById(R.id.denunciation_submit);
 		note = (EditText) rootView.findViewById(R.id.denunciation_text);
@@ -85,9 +89,11 @@ public class DenunciationFragment extends Fragment implements WebRequest.respons
 		spinner = rootView.findViewById(R.id.denunciation_spinner);
 
 		if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-			img_button.setEnabled(false);
 			ActivityCompat.requestPermissions(getActivity(), new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
 		}
+
+
+
 
 		submit.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -117,14 +123,27 @@ public class DenunciationFragment extends Fragment implements WebRequest.respons
 				request.execute();
 			}
 		});
-
 		img_button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				File photo;
+				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-					Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-					startActivityForResult(cameraIntent, CAMERA_REQUEST);
-
+				try
+				{
+					// place where to store camera taken picture
+					photo = createTemporaryFile("picture", ".jpg");
+					photo.delete();
+					Uri mImageUri = Uri.fromFile(photo);
+				}
+				catch(Exception e)
+				{
+					Log.v("[ERROR]", "Can't create file to take picture!");
+					Toast.makeText(getContext(), "Please check SD card! Image shot is impossible!", Toast.LENGTH_LONG);
+				}
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
+				//start camera intent
+				activity.startActivityForResult(intent, CAMERA_REQUEST);
 			}
 		});
 
@@ -156,6 +175,17 @@ public class DenunciationFragment extends Fragment implements WebRequest.respons
 		if (mListener != null) {
 			mListener.onFragmentInteraction(uri);
 		}
+	}
+
+	private File createTemporaryFile(String part, String ext) throws Exception
+	{
+		File tempDir= Environment.getExternalStorageDirectory();
+		tempDir=new File(tempDir.getAbsolutePath()+"/.temp/");
+		if(!tempDir.exists())
+		{
+			tempDir.mkdirs();
+		}
+		return File.createTempFile(part, ext, tempDir);
 	}
 
 	@Override
@@ -232,6 +262,20 @@ public class DenunciationFragment extends Fragment implements WebRequest.respons
 	}
 
 
+	//called after camera intent finished
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		//MenuShootImage is user defined menu option to shoot image
+		if(requestCode==CAMERA_REQUEST && resultCode==RESULT_OK)
+		{
+			Bitmap photo = (Bitmap) data.getExtras().get("data");
+			img = photo;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 		if (requestCode == 0) {
@@ -241,9 +285,5 @@ public class DenunciationFragment extends Fragment implements WebRequest.respons
 			}
 		}
 	}
-
-
-
-
 
 }

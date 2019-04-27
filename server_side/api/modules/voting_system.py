@@ -4,7 +4,7 @@ import json
 
 from api.modules import utils
 
-from flask import Flask, request
+from flask import Flask, request,Response
 from flask_restful import Resource, Api, abort
 
 app = Flask(__name__)
@@ -20,6 +20,7 @@ with open(user_db, 'r') as f:
 
 class Votings(Resource):
     def get(self):
+
         voting = [
             {
                 'id'  : v['id'],
@@ -29,7 +30,11 @@ class Votings(Resource):
             }
             for v in votings
         ]
-        return voting
+
+        resp = Response(json.dumps(voting))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+
+        return resp
 
     def post(self):
         """
@@ -78,8 +83,10 @@ class Voting(Resource):
         try:
             voting = copy.deepcopy(votings[voting_id - 1])
             del voting['voters']
+            resp = Response(json.dumps(voting))
+            resp.headers['Access-Control-Allow-Origin'] = '*'
 
-            return voting
+            return resp
         except:
             abort(404, error="Voting {} doesn't exist".format(voting_id))
 

@@ -120,16 +120,10 @@ public class RateFragment extends Fragment implements WebRequest.responseListene
 				}
 			}
 		});
+		
 
-		if ( ContextCompat.checkSelfPermission( cntxt, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-			ActivityCompat.requestPermissions(MainActivity.mainActivity, new String[] {  Manifest.permission.ACCESS_FINE_LOCATION  },1);
-		}
-
-		LocationManager locationManager = (LocationManager)
-				getContext().getSystemService(cntxt.LOCATION_SERVICE);
-		Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		String longitude = String.valueOf(loc.getLongitude());
-		String latitude = String.valueOf(loc.getLatitude());
+		String latitude  = "39.9127897";
+		String longitude = "32.8073577";
 
 		FileActions file_manager = new FileActions();
 		url = file_manager.readFromFile(cntxt,"server.config").trim();
@@ -223,7 +217,7 @@ public class RateFragment extends Fragment implements WebRequest.responseListene
 	private void downloadImg(int i) throws JSONException {
 		ImageDownload downloader = new ImageDownload();
 		downloader.addListener(this);
-		downloader.execute(url + ((JSONObject) ratings.get(i)).get("type"));
+		downloader.execute(url + ((JSONObject) ratings.get(i)).get("img"));
 	}
 
 

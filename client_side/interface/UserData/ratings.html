@@ -7,7 +7,8 @@
 </head>
 <body>
 <script>
-    $.get("https://127.0.0.1:5000/ratings", function(data, status){
+    $.get("https://127.0.0.1:5000/ratings", function(dataStr, status){
+        data = $.parseJSON(dataStr)
         if (status == "success") {
             data.forEach(function(element) {
                 var a = document.createElement('a');
@@ -22,7 +23,8 @@
     });
 
     function results(id) {
-        $.get("https://127.0.0.1:5000/ratings/" + id, function(data, status){
+        $.get("https://127.0.0.1:5000/ratings/" + id, function(dataStr, status){
+            data = $.parseJSON(dataStr)
             if (status == "success") {
                 var results = document.getElementById("results")
                 results.innerHTML = '';

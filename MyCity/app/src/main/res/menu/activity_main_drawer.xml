@@ -35,6 +35,11 @@
 					android:id="@+id/denunciation"
 					android:icon="@drawable/denunciation"
 					android:title="Denunciation"/>
+
+			<item
+					android:id="@+id/qr_code"
+					android:icon="@drawable/qr_code"
+					android:title="QR Code"/>
 		</menu>
 	</item>
 

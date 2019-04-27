@@ -102,7 +102,7 @@ public class TransitFragment extends Fragment implements WebRequest.responseList
 		place_name = rootView.findViewById(R.id.place_name);
 		recyclerView = rootView.findViewById(R.id.route_view);
 		try {
-			latitude	 = "39.9127897";
+			latitude  = "39.9127897";
 			longitude = "32.8073577";
 
 		}catch (SecurityException e){

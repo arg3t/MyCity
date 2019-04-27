@@ -1,0 +1,1 @@
+def getVals(img,loc):
