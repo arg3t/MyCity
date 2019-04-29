@@ -101,11 +101,16 @@ public class DenunciationFragment extends Fragment implements WebRequest.respons
 				HashMap<String,String> args = new HashMap<>();
 				try {
 					args.put("id", MainActivity.userData.getString("id"));
-				}catch (JSONException e){}
-				args.put("emergency",emergency);
+				}catch (JSONException e) {}
+				String latitude  = "39.9127897";
+				String longitude = "32.8073577";
+				args.put("latitude", latitude);
+				args.put("longitude", longitude);
 
-				args.put("note",note.getText().toString());
-				args.put("accepted","false");
+				args.put("emergency", emergency);
+
+				args.put("note", note.getText().toString());
+				args.put("accepted", "false");
 
 				if(img != null) {
 					ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -228,7 +233,12 @@ public class DenunciationFragment extends Fragment implements WebRequest.respons
 							try {
 								args.put("id", MainActivity.userData.getString("id"));
 							}catch (JSONException e){}
-							args.put("emergency",emergency);
+
+							String latitude  = "39.9127897";
+							String longitude = "32.8073577";
+							args.put("latitude", latitude);
+							args.put("longitude", longitude);
+							args.put("emergency", emergency);
 
 							args.put("note",note.getText().toString());
 							if(img != null) {

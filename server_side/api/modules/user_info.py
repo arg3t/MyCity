@@ -5,7 +5,7 @@ import base64
 
 from api.modules import utils
 
-from flask import Flask, request
+from flask import Flask, request, Response
 from flask_restful import Resource, Api, abort
 
 app = Flask(__name__)
@@ -55,7 +55,9 @@ class User(Resource):
             if not user:
                 raise Exception('User not found!')
             del user['password']
-            return user
+            resp = Response(json.dumps(user))
+            resp.headers['Access-Control-Allow-Origin'] = '*'
+            return resp
         except:
             abort(404, error="User {} doesn't exist".format(user_id))
 
