@@ -5,7 +5,7 @@ import base64
 
 from api.modules import utils
 
-from flask import Flask, request
+from flask import Flask, request, Response
 from flask_restful import Resource, Api, abort
 
 app = Flask(__name__)
@@ -55,7 +55,9 @@ class User(Resource):
             if not user:
                 raise Exception('User not found!')
             del user['password']
-            return user
+            resp = Response(json.dumps(user))
+            resp.headers['Access-Control-Allow-Origin'] = '*'
+            return resp
         except:
             abort(404, error="User {} doesn't exist".format(user_id))
 
@@ -80,6 +82,23 @@ class Login(Resource):
             return [True, json.dumps(user)]
         else:
             return [False, {}]
+
+
+class ReducePoints(Resource):
+    def post(self):
+            user_id = request.form['id']
+            user = utils.find_by_id(users.values(), user_id)
+            if user:
+                username = ''
+                for k, v in users.items():
+                    if user_id == v['id']:
+                        username = k
+
+                users[username]['points'] -= request.form['reduce']
+                with open(db_path, 'w') as f:
+                    json.dump(users, f, indent=4)
+            else:
+                abort(404, error="User {} doesn't exist".format(user_id))
 
 
 if __name__ == '__main__':

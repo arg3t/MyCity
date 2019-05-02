@@ -48,6 +48,11 @@
                       label: element["priority"].toString(),
                       title: element["info"]
                     });
+
+                    marker.addListener('click', function() {
+                        window.open(window.location.href.replace("denunciation_map", "denunciation_view") + "&id=" + element["id"]);
+
+                    });
                     markers.push(marker);
                 });
             }

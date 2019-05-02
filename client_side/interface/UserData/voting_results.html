@@ -5,11 +5,15 @@
     <title>Voting Results</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-    <div id="canvas-holder" style="width:40%">
+<div class="row">
+    <div class="col-md-6">
         <canvas id="voteResults"></canvas>
     </div>
+    <div class="col-md-6" id="res"></div>
+</div>
     <br>
     <script>
     var ctx = document.getElementById('voteResults').getContext('2d');
@@ -50,8 +54,8 @@
                 a.appendChild(linkText);
                 a.title = element["name"];
                 a.href = "javascript:graph(" + element["id"] + ");";
-                document.body.appendChild(a);
-                document.body.appendChild(document.createElement("br"));
+                document.getElementById("res").appendChild(a);
+                document.getElementById("res").appendChild(document.createElement("br"));
             });
         }
     });
