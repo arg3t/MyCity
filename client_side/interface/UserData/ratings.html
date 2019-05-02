@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <title>Ratings</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
+
+<div id="main" class="container">
+    <h1>Ratings</h1><br>
+</div>
+<br>
+<div id="results" class="container">
+</div>
 <script>
     $.get("https://127.0.0.1:5000/ratings", function(dataStr, status){
         data = $.parseJSON(dataStr)
@@ -16,8 +24,8 @@
                 a.appendChild(linkText);
                 a.title = element["name"];
                 a.href = "javascript:results(" + element["id"] + ");";
-                document.body.appendChild(a);
-                document.body.appendChild(document.createElement("br"));
+                document.getElementById("main").appendChild(a);
+                document.getElementById("main").appendChild(document.createElement("br"));
             });
         }
     });
@@ -28,13 +36,30 @@
             if (status == "success") {
                 var results = document.getElementById("results")
                 results.innerHTML = '';
+
                 for (var key in data["rates"]) {
-                    results.innerHTML += "<p>" + data["rates"][key]["note"] + "</p> " + data["rates"][key]["score"] + "/10 <br><br>"
+                    var blockquote = document.createElement('blockquote');
+                    blockquote.className = "blockquote text-right";
+
+                    var text = document.createElement('p');
+                    text.className = "mb-0";
+                    text.innerHTML = data["rates"][key]["note"] + '<br>' + data["rates"][key]["score"] + '/10';
+
+                    var by = document.createElement('footer');
+                    by.className = "blockquote-footer";
+
+                    $.get("https://127.0.0.1:5000/users/" + key, function(dataStr, status) {
+                        data = $.parseJSON(dataStr)
+                        by.innerHTML = data["realname"]
+                    });
+
+                    blockquote.appendChild(text);
+                    blockquote.appendChild(by);
+                    results.appendChild(blockquote);
                 }
             }
         });
     }
     </script>
-    <div id="results"></div>
 </body>
 </html>

@@ -24,7 +24,7 @@ if __name__ == '__main__':
     api.add_resource( user_info.Users, '/users', '/users/' )
     api.add_resource( user_info.User, '/users/<path:user_id>', '/users/<path:user_id>/' )
     api.add_resource( user_info.Login, '/login', '/login/' )
-
+    api.add_resource(user_info.ReducePoints, '/reduce', '/reduce/')
 
     api.add_resource(utility.Resources, '/resources', '/resources/')
 

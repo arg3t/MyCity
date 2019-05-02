@@ -84,6 +84,23 @@ class Login(Resource):
             return [False, {}]
 
 
+class ReducePoints(Resource):
+    def post(self):
+            user_id = request.form['id']
+            user = utils.find_by_id(users.values(), user_id)
+            if user:
+                username = ''
+                for k, v in users.items():
+                    if user_id == v['id']:
+                        username = k
+
+                users[username]['points'] -= request.form['reduce']
+                with open(db_path, 'w') as f:
+                    json.dump(users, f, indent=4)
+            else:
+                abort(404, error="User {} doesn't exist".format(user_id))
+
+
 if __name__ == '__main__':
     api.add_resource(Users, '/users', '/users/')
     api.add_resource(User, '/users/<path:user_id>', '/users/<path:user_id>/')
