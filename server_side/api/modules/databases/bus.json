@@ -1,5 +1,11 @@
 {
     "stop_info": {
+        "10793": {
+            "lat": "39.914225",
+            "lng": "32.802816",
+            "location": "S\u00f6\u00f0\u00fct\u00f6z\u00fc Mh.AK Parti Genel Merkezi \u00c7ankaya",
+            "name": "AK PART\u00dd GENEL MERKEZ\u00dd"
+        },
         "10816": {
             "lat": "39.896528",
             "lng": "32.797318",
@@ -18,11 +24,29 @@
             "location": "Oran Mh.Z\u00fclf\u00fc Ti\u00f0rel Cd.\u00c7ankaya",
             "name": "PANORA AVM"
         },
+        "11622": {
+            "lat": "39.923445",
+            "lng": "32.854625",
+            "location": "Cumhuriyet Mh.Atat\u00fcrk Blv.\u00c7ankaya",
+            "name": "KIZILAY"
+        },
+        "12230": {
+            "lat": "39.921123",
+            "lng": "32.856224",
+            "location": "Cumhuriyet Mh.Ziya G\u00f6kalp Cd.\u00c7ankaya",
+            "name": "KIZILAY"
+        },
         "12626": {
             "lat": "39.911645",
             "lng": "32.810836",
             "location": "K\u00fdz\u00fdl\u00fdrmak Mh.Eski\u00feehir Yolu \u00c7ankaya",
             "name": "ARMADA"
+        },
+        "13249": {
+            "lat": "39.918273",
+            "lng": "32.854017",
+            "location": "Devlet Mh.Mh.Atat\u00fcrk Blv.\u00c7ankaya",
+            "name": "G\u00dcVENPARK"
         },
         "13250": {
             "lat": "39.824533",
@@ -30,17 +54,587 @@
             "location": "Ta\u00fep\u00fdnar Mh.Mh.Ankara TED Koleji G\u00f6lba\u00fe\u00fd",
             "name": "OPTOWN KONUTLARI"
         },
+        "13862": {
+            "lat": "39.827593",
+            "lng": "32.849096",
+            "location": "-",
+            "name": "EYM\u00ddR G\u00d6L\u00dc"
+        },
+        "21087": {
+            "lat": "39.987928",
+            "lng": "32.86562",
+            "location": "Tepeba\u00fe\u00fd Mh.Fatih Cd.Ke\u00e7i\u00f6ren",
+            "name": "TIP MERKEZ\u00dd"
+        },
+        "30005": {
+            "lat": "39.92962",
+            "lng": "32.854884",
+            "location": "Hacettepe Mh.Atat\u00fcrk Blv.Alt\u00fdnda\u00f0",
+            "name": "SIHH\u00ddYE"
+        },
+        "30017": {
+            "lat": "39.936719",
+            "lng": "32.858826",
+            "location": "Anafartalar Mh.Denizciler Cd.Alt\u00fdnda\u00f0",
+            "name": "YE\u00d0ENBEY VERG\u00dd DA\u00ddRES\u00dd"
+        },
+        "30018": {
+            "lat": "39.934507",
+            "lng": "32.859191",
+            "location": "Anafartalar Mh.Adnan Saygun Cd.Alt\u00fdnda\u00f0",
+            "name": "DEN\u00ddZC\u00ddLER"
+        },
+        "30037": {
+            "lat": "39.941741",
+            "lng": "32.856443",
+            "location": "Anafartalar Mh.Anafartalar Cd.Alt\u00fdnda\u00f0",
+            "name": "ANAFARTALAR"
+        },
+        "30055": {
+            "lat": "39.924805",
+            "lng": "32.863067",
+            "location": "Fidanl\u00fdk Mh.Ziya G\u00f6kalp Cd.\u00c7ankaya",
+            "name": "KOLEJ"
+        },
+        "30056": {
+            "lat": "39.933706",
+            "lng": "32.863895",
+            "location": "Hacettepe Mh.Talatpa\u00fea Blv.Alt\u00fdnda\u00f0",
+            "name": "TACETT\u00ddN DERGAHI"
+        },
+        "30063": {
+            "lat": "39.926987",
+            "lng": "32.866108",
+            "location": "Fidanl\u00fdk Mh.Ziya G\u00f6kalp Cd.\u00c7ankaya",
+            "name": "KURTULU\u00de PARKI"
+        },
+        "30067": {
+            "lat": "39.933306",
+            "lng": "32.868429",
+            "location": "Hacettepe Mh.Talatpa\u00fea Blv.Alt\u00fdnda\u00f0",
+            "name": "ZEKA\u00dd TAH\u00ddR BURAK HASTANES\u00dd"
+        },
+        "30069": {
+            "lat": "39.928678",
+            "lng": "32.869435",
+            "location": "\u00c7aml\u00fdtepe Mh.Cemal G\u00fcrsel Cd.\u00c7ankaya",
+            "name": "KURTULU\u00de"
+        },
+        "30071": {
+            "lat": "39.93367",
+            "lng": "32.871035",
+            "location": "Hacettepe Mh.Talatpa\u00fea Blv.Alt\u00fdnda\u00f0",
+            "name": "CEBEC\u00dd"
+        },
+        "30073": {
+            "lat": "39.92969",
+            "lng": "32.872697",
+            "location": "Fak\u00fclteler Mh.Cemal G\u00fcrsel Cd.\u00c7ankaya",
+            "name": "S\u00ddYASAL"
+        },
+        "30114": {
+            "lat": "39.934774",
+            "lng": "32.886561",
+            "location": "Balkiraz Mh.Mamak Cd.Mamak",
+            "name": "TIP FAK\u00dcLTES\u00dd"
+        },
+        "30115": {
+            "lat": "39.931152",
+            "lng": "32.87535",
+            "location": "Fak\u00fclteler Mh.Cemal G\u00fcrsel Cd.\u00c7ankaya",
+            "name": "CEBEC\u00dd"
+        },
+        "30119": {
+            "lat": "39.934016",
+            "lng": "32.877553",
+            "location": "Cebeci Mh.Talatpa\u00fea Blv.\u00c7ankaya",
+            "name": "D\u00ddK\u00ddMEV\u00dd"
+        },
+        "30122": {
+            "lat": "39.932803",
+            "lng": "32.878214",
+            "location": "Cebeci Mh.Cemal G\u00fcrsel Cd.\u00c7ankaya",
+            "name": "D\u00ddK\u00ddMEV\u00dd"
+        },
+        "30126": {
+            "lat": "39.934159",
+            "lng": "32.880981",
+            "location": "Demirlibah\u00e7e Mh.Mamak Cd.Mamak",
+            "name": "D\u00ddK\u00ddMEV\u00dd"
+        },
+        "30129": {
+            "lat": "39.934731",
+            "lng": "32.882928",
+            "location": "Balkiraz Mh.Mamak Cd.Mamak",
+            "name": "ANKARA TIP FAK\u00dcLTES\u00dd"
+        },
+        "30137": {
+            "lat": "39.934891",
+            "lng": "32.885125",
+            "location": "Demirlibah\u00e7e Mh.Mamak Cd.Mamak",
+            "name": "TIP FAK\u00dcLTES\u00dd"
+        },
+        "30143": {
+            "lat": "39.935757",
+            "lng": "32.889166",
+            "location": "\u00deafaktepe Mh.Mamak Cd.Mamak",
+            "name": "\u00deEH\u00ddTL\u00ddK"
+        },
+        "30146": {
+            "lat": "39.935847",
+            "lng": "32.889723",
+            "location": "Balkiraz Mh.Mamak Cd.Mamak",
+            "name": "\u00deEH\u00ddTL\u00ddK"
+        },
+        "30301": {
+            "lat": "39.921614",
+            "lng": "32.927954",
+            "location": "Derbent Mh.19 May\u00fds Blv.Mamak",
+            "name": "DUTLUK 2"
+        },
+        "30302": {
+            "lat": "39.921088",
+            "lng": "32.928036",
+            "location": "Dutluk Mh.19 May\u00fds Blv.Mamak",
+            "name": "DUTLUK 2"
+        },
+        "30303": {
+            "lat": "39.913718",
+            "lng": "32.929322",
+            "location": "Durali Al\u00fd\u00e7 Mh.931.Sk.Mamak",
+            "name": "BO\u00d0AZ\u00dd\u00c7\u00dd MERKEZ CAM\u00dd\u00dd"
+        },
+        "30305": {
+            "lat": "39.919543",
+            "lng": "32.930769",
+            "location": "Dutluk Mh.19 May\u00fds Blv.Mamak",
+            "name": "BO\u00d0AZ\u00dd\u00c7\u00dd \u00deELALE"
+        },
+        "30306": {
+            "lat": "39.9195",
+            "lng": "32.931555",
+            "location": "Derbent Mh.19 May\u00fds Blv.Mamak",
+            "name": "BO\u00d0AZ\u00dd\u00c7\u00dd \u00deELALE"
+        },
+        "30307": {
+            "lat": "39.91682",
+            "lng": "32.932518",
+            "location": "Bo\u00f0azi\u00e7i Mh.872.Cd.Mamak",
+            "name": "BO\u00d0AZ\u00dd\u00c7\u00dd"
+        },
+        "30326": {
+            "lat": "39.885227",
+            "lng": "32.932446",
+            "location": "Ak\u00feemsettin Mh.Natoyolu Cd.Mamak",
+            "name": "NATA VEGA"
+        },
+        "30335": {
+            "lat": "39.891358",
+            "lng": "32.934212",
+            "location": "Ak\u00feemsettin Mh.Do\u00f0ukent Cd.Mamak",
+            "name": "NATA VEGA"
+        },
+        "30337": {
+            "lat": "39.894742",
+            "lng": "32.935842",
+            "location": "Ak\u00feemsettin Mh.Do\u00f0ukent Cd.Mamak",
+            "name": "DA\u00d0LICA \u00deEH\u00ddTLER\u00dd PARKI"
+        },
+        "30338": {
+            "lat": "39.89479",
+            "lng": "32.935495",
+            "location": "Durali Al\u00fd\u00e7 Mh.Da\u00f0l\u00fdca \u00deehitleri Park \u00dd\u00e7i Yolu Mamak",
+            "name": "DA\u00d0LICA \u00deEH\u00ddTLER\u00dd PARKI"
+        },
+        "30339": {
+            "lat": "39.897723",
+            "lng": "32.934735",
+            "location": "Durali Al\u00fd\u00e7 Mh.Do\u00f0ukent Cd.Mamak",
+            "name": "DO\u00d0UKENT"
+        },
+        "30346": {
+            "lat": "39.884633",
+            "lng": "32.934567",
+            "location": "Ak\u00feemsettin Mh.Do\u00f0ukent Cd.Mamak",
+            "name": "NATA VEGA 1.DURAK"
+        },
+        "30347": {
+            "lat": "39.892973",
+            "lng": "32.934957",
+            "location": "Ak\u00feemsettin Mh.Do\u00f0ukent Cd.Mamak",
+            "name": "EGE HAREKET NOKTASI"
+        },
+        "30355": {
+            "lat": "39.900313",
+            "lng": "32.937267",
+            "location": "Durali Al\u00fd\u00e7 Mh.Do\u00f0ukent Cd.Mamak",
+            "name": "AK\u00deEMSETT\u00ddN SA\u00d0LIK OCA\u00d0I"
+        },
+        "30356": {
+            "lat": "39.89968",
+            "lng": "32.932382",
+            "location": "Durali Al\u00fd\u00e7 Mh.972.Sk.Mamak",
+            "name": "MEHMET AK\u00ddF ERSOY CAM\u00dd\u00dd"
+        },
+        "30357": {
+            "lat": "39.91005",
+            "lng": "32.929159",
+            "location": "Durali Al\u00fd\u00e7 Mh.931.Sk.Mamak",
+            "name": "AHMET YESEV\u00dd ORTAOKULU"
+        },
+        "30358": {
+            "lat": "39.907463",
+            "lng": "32.92933",
+            "location": "Durali Al\u00fd\u00e7 Mh.931.Sk.Mamak",
+            "name": "DURAL\u00dd ALI\u00c7 MAHALLES\u00dd"
+        },
+        "30359": {
+            "lat": "39.904412",
+            "lng": "32.930672",
+            "location": "Durali Al\u00fd\u00e7 Mh.938.Cd.Mamak",
+            "name": "\u00deEH\u00ddT ERCAN UYGUN PARKI"
+        },
+        "30360": {
+            "lat": "39.902054",
+            "lng": "32.931366",
+            "location": "Durali Al\u00fd\u00e7 Mh.938.Cd.Mamak",
+            "name": "MUHAMMET EM\u00ddN CAM\u00dd\u00dd"
+        },
+        "30364": {
+            "lat": "39.907691",
+            "lng": "32.934854",
+            "location": "Ak\u00feemsettin Mh.1080.Cd.Mamak",
+            "name": "AK\u00deEMSETT\u00ddN K\u00d6M\u00dcR DEPOSU"
+        },
+        "30365": {
+            "lat": "39.905655",
+            "lng": "32.935209",
+            "location": "Ak\u00feemsettin Mh.1080.Cd.Mamak",
+            "name": "SU DEPOSU SON DURAK"
+        },
+        "30366": {
+            "lat": "39.911483",
+            "lng": "32.936592",
+            "location": "Ak\u00feemsettin Mh.1093.Sk.Mamak",
+            "name": "1093.SK."
+        },
+        "30367": {
+            "lat": "39.908561",
+            "lng": "32.936872",
+            "location": "Ak\u00feemsettin Mh.Do\u00f0ukent Cd.Mamak",
+            "name": "\u00c7AMLIK CAM\u00dd"
+        },
+        "30368": {
+            "lat": "39.906481",
+            "lng": "32.937268",
+            "location": "Ak\u00feemsettin Mh.Do\u00f0ukent Cd.Mamak",
+            "name": "DO\u00d0UKENT CD. 2"
+        },
+        "30369": {
+            "lat": "39.907479",
+            "lng": "32.929454",
+            "location": "Durali Al\u00fd\u00e7 Mh.931.Sk.Mamak",
+            "name": "DURAL\u00dd ALI\u00c7 MAHALLES\u00dd"
+        },
+        "30370": {
+            "lat": "39.904418",
+            "lng": "32.931",
+            "location": "Durali Al\u00fd\u00e7 Mh.938.Cd.Mamak",
+            "name": "\u00deEH\u00ddT ERCAN UYGUN PARKI"
+        },
+        "30371": {
+            "lat": "39.902087",
+            "lng": "32.931512",
+            "location": "Durali Al\u00fd\u00e7 Mh.938.Cd.Mamak",
+            "name": "MUHAMMET EM\u00ddN CAM\u00dd\u00dd"
+        },
+        "30372": {
+            "lat": "39.899731",
+            "lng": "32.932502",
+            "location": "Durali Al\u00fd\u00e7 Mh.972.Sk.Mamak",
+            "name": "MEHMET AK\u00ddF ERSOY CAM\u00dd\u00dd"
+        },
+        "30373": {
+            "lat": "39.906516",
+            "lng": "32.937555",
+            "location": "Ak\u00feemsettin Mh.Do\u00f0ukent Cd.Mamak",
+            "name": "DO\u00d0UKENT CD. 2"
+        },
+        "30374": {
+            "lat": "39.905659",
+            "lng": "32.935296",
+            "location": "Ak\u00feemsettin Mh.1080.Cd.Mamak",
+            "name": "SU DEPOSU SON DURAK"
+        },
+        "30376": {
+            "lat": "39.897696",
+            "lng": "32.934658",
+            "location": "Durali Al\u00fd\u00e7 Mh.Do\u00f0ukent Cd.Mamak",
+            "name": "976 SK. SON DURAK"
+        },
+        "30377": {
+            "lat": "39.897252",
+            "lng": "32.936314",
+            "location": "Ak\u00feemsettin Mh.Do\u00f0ukent Cd.Mamak",
+            "name": "DO\u00d0UKENT"
+        },
+        "30378": {
+            "lat": "39.900244",
+            "lng": "32.937604",
+            "location": "Ak\u00feemsettin Mh.Do\u00f0ukent Cd.Mamak",
+            "name": "AK\u00deEMSETT\u00ddN SA\u00d0LIK OCA\u00d0I"
+        },
         "30385": {
             "lat": "39.936234",
             "lng": "32.854455",
             "location": "Anafartalar Mh.Atat\u00fcrk Blv.Alt\u00fdnda\u00f0",
             "name": "OPERA"
         },
+        "30402": {
+            "lat": "39.940587",
+            "lng": "32.858793",
+            "location": "Anafartalar Mh.Anafartalar Cd.Alt\u00fdnda\u00f0",
+            "name": "ULUS HAL"
+        },
+        "30500": {
+            "lat": "39.936353",
+            "lng": "32.892172",
+            "location": "Balkiraz Mh.Mamak Cd.Mamak",
+            "name": "CEBEC\u00dd ANADOLU MESLEK L\u00ddSES\u00dd"
+        },
+        "30501": {
+            "lat": "39.93637",
+            "lng": "32.892507",
+            "location": "\u00deafaktepe Mh.Mamak Cd.Mamak",
+            "name": "CEBEC\u00dd ANADOLU MESLEK L\u00ddSES\u00dd"
+        },
+        "30503": {
+            "lat": "39.934946",
+            "lng": "32.896372",
+            "location": "Mehtap Mh.Mamak Cd.Mamak",
+            "name": "SA\u00ddME KADIN"
+        },
+        "30504": {
+            "lat": "39.935223",
+            "lng": "32.896391",
+            "location": "\u00deafaktepe Mh.Saimekad\u00fdn Park \u00dd\u00e7i Yolu Mamak",
+            "name": "SA\u00ddME KADIN"
+        },
+        "30640": {
+            "lat": "39.931308",
+            "lng": "32.908739",
+            "location": "\u00c7a\u00f0layan Mh.605.Sk.Mamak",
+            "name": "MAMAK BELED\u00ddYE"
+        },
+        "30646": {
+            "lat": "39.927441",
+            "lng": "32.914352",
+            "location": "Misket Mh.604.Sk.Mamak",
+            "name": "\u00deEH\u00ddT C\u00ddHAN YILDIZ \u00ddLKOKULU"
+        },
+        "30655": {
+            "lat": "39.929909",
+            "lng": "32.914224",
+            "location": "Misket Mh.604.Sk.Mamak",
+            "name": "\u00deEH\u00ddT C\u00ddHAN YILDIZ \u00ddLKOKULU"
+        },
+        "30657": {
+            "lat": "39.931495",
+            "lng": "32.910674",
+            "location": "Misket Mh.605.Sk.Mamak",
+            "name": "MAMAK BELED\u00ddYES\u00dd"
+        },
+        "30664": {
+            "lat": "39.933173",
+            "lng": "32.903839",
+            "location": "\u00c7a\u00f0layan Mh.Mamak Cd.Mamak",
+            "name": "PARK VAD\u00dd KONUTLARI"
+        },
+        "30665": {
+            "lat": "39.933054",
+            "lng": "32.903551",
+            "location": "\u00c7a\u00f0layan Mh.Mamak Cd.Mamak",
+            "name": "PARK VAD\u00dd KONUTLARI"
+        },
+        "30768": {
+            "lat": "39.916842",
+            "lng": "32.932449",
+            "location": "Bo\u00f0azi\u00e7i Mh.872.Cd.Mamak",
+            "name": "BO\u00d0AZ\u00dd\u00c7\u00dd"
+        },
+        "30770": {
+            "lat": "39.91368",
+            "lng": "32.929404",
+            "location": "Durali Al\u00fd\u00e7 Mh.931.Sk.Mamak",
+            "name": "BO\u00d0AZ\u00dd\u00c7\u00dd MERKEZ CAM\u00dd\u00dd"
+        },
+        "30771": {
+            "lat": "39.910069",
+            "lng": "32.929259",
+            "location": "Durali Al\u00fd\u00e7 Mh.931.Sk.Mamak",
+            "name": "AHMET YESEV\u00dd ORTAOKULU"
+        },
+        "30772": {
+            "lat": "39.913667",
+            "lng": "32.935719",
+            "location": "Bo\u00f0azi\u00e7i Mh.1080.Cd.Mamak",
+            "name": "SU DEPOSU"
+        },
+        "30773": {
+            "lat": "39.910767",
+            "lng": "32.93562",
+            "location": "Ak\u00feemsettin Mh.1080.Cd.Mamak",
+            "name": "MEVLANA CAM\u00dd\u00dd"
+        },
+        "30774": {
+            "lat": "39.907695",
+            "lng": "32.934945",
+            "location": "Ak\u00feemsettin Mh.1080.Cd.Mamak",
+            "name": "AK\u00deEMSETT\u00ddN K\u00d6M\u00dcR DEPOSU"
+        },
+        "30799": {
+            "lat": "39.927142",
+            "lng": "32.917177",
+            "location": "Misket Mh.617.Sk.Mamak",
+            "name": "\u00d6\u00d0RENC\u00dd YURDU"
+        },
+        "30804": {
+            "lat": "39.924688",
+            "lng": "32.922415",
+            "location": "Dutluk Mh.19 May\u00fds Blv.Mamak",
+            "name": "MAMAK K\u00d6PR\u00dc 2"
+        },
+        "30805": {
+            "lat": "39.925145",
+            "lng": "32.920556",
+            "location": "Derbent Mh.1259.Sk.Mamak",
+            "name": "MAMAK K\u00d6PR\u00dcS\u00dc"
+        },
+        "30806": {
+            "lat": "39.922835",
+            "lng": "32.925262",
+            "location": "Dutluk Mh.19 May\u00fds Blv.Mamak",
+            "name": "DUTLUK 1"
+        },
+        "30827": {
+            "lat": "39.926516",
+            "lng": "32.917114",
+            "location": "Misket Mh.Mh.616.Sk.Mamak",
+            "name": "\u00d6\u00d0RENC\u00dd YURDU"
+        },
+        "30921": {
+            "lat": "39.908557",
+            "lng": "32.937139",
+            "location": "\u00dcre\u00f0il Mh.Do\u00f0ukent Cd.Mamak",
+            "name": "\u00c7AMLIK CAM\u00dd\u00dd"
+        },
+        "30922": {
+            "lat": "39.911489",
+            "lng": "32.936673",
+            "location": "Ak\u00feemsettin Mh.1093.Sk.Mamak",
+            "name": "1093.SK."
+        },
+        "31056": {
+            "lat": "39.913664",
+            "lng": "32.935611",
+            "location": "Bo\u00f0azi\u00e7i Mh.1080.Cd.Mamak",
+            "name": "SU DEPOSU"
+        },
+        "31057": {
+            "lat": "39.91078",
+            "lng": "32.935489",
+            "location": "Bo\u00f0azi\u00e7i Mh.1080.Cd.Mamak",
+            "name": "MEVLANA CAM\u00dd\u00dd"
+        },
+        "31068": {
+            "lat": "39.904247",
+            "lng": "32.938224",
+            "location": "Ak\u00feemsettin Mh.Do\u00f0ukent Cd.Mamak",
+            "name": "\u00deEH\u00ddT MEKAN \u00deAH\u00ddN DEMOKRAS\u00dd PARKI"
+        },
+        "31069": {
+            "lat": "39.904226",
+            "lng": "32.937948",
+            "location": "Ak\u00feemsettin Mh.Do\u00f0ukent Cd.Mamak",
+            "name": "\u00deEH\u00ddT MEKAN \u00deAH\u00ddN DEMOKRAS\u00dd PARKI"
+        },
+        "31646": {
+            "lat": "39.884721",
+            "lng": "32.933555",
+            "location": "Ak\u00feemsettin Mh.Anatolium Mamak",
+            "name": "NATA VEGA"
+        },
+        "31699": {
+            "lat": "39.897439",
+            "lng": "32.935944",
+            "location": "Durali Al\u00fd\u00e7 Mh.Mh.Do\u00f0ukent Cd.Mamak",
+            "name": "DO\u00d0UKENT"
+        },
+        "31703": {
+            "lat": "39.885168",
+            "lng": "32.934558",
+            "location": "Ak\u00feemsettin Mh.Mh.Anatolium Mamak",
+            "name": "NATA VEGA"
+        },
+        "31875": {
+            "lat": "39.900097",
+            "lng": "32.934224",
+            "location": "Durali Al\u00fd\u00e7 Mh.Mh.976.Sk.Mamak",
+            "name": "MAMAK KAPALI SPOR SALONU"
+        },
+        "31876": {
+            "lat": "39.900111",
+            "lng": "32.934083",
+            "location": "Durali Al\u00fd\u00e7 Mh.Mh.976.Sk.Mamak",
+            "name": "MAMAK KAPALI SPOR SALONU"
+        },
+        "31877": {
+            "lat": "39.90209",
+            "lng": "32.934198",
+            "location": "Durali Al\u00fd\u00e7 Mh.Mh.976.Sk.Mamak",
+            "name": "MAMAK KAPALI SPOR SALONU 2"
+        },
+        "31878": {
+            "lat": "39.902179",
+            "lng": "32.934115",
+            "location": "Durali Al\u00fd\u00e7 Mh.Mh.976.Sk.Mamak",
+            "name": "MAMAK KAPALI SPOR SALONU 2"
+        },
+        "31896": {
+            "lat": "39.915551",
+            "lng": "32.930863",
+            "location": "Bo\u00f0azi\u00e7i Mh.Mh.872.Cd.Mamak",
+            "name": "BO\u00d0AZ\u00dd\u00c7\u00dd 1"
+        },
+        "31897": {
+            "lat": "39.915628",
+            "lng": "32.930715",
+            "location": "Bo\u00f0azi\u00e7i Mh.Mh.872.Cd.Mamak",
+            "name": "BO\u00d0AZ\u00dd\u00c7\u00dd 1"
+        },
+        "31899": {
+            "lat": "39.928484",
+            "lng": "32.911515",
+            "location": "\u00c7a\u00f0layan Mh.Mh.Anadolu Cd.Mamak",
+            "name": "MAMAK NUMUNE SEMT POL\u00ddK\u00ddL\u00ddN\u00dd\u00d0\u00dd"
+        },
+        "32036": {
+            "lat": "39.935039",
+            "lng": "32.854151",
+            "location": "-",
+            "name": "K\u00dcLT\u00dcR VE TUR\u00ddZM BAKANLI\u00d0I"
+        },
         "40064": {
             "lat": "39.9835",
             "lng": "32.875418",
             "location": "\u00deefkat Mh.K\u00fdzlarp\u00fdnar\u00fd Cd.Ke\u00e7i\u00f6ren",
             "name": "MEC\u00ddD\u00ddYE"
+        },
+        "50512": {
+            "lat": "39.976804",
+            "lng": "32.607518",
+            "location": "Eryaman Mh.Medeni Kanun Cd.Etimesgut",
+            "name": "\u00d6ZGE SK."
         }
     },
     "stops": {
@@ -15179,6 +15773,102 @@
             "31646",
             "30646",
             "30640"
+        ],
+        "353-5": [
+            "30346",
+            "31646",
+            "30326",
+            "30335",
+            "30347",
+            "30337",
+            "30377",
+            "30378",
+            "31068",
+            "30373",
+            "30921",
+            "30922",
+            "31056",
+            "31057",
+            "30364",
+            "30365",
+            "31878",
+            "31876",
+            "30376",
+            "30372",
+            "30371",
+            "30370",
+            "30369",
+            "30771",
+            "30770",
+            "31896",
+            "30307",
+            "30306",
+            "30301",
+            "30805",
+            "30799",
+            "30655",
+            "30657",
+            "30664",
+            "30504",
+            "30501",
+            "30143",
+            "30137",
+            "30126",
+            "30122",
+            "30115",
+            "30073",
+            "30069",
+            "30063",
+            "30055",
+            "12230",
+            "11622",
+            "30005",
+            "32036",
+            "30037",
+            "30402",
+            "30017",
+            "30018",
+            "30056",
+            "30067",
+            "30071",
+            "30119",
+            "30129",
+            "30114",
+            "30146",
+            "30500",
+            "30503",
+            "30665",
+            "30640",
+            "31899",
+            "30646",
+            "30827",
+            "30804",
+            "30806",
+            "30302",
+            "30305",
+            "30768",
+            "31897",
+            "30303",
+            "30357",
+            "30358",
+            "30359",
+            "30360",
+            "30356",
+            "30339",
+            "31875",
+            "31877",
+            "30374",
+            "30774",
+            "30773",
+            "30772",
+            "30366",
+            "30367",
+            "30368",
+            "31069",
+            "30355",
+            "31699",
+            "30338",
+            "31703"
         ],
         "354": [
             "11562",
@@ -66170,6 +66860,290 @@
                 ]
             }
         },
+        "190": {
+            "11620": {
+                "weekday": [
+                    {
+                        "dakika": "52",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "25",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "40",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "21",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "28",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "01",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "03",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "00",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "00",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "06",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "13",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "16",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "22",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "07",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "50",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    }
+                ]
+            },
+            "13249": {
+                "weekday": [
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "06",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "00",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "15",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "00",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    }
+                ]
+            },
+            "13862": {
+                "weekday": [
+                    {
+                        "dakika": "05",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "35",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "50",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "10",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "35",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "06",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "05",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "04",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "10",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "10",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "13",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "18",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "18",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "09",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "07",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    }
+                ]
+            }
+        },
         "191": {
             "10735": {
                 "weekday": [
@@ -66573,6 +67547,307 @@
                     }
                 ]
             }
+        },
+        "336": {
+            "30059": {
+                "weekday": [
+                    {
+                        "dakika": "41",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "56",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "11",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "39",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "39",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "19",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "22",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "19",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "19",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "24",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "25",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "21",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "59",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "29",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "56",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "26",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "06",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "40",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "10",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "41",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "41",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "14",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "42",
+                        "detay": "",
+                        "saat": "22",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "24",
+                        "detay": "",
+                        "saat": "00",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    }
+                ]
+            },
+            "30633": {
+                "weekday": [
+                    {
+                        "dakika": "37",
+                        "detay": "",
+                        "saat": "06",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "52",
+                        "detay": "",
+                        "saat": "06",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "07",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "32",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "32",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "12",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "18",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "14",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "14",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "22",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "23",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "17",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "51",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "21",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "58",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "28",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "02",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "37",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "07",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "35",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "38",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "21",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "51",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "36",
+                        "detay": "",
+                        "saat": "23",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    }
+                ]
+            }
+        },
+        "338-5": {
+            "30633": {}
         },
         "339-3": {
             "10793": {
@@ -67047,6 +68322,478 @@
                     }
                 ]
             },
+            "13249": {
+                "weekday": [
+                    {
+                        "dakika": "37",
+                        "detay": "",
+                        "saat": "06",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "47",
+                        "detay": "",
+                        "saat": "06",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "57",
+                        "detay": "",
+                        "saat": "06",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "07",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "16",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "25",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "42",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "51",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "00",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "11",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "22",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "33",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "46",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "58",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "10",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "22",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "34",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "42",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "54",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "06",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "18",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "37",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "49",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "01",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "13",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "25",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "36",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "48",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "00",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "12",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "24",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "37",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "49",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "01",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "13",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "25",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "39",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "51",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "03",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "15",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "27",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "41",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "53",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "05",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "17",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "29",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "39",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "51",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "03",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "15",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "27",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "41",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "53",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "05",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "18",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "46",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "58",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "11",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "23",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "36",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "47",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "00",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "12",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "25",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "37",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "45",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "57",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "10",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "24",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "36",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "51",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "06",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "21",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "39",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "09",
+                        "detay": "",
+                        "saat": "22",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "45",
+                        "detay": "",
+                        "saat": "22",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    }
+                ]
+            },
             "30335": {
                 "weekday": [
                     {
@@ -67515,6 +69262,478 @@
                         "dakika": "16",
                         "detay": "",
                         "saat": "22",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    }
+                ]
+            },
+            "30633": {
+                "weekday": [
+                    {
+                        "dakika": "28",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "38",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "48",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "58",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "07",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "16",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "36",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "45",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "54",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "05",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "16",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "27",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "54",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "06",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "18",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "42",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "50",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "02",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "14",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "26",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "38",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "35",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "47",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "59",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "11",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "23",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "32",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "44",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "56",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "08",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "20",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "38",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "50",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "02",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "14",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "26",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "39",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "51",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "03",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "15",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "27",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "45",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "57",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "09",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "21",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "33",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "42",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "54",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "06",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "18",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "48",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "00",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "12",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "25",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "37",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "57",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "09",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "22",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "34",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "47",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "04",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "17",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "29",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "42",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "54",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "00",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "12",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "25",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "39",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "41",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "56",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "11",
+                        "detay": "",
+                        "saat": "22",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "26",
+                        "detay": "",
+                        "saat": "22",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "36",
+                        "detay": "",
+                        "saat": "22",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "06",
+                        "detay": "",
+                        "saat": "23",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "44",
+                        "detay": "",
+                        "saat": "23",
                         "tur": "HAFTA \u00dd\u00c7\u00dd"
                     }
                 ]
@@ -68539,6 +70758,358 @@
                     },
                     {
                         "dakika": "31",
+                        "detay": "",
+                        "saat": "22",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    }
+                ]
+            },
+            "11620": {
+                "weekday": [
+                    {
+                        "dakika": "39",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "53",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "05",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "17",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "37",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "49",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "01",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "13",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "27",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "46",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "02",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "20",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "32",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "50",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "08",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "26",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "34",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "50",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "05",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "19",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "35",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "49",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "03",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "17",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "28",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "42",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "56",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "10",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "29",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "43",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "58",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "14",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "31",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "47",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "03",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "19",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "42",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "58",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "14",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "44",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "00",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "16",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "32",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "00",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "16",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "32",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "41",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "59",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "17",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "35",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "51",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "09",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "27",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "43",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "03",
+                        "detay": "",
+                        "saat": "22",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "19",
+                        "detay": "",
+                        "saat": "22",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "59",
                         "detay": "",
                         "saat": "22",
                         "tur": "HAFTA \u00dd\u00c7\u00dd"
@@ -92363,6 +94934,358 @@
                     }
                 ]
             },
+            "11620": {
+                "weekday": [
+                    {
+                        "dakika": "27",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "42",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "55",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "07",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "19",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "44",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "56",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "08",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "21",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "46",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "02",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "19",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "37",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "50",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "08",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "26",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "46",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "02",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "16",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "29",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "43",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "57",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "11",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "25",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "41",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "55",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "09",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "23",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "38",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "52",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "06",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "24",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "45",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "01",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "17",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "33",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "59",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "15",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "31",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "36",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "52",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "08",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "24",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "55",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "11",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "27",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "44",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "56",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "14",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "32",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "42",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "00",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "18",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "35",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "54",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "19",
+                        "detay": "",
+                        "saat": "22",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "45",
+                        "detay": "",
+                        "saat": "22",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    }
+                ]
+            },
             "12626": {
                 "weekday": [
                     {
@@ -106751,6 +109674,448 @@
                         "dakika": "07",
                         "detay": "",
                         "saat": "23",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    }
+                ]
+            }
+        },
+        "521-5": {
+            "12626": {
+                "weekday": [
+                    {
+                        "dakika": "39",
+                        "detay": "",
+                        "saat": "06",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "04",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "29",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "10",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "30",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "50",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "28",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "53",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "02",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "22",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "42",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "56",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "21",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "41",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "01",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "21",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "46",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "10",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "40",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "12",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "42",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "02",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "32",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "59",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "29",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "55",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "20",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "45",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "10",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "35",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "02",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "22",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "47",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "27",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "54",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "46",
+                        "detay": "",
+                        "saat": "21",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    }
+                ]
+            },
+            "50512": {
+                "weekday": [
+                    {
+                        "dakika": "07",
+                        "detay": "",
+                        "saat": "06",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "32",
+                        "detay": "",
+                        "saat": "06",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "57",
+                        "detay": "",
+                        "saat": "06",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "28",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "48",
+                        "detay": "",
+                        "saat": "07",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "08",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "36",
+                        "detay": "",
+                        "saat": "08",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "01",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "20",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "40",
+                        "detay": "",
+                        "saat": "09",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "00",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "20",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "45",
+                        "detay": "",
+                        "saat": "10",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "05",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "26",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "46",
+                        "detay": "",
+                        "saat": "11",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "11",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "36",
+                        "detay": "",
+                        "saat": "12",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "06",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "36",
+                        "detay": "",
+                        "saat": "13",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "06",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "25",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "55",
+                        "detay": "",
+                        "saat": "14",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "25",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "55",
+                        "detay": "",
+                        "saat": "15",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "20",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "45",
+                        "detay": "",
+                        "saat": "16",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "10",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "34",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "59",
+                        "detay": "",
+                        "saat": "17",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "25",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "45",
+                        "detay": "",
+                        "saat": "18",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "13",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "53",
+                        "detay": "",
+                        "saat": "19",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "23",
+                        "detay": "",
+                        "saat": "20",
+                        "tur": "HAFTA \u00dd\u00c7\u00dd"
+                    },
+                    {
+                        "dakika": "15",
+                        "detay": "",
+                        "saat": "21",
                         "tur": "HAFTA \u00dd\u00c7\u00dd"
                     }
                 ]

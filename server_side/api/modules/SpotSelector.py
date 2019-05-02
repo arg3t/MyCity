@@ -3,7 +3,9 @@ import cv2
 import json
 
 rects = []
-im = cv2.imread("parking_images/main.jpg")
+
+cam = cv2.VideoCapture("http://10.10.26.128:4747/mjpegfeed")
+ret,im = cam.read()
 
 if __name__ == '__main__' :
 

@@ -3,8 +3,16 @@ import numpy as np
 import json
 from pysolar.solar import *
 from datetime import datetime
+from flask import Flask, request
+from flask_restful import Resource, Api, abort
+import base64
+import pickle
 from PIL import Image
 from matplotlib import pyplot as plt
+from io import BytesIO
+
+app = Flask(__name__)
+api = Api(app)
 
 def generateAvg(locs, img, avgs):
 	time = datetime.strptime( "2019-04-27 17:52:00 -0300","%Y-%m-%d %H:%M:%S %z")
@@ -16,6 +24,8 @@ def generateAvg(locs, img, avgs):
 		temp = locs[i]
 		crop_img = img[temp["y1"]:temp["y2"], temp["x1"]:temp["x2"]]
 		loc_images[i]=[crop_img]
+
+
 
 	vals = {}
 	if str(altitude) in avgs:
@@ -40,7 +50,6 @@ def generateAvg(locs, img, avgs):
 	avgs[altitude] = vals
 
 	return avgs
-
 
 def generateData(locs, img, avgs,show):
 
@@ -89,54 +98,67 @@ def generateData(locs, img, avgs,show):
 	return distances
 
 
+def im2str(im):
+	"""Convert a Numpy array to JSON string"""
+	imdata = pickle.dumps(im)
+	return base64.b64encode(imdata).decode('ascii')
+
+cam = cv2.VideoCapture("http://10.10.26.128:4747/mjpegfeed")
+
 plt.axis("off")
-with open("databases/locations.json","r") as f:
+with open("modules/databases/locations.json","r") as f:
 	locs = json.loads(f.read())
 
-with open("databases/park_data.json","r") as f:
+with open("modules/databases/park_data.json","r") as f:
 	data = json.loads(f.read())
 
 while 0:
-	data = generateAvg(locs,cv2.imread("parking_images/8.jpg"),data)
+	ret,im = cam.read()
+	data = generateAvg(locs,im,data)
 
-	with open("databases/park_data.json","w") as f:
+	with open("modules/databases/park_data.json","w") as f:
 		f.write(json.dumps(data,indent=4))
 	exit(0)
 
-image = cv2.imread("parking_images/7.jpg")
-spot_data = generateData(locs,image,data,["0","1","2"])
+class Empty(Resource):
+	def get(self):
 
-print(spot_data)
-
-best_spot = -1
-for loc in spot_data:
-	spot_data[loc] = spot_data[loc] < 30
-
-	color = (0,255*spot_data[loc],255*(not spot_data[loc]))
-
-	cv2.rectangle(image,(locs[loc]["x1"],locs[loc]["y1"]),(locs[loc]["x2"],locs[loc]["y2"]),color,5)
-
-	if spot_data[loc]:
+		#ret,image = cam.read()
+		image = cv2.imread("modules/lot.jpg")
+		backup = image.copy()
+		spot_data = generateData(locs,image,data,["0"])
+		print(spot_data)
+		best_spot = -1
+		for loc in spot_data:
+			spot_data[loc] = spot_data[loc] < 30
+			color = (0,255*spot_data[loc],255*(not spot_data[loc]))
+			cv2.rectangle(image,(locs[loc]["x1"],locs[loc]["y1"]),(locs[loc]["x2"],locs[loc]["y2"]),color,5)
+			if spot_data[loc]:
+				if best_spot == -1:
+					best_spot = loc
+					continue
+				if locs[loc]["priority"] < locs[best_spot]["priority"]:
+					best_spot = loc
+		print(spot_data)
 		if best_spot == -1:
-			best_spot = loc
-			continue
+			print("Sorry, no spot found :(")
+		else:
+			print("Empty spot found at {}".format(int(best_spot) + 1))
+		foo = locs[best_spot]
+		crop_img = backup[foo["y1"]:foo["y2"], foo["x1"]:foo["x2"]].copy(order='C')
 
-		if locs[loc]["priority"] < locs[best_spot]["priority"]:
-			best_spot = loc
+		crop_img = Image.fromarray(crop_img,"RGB")
+		buffered = BytesIO()
+		crop_img.save(buffered, format="JPEG")
+		img = base64.b64encode(buffered.getvalue()).decode("ascii")
 
-print(spot_data)
-
-if best_spot == -1:
-	print("Sorry, no spot found :(")
-
-else:
-	print("Empty spot found at {}".format(int(best_spot) + 1))
-
+		return {"lat":foo["lat"], "lng":foo["lng"], "img":img}
 
 
 
-plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
-plt.show()
+
+
+
 
 
 

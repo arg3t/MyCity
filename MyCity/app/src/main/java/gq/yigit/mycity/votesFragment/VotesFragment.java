@@ -17,6 +17,8 @@ import gq.yigit.mycity.tools.ImageDownload.imageListener;
 import gq.yigit.mycity.votesFragment.VotesContent.VoteItem;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static gq.yigit.mycity.tools.WebRequest.*;
@@ -99,7 +101,7 @@ public class VotesFragment extends Fragment implements responseListener, imageLi
 	}
 
 	public void receivedResponse(boolean success, String response,int id){
-
+		VotesContent.ITEMS.clear();
 		if(success) {
 			try {
 				votes = new JSONArray(response);

@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.bumptech.glide.Glide;
 import gq.yigit.mycity.navigation.TransitFragment;
 import gq.yigit.mycity.tools.*;
 import gq.yigit.mycity.tools.WebRequest.responseListener;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity
 		TransitFragment.OnFragmentInteractionListener,
 		QRFragment.OnFragmentInteractionListener,
 		OnFragmentInteractionListener,
+		ParkFragment.OnFragmentInteractionListener,
 		responseListener,
 		imageListener {
 
@@ -75,7 +77,6 @@ public class MainActivity extends AppCompatActivity
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		cntxt = getApplicationContext();
-
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 				this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -172,7 +173,10 @@ public class MainActivity extends AppCompatActivity
 			fragmentTransaction.commit();
 			fragmentTransaction.addToBackStack(null);
 		} else if (id == R.id.parking) {
-
+			ParkFragment fragment = new ParkFragment();
+			fragmentTransaction.replace(R.id.app_bar_main, fragment);
+			fragmentTransaction.commit();
+			fragmentTransaction.addToBackStack(null);
 		} else if (id == R.id.transit) {
 			TransitFragment fragment = new TransitFragment();
 			fragmentTransaction.replace(R.id.app_bar_main, fragment);

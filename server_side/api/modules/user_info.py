@@ -94,7 +94,7 @@ class ReducePoints(Resource):
                     if user_id == v['id']:
                         username = k
 
-                users[username]['points'] -= request.form['reduce']
+                users[username]['points'] -= int(request.form['reduce'])
                 with open(db_path, 'w') as f:
                     json.dump(users, f, indent=4)
             else:
