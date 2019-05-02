@@ -173,6 +173,7 @@ public class TransitFragment extends Fragment implements WebRequest.responseList
 	@Override
 	public void receivedResponse(boolean success,String response, int reqid){
 		Log.i("[INFO]",response);
+		TransitContent.ITEMS.clear();
 		try{
 			JSONObject travel = new JSONObject(response);
 			JSONArray routes = new JSONArray(travel.getString("routes"));
