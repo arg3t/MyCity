@@ -103,7 +103,7 @@ def im2str(im):
 	imdata = pickle.dumps(im)
 	return base64.b64encode(imdata).decode('ascii')
 
-cam = cv2.VideoCapture("http://10.10.26.128:4747/mjpegfeed")
+cam = cv2.VideoCapture("http://192.168.43.246:4747/mjpegfeed")
 
 plt.axis("off")
 with open("modules/databases/locations.json","r") as f:
@@ -123,10 +123,10 @@ while 0:
 class Empty(Resource):
 	def get(self):
 
-		#ret,image = cam.read()
-		image = cv2.imread("modules/lot.jpg")
+		ret,image = cam.read()
+		#image = cv2.imread("modules/lot.jpg")
 		backup = image.copy()
-		spot_data = generateData(locs,image,data,["0"])
+		spot_data = generateData(locs,image,data,["0","1","2"])
 		print(spot_data)
 		best_spot = -1
 		for loc in spot_data:

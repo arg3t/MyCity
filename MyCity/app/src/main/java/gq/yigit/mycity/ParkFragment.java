@@ -183,7 +183,7 @@ public class ParkFragment extends Fragment implements WebRequest.responseListene
 				latitude = spot.getString("lat");
 				longitude = spot.getString("lng");
 
-				LatLng spot_loc = new LatLng(Integer.parseInt(latitude), Integer.parseInt(longitude));
+				LatLng spot_loc = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
 				map.addMarker(new MarkerOptions().position(spot_loc).title("Parking Spot"));
 
 				LatLng loc = new LatLng(lat_orig, lng_orig);
