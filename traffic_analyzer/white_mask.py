@@ -17,9 +17,9 @@ def threshold_slow(image):
 while True:
     ret, frame = cap.read()
     frame_org = frame
-    frame = frame[100:300, 100:300]
+    frame = frame[185:230, 180:225]
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    sensitivity = 40
+    sensitivity = 50
     lower_white = np.array([0,0,255-sensitivity])
     upper_white = np.array([255,sensitivity,255])
     mask = cv2.inRange(hsv, lower_white, upper_white)
