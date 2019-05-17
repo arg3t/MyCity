@@ -54,3 +54,15 @@ fabric.properties
 .idea/httpRequests
 
 /.idea/
+
+*.pyc
+
+traffic_analyzer/ssd_mobilenet_v1_coco_2017_11_17/
+
+traffic_analyzer/ssd_inception_v2_coco_11_06_2017/
+
+\.gradle/
+
+*.iml
+
+traffic_analyzer/rfcn_resnet101_coco_11_06_2017/

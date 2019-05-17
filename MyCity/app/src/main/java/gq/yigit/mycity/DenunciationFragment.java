@@ -155,9 +155,8 @@ public class DenunciationFragment extends Fragment implements WebRequest.respons
 		ArrayAdapter<String> adapter;
 		final List<String> list = new ArrayList<String>();
 		list.add("Please Select...");
-		list.add("Ambulance");
-		list.add("Police");
-		list.add("Fire");
+		list.add("Traffic");
+		list.add("Road Damage");
 		adapter = new ArrayAdapter<String>(getContext(),
 				android.R.layout.simple_spinner_item, list);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

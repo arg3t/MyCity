@@ -59,13 +59,13 @@ class Denunciations(Resource):
     def get(self):
         resp = Response(json.dumps([
             {
-                'id'  : v['id'],
+                'id': v['id'],
                 "reporter": v["reporter"],
                 'info': v['info'],
                 'priority': v['priority'],
                 'emergency': v['emergency'],
                 'photo': v['photo'],
-                'location' : v['location']
+                'location': v['location']
             }
             for v in denunciations
         ]
