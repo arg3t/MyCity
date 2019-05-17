@@ -127,7 +127,7 @@ public class MainFragment extends Fragment implements WebRequest.responseListene
 				Log.e("[ERROR]", "Cannot process weather data");
 			}
 		}if(id == 1) {
-
+			AnnounceContent.ITEMS.clear();
 			try {
 				JSONArray announcements = new JSONArray(response);
 				for(int i = 0; i< announcements.length();i++){
