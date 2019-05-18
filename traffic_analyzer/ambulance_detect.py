@@ -143,7 +143,8 @@ while 1:
             use_normalized_coordinates=True,
             line_thickness=8)
         image[cut[0]:cut[1],cut[2]:cut[3]] = image_np
-        cv2.imshow("Cam",np.concatenate((image,image_np),axis=0))
+        cv2.imshow("Cam",image)
+        cv2.imshow("Cut",image_np)
         t2 = time.time()
         print("time taken for {}".format(t2-t1))
 
