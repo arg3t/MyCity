@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.util.Base64;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import org.json.JSONObject;
 
 /**
@@ -55,6 +56,9 @@ public class cameraForm extends javax.swing.JFrame {
         ram_temp = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         fan_rpm = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -69,7 +73,7 @@ public class cameraForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        camera_full_label.setText("camera_full");
+        camera_full_label.setText(" ");
 
         camera_cut_label.setText("camera_cut");
 
@@ -103,13 +107,31 @@ public class cameraForm extends javax.swing.JFrame {
         fan_rpm.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         fan_rpm.setText("2500 RPM");
 
+        jButton1.setText("Ambulance");
+
+        jButton2.setText("Intersection");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Bus");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(camera_full_label, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(camera_full_label, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(217, 217, 217)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(camera_cut_label, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -135,7 +157,8 @@ public class cameraForm extends javax.swing.JFrame {
                                 .addComponent(ram_temp)
                                 .addComponent(cpu_temp)
                                 .addComponent(gpu_temp)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -170,11 +193,20 @@ public class cameraForm extends javax.swing.JFrame {
                             .addComponent(jLabel7)
                             .addComponent(fan_rpm, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(camera_full_label, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -213,7 +245,9 @@ public class cameraForm extends javax.swing.JFrame {
     }
     
     public void onCreate() throws Exception{
-        String fromClient;
+        this.camera_cut_label.setIcon(new ImageIcon());
+        this.camera_full_label.setIcon(new ImageIcon());
+        String fromClient = "";
         String toClient;
  
         ServerSocket server = new ServerSocket(8485);
@@ -225,50 +259,55 @@ public class cameraForm extends javax.swing.JFrame {
         BufferedImage image = null;
         byte[] imageByte;
         int null_reps = 0;
+        
         while(run) {
             try{
-                
+
                 BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
                 fromClient = in.readLine();
 
                 if(fromClient != null) {
-                    System.out.println("received data in size: " + fromClient.length());
-                    JSONObject json = new JSONObject(fromClient);
-                    byte[] decodedBytes = Base64.getDecoder().decode(json.getString("image_full"));
-                    ByteArrayInputStream bis = new ByteArrayInputStream(decodedBytes);
-                    image = ImageIO.read(bis);
-                    bis.close();
-                    JSONObject dims = json.getJSONObject("image_sizes");
-                    this.camera_cut_label.setIcon(new ImageIcon(resizeImage(image.getSubimage(dims.getInt("x"), dims.getInt("y"), dims.getInt("width"), dims.getInt("height")),300,300)));
-                    this.camera_full_label.setIcon(new ImageIcon(resizeImage(image,900,720)));
-                    JSONObject data = json.optJSONObject("load");
-                    this.gpu_temp.setText(data.getString("gpu_temp"));
-                    this.gpu_usage.setText(data.getString("gpu_load"));
-                    this.cpu_temp.setText(data.getString("cpu_temp"));
-                    this.cpu_usage.setText(data.getString("cpu_load"));
-                    this.ram_temp.setText(data.getString("mem_temp"));
-                    this.ram_usage.setText(data.getString("mem_load"));
-                    this.fan_rpm.setText(data.getString("fan_speed"));
-                    if(fromClient.equals("Bye")) {
-                        client.close();
+                    if(fromClient.trim().equals("Bye")) {
                         run = false;
                         System.out.println("socket closed");
-                        System.exit(0);
+                    }else{
+                        System.out.println("received data in size: " + fromClient.length());
+                        JSONObject json = new JSONObject(fromClient);
+                        byte[] decodedBytes = Base64.getDecoder().decode(json.getString("image_full"));
+                        ByteArrayInputStream bis = new ByteArrayInputStream(decodedBytes);
+                        image = ImageIO.read(bis);
+                        bis.close();
+                        JSONObject dims = json.getJSONObject("image_sizes");
+                        this.camera_cut_label.setIcon(new ImageIcon(resizeImage(image.getSubimage(dims.getInt("x"), dims.getInt("y"), dims.getInt("width"), dims.getInt("height")),300,300)));
+                        this.camera_full_label.setIcon(new ImageIcon(resizeImage(image,900,720)));
+                        JSONObject data = json.optJSONObject("load");
+                        this.gpu_temp.setText(data.getString("gpu_temp"));
+                        this.gpu_usage.setText(data.getString("gpu_load"));
+                        this.cpu_temp.setText(data.getString("cpu_temp"));
+                        this.cpu_usage.setText(data.getString("cpu_load"));
+                        this.ram_temp.setText(data.getString("mem_temp"));
+                        this.ram_usage.setText(data.getString("mem_load"));
+                        this.fan_rpm.setText(data.getString("fan_speed"));
+                        null_reps=0;
                     }
-                    null_reps=0;
                 }else{
                     null_reps +=1;
                 }
             }
             catch(Exception e){
+                System.out.println(fromClient);
                 System.out.println(e.toString());
              }
-            if (null_reps >= 1000){
-                break;
+            if (null_reps >= 100000){
+                run = false;
+                System.out.println("socket closed");
             }
         }
-    
+        server.close();
+        client.close();
+        JOptionPane.showMessageDialog(this, "Ambulance socket server down!");
+        
     }
     
     public static BufferedImage resizeImage(final Image image, int width, int height) {
@@ -292,6 +331,9 @@ public class cameraForm extends javax.swing.JFrame {
     private javax.swing.JLabel fan_rpm;
     private javax.swing.JLabel gpu_temp;
     private javax.swing.JLabel gpu_usage;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -2,20 +2,22 @@
 
 import numpy as np
 import os
-import six.moves.urllib as urllib
 import sys
-import tarfile
 import tensorflow as tf
-import zipfile
 import cv2
 from distutils.version import StrictVersion
-from collections import defaultdict
-from io import StringIO
-
+import socket
 from utils import label_map_util
 
 from utils import visualization_utils as vis_util
+import psutil
+import json
+
+import base64
 from PIL import Image
+from io import BytesIO
+import psutil
+
 switch = 1
 # This is needed since the notebook is stored in the object_detection folder.
 sys.path.append("..")
@@ -65,6 +67,16 @@ TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'image{}.jpg'.format(
 # Size, in inches, of the output images.
 sess = 0
 switch = 1
+data = {"gpu_temp":"10C","gpu_load":"15%","cpu_temp":"47C","cpu_load":"15%","mem_temp":"NaN","mem_load":"17%","fan_speed":"10000RPM"}
+
+def get_temps():
+    global data
+    temps = psutil.sensors_temperatures()
+    data["cpu_temp"] = str(int(temps["dell_smm"][0][1]))+"°C"
+    data["cpu_load"] = str(psutil.cpu_percent())+"%"
+    data["mem_load"] = str(dict(psutil.virtual_memory()._asdict())["percent"])+"%"
+    data["fan_speed"] = str(psutil.sensors_fans()["dell_smm"][0][1])+"RPM"
+
 def run_inference_for_single_image(image, graph):
   global switch
   global sess
@@ -113,43 +125,79 @@ def run_inference_for_single_image(image, graph):
       output_dict['detection_masks'] = output_dict['detection_masks'][0]
   return output_dict
 cut=[-175,-1,-175,-1]
+cut_send = [0,0,0,0]
 a = 1
+img_counter = 0
+socket_switch = True
 cam = cv2.VideoCapture(0)
 with detection_graph.as_default():
     sess = tf.Session()
-    switch = 0
+switch = 0
+get_temps()
 while 1:
     if(True):
+        try:
+            ret,image = cam.read()
+            image_np = image[cut[0]:cut[1],cut[2]:cut[3]]
+            #image_np = image_np[int(r[1]):int(r[1]+r[3]),int(r[0]):int(r[0]+r[2])]
+            # the array based representation of the image will be used later in order to prepare the
+            # result image with boxes and labels on it.
 
-        ret,image = cam.read()
-        image_np = image[cut[0]:cut[1],cut[2]:cut[3]]
-        #image_np = image_np[int(r[1]):int(r[1]+r[3]),int(r[0]):int(r[0]+r[2])]
-        # the array based representation of the image will be used later in order to prepare the
-        # result image with boxes and labels on it.
+            # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
+            image_np_expanded = np.expand_dims(image_np, axis=0)
+            t1 = time.time()
+            # Actual detection.
+            output_dict = run_inference_for_single_image(image_np_expanded, detection_graph)
+            # Visualization of the results of a detection.
+            vis_util.visualize_boxes_and_labels_on_image_array(
+                image_np,
+                output_dict['detection_boxes'],
+                output_dict['detection_classes'],
+                output_dict['detection_scores'],
+                category_index,
+                instance_masks=output_dict.get('detection_masks'),
+                use_normalized_coordinates=True,
+                line_thickness=8)
+            image[cut[0]:cut[1],cut[2]:cut[3]] = image_np
+            send_image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
+            cv2.imshow("Cam",image)
+            cv2.imshow("Cut",image_np)
 
-        # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
-        image_np_expanded = np.expand_dims(image_np, axis=0)
-        t1 = time.time()
-        # Actual detection.
-        output_dict = run_inference_for_single_image(image_np_expanded, detection_graph)
-        # Visualization of the results of a detection.
-        vis_util.visualize_boxes_and_labels_on_image_array(
-            image_np,
-            output_dict['detection_boxes'],
-            output_dict['detection_classes'],
-            output_dict['detection_scores'],
-            category_index,
-            instance_masks=output_dict.get('detection_masks'),
-            use_normalized_coordinates=True,
-            line_thickness=8)
-        image[cut[0]:cut[1],cut[2]:cut[3]] = image_np
-        cv2.imshow("Cam",image)
-        cv2.imshow("Cut",image_np)
-        t2 = time.time()
-        print("time taken for {}".format(t2-t1))
+            if socket_switch:
+                try:
+                    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    client_socket.connect(('127.0.0.1', 8485))
+                    connection = client_socket.makefile('wb')
+                    socket_switch = False
+                except:
+                    socket_switch=True
+                    continue
+                try:
+                    crop_img = send_image.copy(order='C')
 
-        ex_c = [27, ord("q"), ord("Q")]
-        if cv2.waitKey(1) & 0xFF in ex_c:
-            break
+                    crop_img = Image.fromarray(crop_img,"RGB")
+                    buffered = BytesIO()
+                    crop_img.save(buffered, format="JPEG")
+                    img = base64.b64encode(buffered.getvalue()).decode("ascii")
+                    client_socket.sendall(json.dumps({"image_full":img,"image_sizes":{"x":cut_send[2],"y":cut_send[0],"width":cut_send[3],"height":cut_send[1]},"load":data}).encode('gbk')+b"\n")
+                    img_counter += 1
+
+                except:
+                    socket_switch=True
+
+            if img_counter % 10 ==0:
+                get_temps()
+            t2 = time.time()
+            print("time taken for {}".format(t2-t1))
+
+            ex_c = [27, ord("q"), ord("Q")]
+            if cv2.waitKey(1) & 0xFF in ex_c:
+                break
+        except KeyboardInterrupt:
+            if not socket_switch:
+                client_socket.sendall(b"Bye\n")
+                cam.release()
+                exit(0)
+
 cv2.destroyAllWindows()
 cam.release()
