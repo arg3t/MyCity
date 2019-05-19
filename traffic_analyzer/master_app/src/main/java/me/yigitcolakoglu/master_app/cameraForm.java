@@ -29,7 +29,9 @@ public class cameraForm extends javax.swing.JFrame {
     public cameraForm() {
         initComponents();
     }
-
+    private ServerSocket server;
+    private Socket client;
+    private Thread running = null;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,9 +58,9 @@ public class cameraForm extends javax.swing.JFrame {
         ram_temp = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         fan_rpm = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        ambulance_button = new javax.swing.JButton();
+        intersection_button = new javax.swing.JButton();
+        bus_button = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -107,16 +109,26 @@ public class cameraForm extends javax.swing.JFrame {
         fan_rpm.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         fan_rpm.setText("2500 RPM");
 
-        jButton1.setText("Ambulance");
-
-        jButton2.setText("Intersection");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        ambulance_button.setText("Ambulance");
+        ambulance_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                ambulance_buttonActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Bus");
+        intersection_button.setText("Intersection");
+        intersection_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                intersection_buttonActionPerformed(evt);
+            }
+        });
+
+        bus_button.setText("Bus");
+        bus_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bus_buttonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -129,9 +141,9 @@ public class cameraForm extends javax.swing.JFrame {
                         .addComponent(camera_full_label, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(33, 33, 33)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ambulance_button, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(217, 217, 217)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(intersection_button, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(camera_cut_label, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -158,7 +170,7 @@ public class cameraForm extends javax.swing.JFrame {
                                 .addComponent(cpu_temp)
                                 .addComponent(gpu_temp)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bus_button, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -194,19 +206,84 @@ public class cameraForm extends javax.swing.JFrame {
                             .addComponent(fan_rpm, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(camera_full_label, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(intersection_button, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ambulance_button)
+                        .addComponent(bus_button)))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void intersection_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_intersection_buttonActionPerformed
+        if(running!=null){
+            try{
+                server.close();
+                client.close();
+                running.stop();
+            }catch(IOException e){
+                System.out.println("IO Exception occured");
+            }catch(Exception e){
+                System.out.println(e.toString());
+            }
+        }
+        running = new Thread(() -> {
+            try{
+                onCreate(8486,"Intersection");
+            }catch(Exception e){
+                System.out.println(e.toString());
+            }
+        });
+        running.start();
+    }//GEN-LAST:event_intersection_buttonActionPerformed
+
+    private void ambulance_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ambulance_buttonActionPerformed
+        if(running!=null){
+            try{
+                server.close();
+                client.close();
+                running.stop();
+            }catch(IOException e){
+                System.out.println("IO Exception occured");
+            }catch(Exception e){
+                System.out.println(e.toString());
+            }
+        }
+        running = new Thread(() -> {
+            try{
+                onCreate(8485,"Ambulance");
+            }catch(Exception e){
+                System.out.println(e.toString());
+            }
+        });
+        running.start();
+             
+                
+
+    }//GEN-LAST:event_ambulance_buttonActionPerformed
+
+    private void bus_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bus_buttonActionPerformed
+        if(running!=null){
+            try{
+                server.close();
+                client.close();
+                running.stop();
+            }catch(IOException e){
+                System.out.println("IO Exception occured");
+            }catch(Exception e){
+                System.out.println(e.toString());
+            }
+        }
+        running = new Thread(() -> {
+            try{
+                onCreate(8487,"Bus");
+            }catch(Exception e){
+                System.out.println(e.toString());
+            }
+        });
+        running.start();    }//GEN-LAST:event_bus_buttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -244,18 +321,18 @@ public class cameraForm extends javax.swing.JFrame {
         }});
     }
     
-    public void onCreate() throws Exception{
+    public void onCreate(int port, String name) throws Exception{
         this.camera_cut_label.setIcon(new ImageIcon());
         this.camera_full_label.setIcon(new ImageIcon());
         String fromClient = "";
         String toClient;
  
-        ServerSocket server = new ServerSocket(8485);
-        System.out.println("wait for connection on port 8080");
+        server = new ServerSocket(port);
+        System.out.println("wait for connection on port " + port);
  
         boolean run = true;
-        Socket client = server.accept();
-        System.out.println("got connection on port 8080");
+        client = server.accept();
+        System.out.println("got connection on port " + port);
         BufferedImage image = null;
         byte[] imageByte;
         int null_reps = 0;
@@ -306,7 +383,7 @@ public class cameraForm extends javax.swing.JFrame {
         }
         server.close();
         client.close();
-        JOptionPane.showMessageDialog(this, "Ambulance socket server down!");
+        JOptionPane.showMessageDialog(this, name +" socket server down!");
         
     }
     
@@ -324,6 +401,8 @@ public class cameraForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ambulance_button;
+    private javax.swing.JButton bus_button;
     private javax.swing.JLabel camera_cut_label;
     private javax.swing.JLabel camera_full_label;
     private javax.swing.JLabel cpu_temp;
@@ -331,9 +410,7 @@ public class cameraForm extends javax.swing.JFrame {
     private javax.swing.JLabel fan_rpm;
     private javax.swing.JLabel gpu_temp;
     private javax.swing.JLabel gpu_usage;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton intersection_button;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

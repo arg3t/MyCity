@@ -18,13 +18,7 @@ public class Main {
         // TODO code application logic here
         cameraForm form = new cameraForm();
         form.setVisible(true);
-        try{
-            while(true){
-                form.onCreate();
-            }
-        }catch(Exception e){
-            System.out.println(e.toString());
-        }
+
     }
     
 }
