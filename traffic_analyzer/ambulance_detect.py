@@ -2,21 +2,23 @@
 
 import numpy as np
 import os
-import six.moves.urllib as urllib
 import sys
-import tarfile
 import tensorflow as tf
-import zipfile
 import cv2
 from distutils.version import StrictVersion
-from collections import defaultdict
-from io import StringIO
 
 from utils import label_map_util
 
 from utils import visualization_utils as vis_util
-from PIL import Image
 switch = 1
+
+import io
+import socket
+import struct
+import time
+import pickle
+import zlib
+
 # This is needed since the notebook is stored in the object_detection folder.
 sys.path.append("..")
 import time
@@ -27,9 +29,12 @@ if StrictVersion(tf.__version__) < StrictVersion('1.12.0'):
 
 # What model to download.
 
-#MODEL_NAME = 'ssd_mobilenet_v1_coco_2017_11_17' #not even worth trying
-MODEL_NAME="ssd_inception_v2_coco_11_06_2017" # not bad and fast
-MODEL_NAME="rfcn_resnet101_coco_11_06_2017" # WORKS BEST BUT takes 4 times longer per image
+
+encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
+
+MODEL_NAME = 'ssd_mobilenet_v1_coco_2017_11_17' #not even worth trying
+#MODEL_NAME="ssd_inception_v2_coco_11_06_2017" # not bad and fast
+#MODEL_NAME="rfcn_resnet101_coco_11_06_2017" # WORKS BEST BUT takes 4 times longer per image
 #MODEL_NAME = "faster_rcnn_resnet101_coco_11_06_2017" # too slow
 MODEL_FILE = MODEL_NAME + '.tar.gz'
 DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
@@ -111,10 +116,13 @@ def run_inference_for_single_image(image, graph):
     output_dict['detection_scores'] = output_dict['detection_scores'][0]
     if 'detection_masks' in output_dict:
       output_dict['detection_masks'] = output_dict['detection_masks'][0]
+
+
   return output_dict
-cut=[-175,-1,-175,-1]
+cut=[-225,-1,-225,-1]
 a = 1
-cam = cv2.VideoCapture(0)
+cam = cv2.VideoCapture(1)
+conn_switch = False
 with detection_graph.as_default():
     sess = tf.Session()
     switch = 0
@@ -141,9 +149,28 @@ while 1:
             category_index,
             instance_masks=output_dict.get('detection_masks'),
             use_normalized_coordinates=True,
-            line_thickness=8)
+            line_thickness=8,
+            min_score_thresh=0.4)
         image[cut[0]:cut[1],cut[2]:cut[3]] = image_np
-        cv2.imshow("Cam",np.concatenate((image,image_np),axis=0))
+        result, frame = cv2.imencode('.jpg', image, encode_param)
+        data = pickle.dumps(frame, 0)
+        size = len(data)
+        if(conn_switch):
+            pass
+        else:
+            try:
+                client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                client_socket.connect(('10.10.26.115', 8488))
+                connection = client_socket.makefile('wb')
+                conn_switch = True
+            except:
+                pass
+        try:
+            client_socket.sendall(struct.pack(">L", size) + data)
+        except:
+            conn_switch = False
+        cv2.imshow("Cam",image)
+        cv2.imshow("Cut",image_np)
         t2 = time.time()
         print("time taken for {}".format(t2-t1))
 

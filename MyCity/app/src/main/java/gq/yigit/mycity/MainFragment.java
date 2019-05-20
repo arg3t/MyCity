@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ public class MainFragment extends Fragment implements WebRequest.responseListene
 	private TextView pres_text;
 	private ImageView weather_img;
 	private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
 	private String key = "d6907927a2b9224a0b60d0565c207377";
 	private String url;
 
@@ -65,6 +67,7 @@ public class MainFragment extends Fragment implements WebRequest.responseListene
 		pres_text = rootView.findViewById(R.id.pressure);
 		weather_img = rootView.findViewById(R.id.forecast_img);
 		recyclerView = rootView.findViewById(R.id.anouncements);
+		swipeRefreshLayout = rootView.findViewById(R.id.simpleSwipeRefreshLayout);
 
 		HashMap<String,String> params = new HashMap<>();
 		params.put("q","Ankara,tr");
@@ -76,8 +79,20 @@ public class MainFragment extends Fragment implements WebRequest.responseListene
 		WebRequest request = new WebRequest("https://api.openweathermap.org/data/2.5/weather",true,params,0);
 		request.addListener(this);
 		request.execute();
-
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+				refresh();
+            }
+        });
 		return rootView;
+	}
+
+	public void refresh() {
+		WebRequest request = new WebRequest(url + "/announcements",true,new HashMap<String, String>(),1);
+		request.addListener(this);
+		request.execute();
 	}
 
 	public void onButtonPressed(Uri uri) {
@@ -151,10 +166,7 @@ public class MainFragment extends Fragment implements WebRequest.responseListene
 	@Override
 	public void imageDownloaded(Bitmap img) {
 		weather_img.setImageBitmap(Bitmap.createScaledBitmap(img,100,100,true));
-
-		WebRequest request = new WebRequest(url + "/announcements",true,new HashMap<String, String>(),1);
-		request.addListener(this);
-		request.execute();
+		refresh();
 
 	}
 	public interface OnRecyclerViewInteractionListener {
