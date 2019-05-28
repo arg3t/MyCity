@@ -9,3 +9,7 @@
 /captures
 .externalNativeBuild
 /.idea/
+rfcn_resnet101_coco_11_06_2017\
+ssd_inception_v2_coco_2017_11_17\
+ssd_mobilenet_v1_coco_2017_11_17\
+faster_rcnn_resnet101_coco_11_06_2017\
