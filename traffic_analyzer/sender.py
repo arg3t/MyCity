@@ -5,9 +5,26 @@ import base64
 from PIL import Image
 from io import BytesIO
 import psutil
-
+import multiprocessing 
 cam = cv2.VideoCapture(0)
 
+
+def open_switch():
+
+    HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
+    PORT = 8385        # Port to listen on (non-privileged ports are > 1023)
+
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind((HOST, PORT))
+        s.listen()
+        while 1:
+            conn, addr = s.accept()
+            with conn:
+                while True:
+                    data = conn.recv(1024)
+                    if not data:
+                        break
+                    conn.sendall(data)
 
 img_counter = 0
 
@@ -25,6 +42,9 @@ def get_temps():
     data["cpu_load"] = str(psutil.cpu_percent())+"%"
     data["mem_load"] = str(dict(psutil.virtual_memory()._asdict())["percent"])+"%"
     data["fan_speed"] = str(psutil.sensors_fans()["dell_smm"][0][1])+"RPM"
+
+p1 = multiprocessing.Process(target=open_switch) 
+p1.start()
 
 while True:
     try:
@@ -71,7 +91,11 @@ while True:
         if not socket_switch:
             client_socket.sendall(b"Bye\n")
         cam.release()
-        exit(0)
+        p1.terminate()
+        break
+
+cv2.destroyAllWindows()
+p1.terminate()
 
 
 
