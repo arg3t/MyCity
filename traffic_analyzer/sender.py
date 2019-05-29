@@ -5,11 +5,21 @@ import base64
 from PIL import Image
 from io import BytesIO
 import psutil
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import multiprocessing 
 cam = cv2.VideoCapture(0)
+=======
+
+cam = cv2.VideoCapture(1)
+>>>>>>> Stashed changes
 
 
 def open_switch():
+=======
+
+cam = cv2.VideoCapture(1)
+>>>>>>> Stashed changes
 
     HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
     PORT = 8385        # Port to listen on (non-privileged ports are > 1023)
@@ -72,7 +82,7 @@ while True:
         if socket_switch:
             try:
                 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                client_socket.connect(('127.0.0.1', 8485))
+                client_socket.connect(('10.10.26.163', 8485))
                 connection = client_socket.makefile('wb')
                 socket_switch = False
             except:
