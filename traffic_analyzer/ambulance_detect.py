@@ -143,9 +143,9 @@ cut = [115, 100, 400, 150]
 cut_send = [0, 0, 0, 0]
 img_counter = 0
 socket_switch = True
-dont_send = False
-#cam = cv2.VideoCapture(0)
-cam = cv2.VideoCapture('amb_1.mp4')
+dont_send = True
+cam = cv2.VideoCapture(0)
+#cam = cv2.VideoCapture('amb_1.mp4')
 thread = threading.Thread(target=listener)
 thread.start()
 with detection_graph.as_default():
@@ -153,13 +153,16 @@ with detection_graph.as_default():
 switch = 0
 get_temps()
 amb_center = {'x': (400 + 550)/2, 'y': (115+215)/2}
-a = 1
+a = 0
 # frame_data = []
-while 1:
-    a += 1
-    ret, image = cam.read()
-    if a % 10 != 0:
+#while 1:
+#    ret, image = cam.read()
+for i in os.listdir('images/'):
+    if not i.endswith('.jpg'):
         continue
+    image = cv2.imread('images/' + i)
+    a += 1
+    cv2.imwrite(f'images/{a}.png', image)
     try:  # Kavşak
         t1 = time.time()
         image_np = image
@@ -197,6 +200,8 @@ while 1:
         for i in out_dict['detection_boxes']:
             (left, right, top, bottom) = (i[1] * width, i[3] * width,
                                           i[0] * height, i[2] * height)
+            with open(f'images/{a}_coordinates.txt', 'a') as f:
+                f.write(','.join(map(int, [left, right, top, bottom])))
             if abs(((left + right)/2) - amb_center['x']) < 15 and abs(((top + bottom)/2) - amb_center['y']) < 15:
                 print('Ambulance found!')
 
