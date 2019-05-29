@@ -19,6 +19,14 @@ from io import BytesIO
 import psutil
 
 switch = 1
+
+import io
+import socket
+import struct
+import time
+import pickle
+import zlib
+
 # This is needed since the notebook is stored in the object_detection folder.
 sys.path.append("..")
 import time
@@ -29,9 +37,12 @@ if StrictVersion(tf.__version__) < StrictVersion('1.12.0'):
 
 # What model to download.
 
-#MODEL_NAME = 'ssd_mobilenet_v1_coco_2017_11_17' #not even worth trying
-MODEL_NAME="ssd_inception_v2_coco_11_06_2017" # not bad and fast
-MODEL_NAME="rfcn_resnet101_coco_11_06_2017" # WORKS BEST BUT takes 4 times longer per image
+
+encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
+
+MODEL_NAME = 'ssd_mobilenet_v1_coco_2017_11_17' #not even worth trying
+#MODEL_NAME="ssd_inception_v2_coco_11_06_2017" # not bad and fast
+#MODEL_NAME="rfcn_resnet101_coco_11_06_2017" # WORKS BEST BUT takes 4 times longer per image
 #MODEL_NAME = "faster_rcnn_resnet101_coco_11_06_2017" # too slow
 MODEL_FILE = MODEL_NAME + '.tar.gz'
 DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
@@ -123,6 +134,8 @@ def run_inference_for_single_image(image, graph):
     output_dict['detection_scores'] = output_dict['detection_scores'][0]
     if 'detection_masks' in output_dict:
       output_dict['detection_masks'] = output_dict['detection_masks'][0]
+
+
   return output_dict
 cut=[-175,-1,-175,-1]
 cut_send = [0,0,0,0]

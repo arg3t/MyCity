@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,7 @@ public class VotesFragment extends Fragment implements responseListener, imageLi
 	private int mColumnCount = 1;
 	private OnListFragmentInteractionListener mListener;
 	public RecyclerView recyclerView;
+	public SwipeRefreshLayout swipeRefreshLayout;
 	public String url;
 	public int img_count = 0;
 	public JSONArray votes;
@@ -59,7 +61,7 @@ public class VotesFragment extends Fragment implements responseListener, imageLi
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_votes_list, container, false);
-
+		// swipeRefreshLayout = view.findViewById(R.id.simpleSwipeRefreshLayout);
 		// Set the adapter
 		if (view instanceof RecyclerView) {
 			Context context = view.getContext();
@@ -75,10 +77,22 @@ public class VotesFragment extends Fragment implements responseListener, imageLi
 			web_manager.addListener(this);
 			web_manager.execute();
 		}
+		/* swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				swipeRefreshLayout.setRefreshing(false);
+				refresh();
+			}
+		});
+		*/
 		return view;
 	}
 
-
+	public void refresh() {
+		WebRequest web_manager = new WebRequest(url + "/votings/",true,new HashMap<String,String>(),0);
+		web_manager.addListener(this);
+		web_manager.execute();
+	}
 	@Override
 	public void onAttach(Context context) {
 		super.onAttach(context);

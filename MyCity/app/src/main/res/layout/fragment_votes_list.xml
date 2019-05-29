@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		xmlns:tools="http://schemas.android.com/tools"
-		android:id="@+id/list"
-		android:name="gq.yigit.mycity.VotesFragment"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginLeft="16dp"
-		android:layout_marginTop="60dp"
-		android:layout_marginRight="16dp"
-		app:layoutManager="LinearLayoutManager"
-		tools:context=".votesFragment.VotesFragment"
-		tools:listitem="@layout/votes_list_item"
-		android:divider="@android:color/transparent"
-		android:dividerHeight="100.0sp"
-		android:clipChildren="false" android:clipToPadding="false" android:scrollbars="vertical"/>
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+											  android:id="@+id/simpleSwipeRefreshLayout"
+											  android:layout_width="match_parent"
+											  android:layout_height="match_parent">
+	<android.support.v7.widget.RecyclerView
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			xmlns:app="http://schemas.android.com/apk/res-auto"
+			xmlns:tools="http://schemas.android.com/tools"
+			android:id="@+id/list"
+			android:name="gq.yigit.mycity.VotesFragment"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="16dp"
+			android:layout_marginTop="60dp"
+			android:layout_marginRight="16dp"
+			app:layoutManager="LinearLayoutManager"
+			tools:context=".votesFragment.VotesFragment"
+			tools:listitem="@layout/votes_list_item"
+			android:divider="@android:color/transparent"
+			android:dividerHeight="100.0sp"
+			android:clipChildren="false" android:clipToPadding="false" android:scrollbars="vertical"/>
+</android.support.v4.widget.SwipeRefreshLayout>
