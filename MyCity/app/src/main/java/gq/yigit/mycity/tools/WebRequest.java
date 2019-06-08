@@ -80,9 +80,7 @@ public class WebRequest extends AsyncTask<Void,Void,String> {
 					iterator.remove();
 				}
 				post_request.setEntity(new UrlEncodedFormEntity(pairs));
-				Log.d("[BOOKMARK]","Started execute");
 				response = client.execute(post_request);
-				Log.d("[BOOKMARK]","Done execute");
 			}catch (Exception e){
 				Log.e("[ERROR](request:86): ", e.toString());
 			}

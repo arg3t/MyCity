@@ -152,7 +152,7 @@ public class RateFragment extends Fragment implements WebRequest.responseListene
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
 			throw new RuntimeException(context.toString()
-					+ " must implement OnFragmentInteractionListener");
+					+ " must implement OnComplaintsClicked");
 		}
 	}
 

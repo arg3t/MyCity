@@ -9,14 +9,20 @@
 					android:id="@+id/transit"
 					android:icon="@drawable/subway"
 					android:title="Public Transit"/>
-			<item
-					android:id="@+id/parking"
-					android:icon="@drawable/parking"
-					android:title="Smart Parking"/>
 		</menu>
 	</item>
 
 	<item android:title="@string/foryou">
+		<menu>
+
+			<item
+					android:id="@+id/complaint"
+					android:icon="@drawable/road_cracked"
+					android:title="Complaint"/>
+		</menu>
+	</item>
+
+	<item android:title="Presentation" android:id="@+id/present_items">
 		<menu>
 			<item
 					android:id="@+id/rating"
@@ -40,6 +46,12 @@
 					android:id="@+id/qr_code"
 					android:icon="@drawable/qr_code"
 					android:title="QR Code"/>
+
+			<item
+					android:id="@+id/parking"
+					android:icon="@drawable/parking"
+					android:title="Smart Parking"/>
+
 		</menu>
 	</item>
 

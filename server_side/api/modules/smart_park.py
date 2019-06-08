@@ -99,7 +99,6 @@ def generateData(locs, img, avgs,show):
 
 
 def im2str(im):
-	"""Convert a Numpy array to JSON string"""
 	imdata = pickle.dumps(im)
 	return base64.b64encode(imdata).decode('ascii')
 

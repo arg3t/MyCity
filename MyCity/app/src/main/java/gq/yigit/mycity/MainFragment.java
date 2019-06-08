@@ -2,6 +2,8 @@ package gq.yigit.mycity;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -36,6 +38,7 @@ public class MainFragment extends Fragment implements WebRequest.responseListene
 	private TextView temp_text;
 	private TextView humi_text;
 	private TextView pres_text;
+	private TextView city_text;
 	private ImageView weather_img;
 	private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -64,13 +67,22 @@ public class MainFragment extends Fragment implements WebRequest.responseListene
 		View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 		temp_text = rootView.findViewById(R.id.temp_text);
 		humi_text = rootView.findViewById(R.id.humidity);
+		city_text = rootView.findViewById(R.id.city_name);
 		pres_text = rootView.findViewById(R.id.pressure);
 		weather_img = rootView.findViewById(R.id.forecast_img);
 		recyclerView = rootView.findViewById(R.id.anouncements);
 		swipeRefreshLayout = rootView.findViewById(R.id.simpleSwipeRefreshLayout);
 
 		HashMap<String,String> params = new HashMap<>();
-		params.put("q","Ankara,tr");
+
+		try {
+			Location curloc = MainActivity.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			params.put("lat",String.valueOf(curloc.getLatitude()));
+			params.put("lon",String.valueOf(curloc.getLongitude()));
+		}catch (SecurityException e){
+			Log.e("[ERROR]", "An error occured with location permissions");
+
+		}
 		params.put("appid",key);
 
 		FileActions file_manager = new FileActions();
@@ -108,7 +120,7 @@ public class MainFragment extends Fragment implements WebRequest.responseListene
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
 			throw new RuntimeException(context.toString()
-					+ " must implement OnFragmentInteractionListener");
+					+ " must implement OnComplaintsClicked");
 		}
 	}
 
@@ -132,7 +144,7 @@ public class MainFragment extends Fragment implements WebRequest.responseListene
 				temp_text.setText((int)(Float.parseFloat(temp.getString("temp")) - 272.15) + " °C");
 				humi_text.setText("Humidity: %" + temp.getString("humidity"));
 				pres_text.setText("Pressure: " + temp.getString("pressure") + "hpa");
-
+				city_text.setText(new JSONObject(response).getString("name"));
 				ImageDownload imageDownload = new ImageDownload();
 				imageDownload.addListener(this);
 				imageDownload.execute(String.format("http://openweathermap.org/img/w/%s.png", weatherdata.getString("icon")));
