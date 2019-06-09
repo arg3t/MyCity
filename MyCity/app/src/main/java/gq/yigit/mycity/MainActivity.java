@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity
 		Log.d("[BOOKMARK]","Started creating activity");
 		super.onCreate(savedInstanceState);
 		pix_density = getApplicationContext().getResources().getDisplayMetrics();
-		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager)getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 		if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
 
 			ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  },
@@ -99,9 +99,14 @@ public class MainActivity extends AppCompatActivity
 					1 );
 
 		}
+		boolean isGPSEnabled = locationManager
+				.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
+		// getting network status
+		boolean isNetworkEnabled = locationManager
+				.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		try {
-			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, new LocationListener() {
+			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10, 1000, new LocationListener() {
 				@Override
 				public void onLocationChanged(Location location) {
 					Log.i("[INFO]", "Location changed to lat:" + location.getLatitude() + " lng:" + location.getLongitude());

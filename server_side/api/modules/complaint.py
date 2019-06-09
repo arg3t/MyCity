@@ -28,10 +28,10 @@ complaints_file.write(json.dumps(complaints,indent=4))
 
 if sys.platform == "win32":
 	# Path to frozen detection graph. This is the actual model that is used for the object detection.
-	PATH_TO_CKPT =  'trainedModels/ssd_mobilenet_RoadDamageDetector.pb'
+	PATH_TO_CKPT =  'modules/trainedModels/ssd_mobilenet_RoadDamageDetector.pb'
 
 	# List of the strings that is used to add correct label for each box.
-	PATH_TO_LABELS = 'trainedModels/crack_label_map.pbtxt'
+	PATH_TO_LABELS = 'modules/trainedModels/crack_label_map.pbtxt'
 
 	NUM_CLASSES = 8
 
@@ -101,9 +101,9 @@ def process_img(img_base64):
 		if priority > 10:
 			priority = 10
 
-		return base64.b64encode(pickle.dumps(image_np)).decode('ascii'),priority
+		return base64.b64encode(pickle.dumps(image_np)).decode('ascii'),priority,defects
 
-	return img_base64, 7
+	return img_base64, 7,["unprocessed"]
 
 class Complaint(Resource):
 	def post(self):
@@ -114,11 +114,11 @@ class Complaint(Resource):
 
 		complaint["response"] = {"status":False}
 
-		img_process,priority = process_img(complaint["img"])
+		img_process,priority,tags = process_img(complaint["img"])
 
 		complaint["img"] = img_process
 		complaint["response"]["priority"] = priority
-
+		complaint["tags"] = tags
 		complaint["datetime"] = datetime.datetime.now().strftime('%b-%d-%I:%M %p-%G')
 
 		try:

@@ -242,7 +242,7 @@ while 1:
 
         t2 = time.time()
         print("time taken for {}".format(t2-t1))
-        if not sys.platform == "win32":
+        if not sys.platform == "win32" and t2-t1 < 0.1:
             time.sleep(0.1-(t2-t1))
         send_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         if socket_switch:

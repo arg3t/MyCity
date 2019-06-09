@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+
+        #img:hover{
+            color: #424242;
+            -webkit-transition: all .3s ease-in;
+            -moz-transition: all .3s ease-in;
+            -ms-transition: all .3s ease-in;
+            -o-transition: all .3s ease-in;
+            transition: all .3s ease-in;
+            opacity: 1;
+            transform: scale(1.15);
+            -ms-transform: scale(1.15); /* IE 9 */
+            -webkit-transform: scale(1.15); /* Safari and Chrome */
+
+        }
+
+        .close {
+            /* Position it in the top right corner outside of the modal */
+            float:right;
+            right: 25px;
+            top: 0;
+            color: #000;
+            font-size: 35px;
+            font-weight: bold;
+            margin-top:10px;
+        }
+
+
+        .title{
+            text-align: left;
+        }
+        td{
+            padding: 20px 10px;
+        }
+
+        .popup{
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px;
+        }
+        #table,#table-user{
+            background: white;
+            padding: 40px 60px;
+        }
+        #content, #user-content{
+            display: inline-block;
+            margin-top: 125px;
+            background: white;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+</head>
+<body>
+<button onclick="document.getElementById('popup').style.display='block'">Login</button>
+
+<div id = "popup" align = "center" class = "popup">
+
+    <div id = "content">
+        <table border="0" cellpadding="10" cellspacing="0" id = "table" class = "modal">
+            <tr>
+                <td rowspan="2" colspan="7"><img src="cityscape.png" alt="img"id = "img"></td>
+                <td colspan="2" class="title"><strong>Priority: </strong></td>
+                <td colspan="1" id = "priority">7</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="title"><strong>Type: </strong></td>
+                <td colspan="1" id = "type"> Ambulance</td>
+            </tr>
+            <tr>
+                <td colspan="4" class="title"><strong>Submitter: </strong></td>
+                <td colspan="6">
+                    <a href="#" id = "user" class = "panel" onclick=
+                            "document.getElementById('popup').style.display='none';
+                            document.getElementById('user-popup').style.display='block';"
+
+                    >Efe Aydın </a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" class="title"><strong>Message: </strong></td>
+                <td colspan="6" id = "message">Test ambulance</td>
+            </tr>
+            <tr>
+                <td colspan="4" class="title"><strong>Tags: </strong></td>
+                <td colspan="6" id = "tags">Test tags</td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+<div id = "user-popup" align = "center" class="popup">
+
+    <div id = "user-content">
+        <table border="0" cellpadding="10" cellspacing="0" id = "table-user" class = "modal">
+
+            <tr>
+                <td rowspan="3" colspan="7"><img src="cityscape.png" alt="img"id = "img-user"></td>
+                <td colspan="2" class="title"><strong>Name: </strong></td>
+                <td colspan="1" id = "name">Efe Aydın</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="title"><strong>TC: </strong></td>
+                <td colspan="1" id = "tc">111111111111</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="title"><strong>Trust: </strong></td>
+                <td colspan="1" id = "trust">7</td>
+            </tr>
+
+            <tr>
+                <td colspan="4" class="title"><strong>Phone: </strong></td>
+                <td colspan="6" id="phone">
+                    0 555 555 55 55
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" class="title"><strong>E-mail: </strong></td>
+                <td colspan="6" id = "email">efeaydin@citizenview.com</td>
+            </tr>
+            <tr>
+                <td colspan="4" class="title"><strong>Health: </strong></td>
+                <td colspan="6" id = "health">Test tags</td>
+            </tr>
+        </table>
+        <button onclick=
+                        "document.getElementById('popup').style.display='block';
+                            document.getElementById('user-popup').style.display='none';"
+        style="margin-bottom: 5px;">OK</button>
+    </div>
+
+</div>
+
+<script>
+    var modal = document.getElementById('popup');
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,11 +1,16 @@
 from flask import Flask, send_from_directory
 from flask_restful import Api
+from flask_cors import CORS, cross_origin
 
 from modules import user_info, voting_system, rating_system, denunciation, navigation, bus_stops, announcements, complaint
 from modules import utility
 
 app = Flask(__name__)
 api = Api(app)
+app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy   dog'
+app.config['CORS_HEADERS'] = 'Content-Type'
+
+cors = CORS(app, resources={r"/foo": {"origins": "*"}})\
 
 @app.route('/img/<path:path>')
 def send_img(path):

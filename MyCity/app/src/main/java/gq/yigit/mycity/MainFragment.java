@@ -76,9 +76,16 @@ public class MainFragment extends Fragment implements WebRequest.responseListene
 		HashMap<String,String> params = new HashMap<>();
 
 		try {
-			Location curloc = MainActivity.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-			params.put("lat",String.valueOf(curloc.getLatitude()));
-			params.put("lon",String.valueOf(curloc.getLongitude()));
+			while(true) {
+				try {
+					Location curloc = MainActivity.locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+					params.put("lat", String.valueOf(curloc.getLatitude()));
+					params.put("lon", String.valueOf(curloc.getLongitude()));
+				}catch (NullPointerException e){
+					break;
+				}
+				break;
+			}
 		}catch (SecurityException e){
 			Log.e("[ERROR]", "An error occured with location permissions");
 
