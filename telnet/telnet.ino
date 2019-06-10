@@ -23,8 +23,8 @@
 #include <algorithm> // std::min
 
 #ifndef STASSID
-#define STASSID "ZyXEL5500bT5"
-#define STAPSK  "eBusgxczl5"
+#define STASSID "AirTies_Air5343"
+#define STAPSK  "yigit007"
 #endif
 
 /*
