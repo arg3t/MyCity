@@ -12,7 +12,7 @@ android {
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
 
-        
+
     }
     buildTypes {
         release {
@@ -23,15 +23,13 @@ android {
     }
 
 
-
-
 }
 
 dependencies {
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api 'cz.msebera.android:httpclient:4.4.1.2'
-    implementation ('com.github.chathuralakmal:AndroidImagePopup:1.2.1',{
+    implementation('com.github.chathuralakmal:AndroidImagePopup:1.2.1', {
         exclude module: "com.github.bumptech.glide"
     })
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
@@ -45,7 +43,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation ('com.google.android.libraries.places:places:1.1.0',{
+    implementation('com.google.android.libraries.places:places:1.1.0', {
         exclude group: "com.github.bumptech.glide"
     })
     implementation 'com.google.android.gms:play-services-maps:16.1.0'

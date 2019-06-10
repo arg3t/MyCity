@@ -2,20 +2,25 @@ package gq.yigit.mycity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.*;
 import android.support.design.widget.NavigationView;
@@ -28,7 +33,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.bumptech.glide.Glide;
+import gq.yigit.mycity.complaintsFragment.ComplaintFragment;
+import gq.yigit.mycity.complaintsFragment.ComplaintViewFragment;
+import gq.yigit.mycity.complaintsFragment.ComplaintsContent;
+import gq.yigit.mycity.complaintsFragment.ComplaintsFragment;
 import gq.yigit.mycity.navigation.TransitFragment;
 import gq.yigit.mycity.tools.*;
 import gq.yigit.mycity.tools.WebRequest.responseListener;
@@ -40,6 +48,7 @@ import gq.yigit.mycity.votesFragment.VotesFragment.OnListFragmentInteractionList
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static gq.yigit.mycity.tools.ImageDownload.*;
@@ -56,6 +65,9 @@ public class MainActivity extends AppCompatActivity
 		QRFragment.OnFragmentInteractionListener,
 		OnFragmentInteractionListener,
 		ParkFragment.OnFragmentInteractionListener,
+		ComplaintFragment.OnComplaintsClicked,
+		ComplaintsFragment.OnListFragmentInteractionListener,
+		ComplaintViewFragment.OnFragmentInteractionListener,
 		responseListener,
 		imageListener {
 
@@ -66,13 +78,59 @@ public class MainActivity extends AppCompatActivity
 	private ImageView avatarView;
 	private TextView userName;
 	public static Activity mainActivity;
+	public static DisplayMetrics pix_density;
 	public static String apikey = "AIzaSyBuOC03IHPA_6TPnfk18b0SAgD1uge4-dk";
-
+	public boolean present = true;
+	public MenuItem present_item;
+	public static LocationManager locationManager;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d("[BOOKMARK]","Started creating activity");
 		super.onCreate(savedInstanceState);
+		pix_density = getApplicationContext().getResources().getDisplayMetrics();
+		locationManager = (LocationManager)getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+		if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
 
+			ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  },
+					1 );
+		}else if( ContextCompat.checkSelfPermission( this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+
+			ActivityCompat.requestPermissions( this, new String[] {  Manifest.permission.ACCESS_FINE_LOCATION  },
+					1 );
+
+		}
+		boolean isGPSEnabled = locationManager
+				.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+		// getting network status
+		boolean isNetworkEnabled = locationManager
+				.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		try {
+			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10, 1000, new LocationListener() {
+				@Override
+				public void onLocationChanged(Location location) {
+					Log.i("[INFO]", "Location changed to lat:" + location.getLatitude() + " lng:" + location.getLongitude());
+				}
+
+				@Override
+				public void onStatusChanged(String provider, int status, Bundle extras) {
+
+				}
+
+				@Override
+				public void onProviderEnabled(String provider) {
+					Log.i("[INFO]", "Provider enabled: " + provider);
+				}
+
+				@Override
+				public void onProviderDisabled(String provider) {
+					Log.i("[INFO]", "Provider disabled: " + provider);
+
+				}
+			});
+		}catch (SecurityException e){
+			Log.e("[ERROR]", "An error occured with location permissions");
+		}
 		setContentView(R.layout.activity_main);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -82,6 +140,7 @@ public class MainActivity extends AppCompatActivity
 				this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
+
 
 		FileActions file_manager = new FileActions();
 		url = file_manager.readFromFile(cntxt,"server.config").trim();
@@ -95,6 +154,9 @@ public class MainActivity extends AppCompatActivity
 
 		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
+		Menu menu = navigationView.getMenu();
+		present_item = menu.findItem(R.id.present_items);
+		present_item.setVisible(!present);
 		MainFragment fragment = new MainFragment();
 		View header = navigationView.getHeaderView(0);
 
@@ -154,6 +216,15 @@ public class MainActivity extends AppCompatActivity
 
 			alert.show();
 			return true;
+		}else if(id == R.id.action_presentation){
+			present = !present;
+			present_item.setVisible(!present);
+			Toast.makeText(getApplicationContext(),"Toggled presentation mode!",Toast.LENGTH_LONG).show();
+		}else if(id == R.id.action_restart){
+			Intent intent = new Intent(this, MainActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			finish();
 		}
 
 		return super.onOptionsItemSelected(item);
@@ -201,10 +272,13 @@ public class MainActivity extends AppCompatActivity
 			QRFragment fragment= new QRFragment();
 			fragmentTransaction.replace(R.id.app_bar_main, fragment);
 			fragmentTransaction.commit();
+		}else if (id == R.id.complaint){
+			ComplaintFragment fragment= new ComplaintFragment();
+			fragmentTransaction.replace(R.id.app_bar_main, fragment);
+			fragmentTransaction.commit();
 		}
 
-
-
+		fragmentTransaction.addToBackStack(null);
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);
 		return true;
@@ -219,6 +293,20 @@ public class MainActivity extends AppCompatActivity
 	}
 
 	public void onFragmentInteraction(Uri uri){
+	}
+
+	public void ComplaintsClicked(@Nullable ComplaintsContent.ComplaintItem item){
+
+		if(item == null) {
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+			ComplaintsFragment fragment = new ComplaintsFragment();
+			fragmentTransaction.replace(R.id.app_bar_main, fragment);
+			fragmentTransaction.commit();
+			return;
+		}
+
 
 	}
 
@@ -253,6 +341,16 @@ public class MainActivity extends AppCompatActivity
 		}catch(Exception e){
 			Log.e("[ERROR]","Cannot set avatar!");
 		}
+	}
+
+	@Override
+	public void onListFragmentInteraction(ComplaintsContent.ComplaintItem item){
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+		ComplaintViewFragment fragment = ComplaintViewFragment.newInstance(item.toString());
+		fragmentTransaction.replace(R.id.app_bar_main, fragment);
+		fragmentTransaction.commit();
 	}
 
 

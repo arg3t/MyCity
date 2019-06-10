@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+											 xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+			 android:layout_width="match_parent"
+			 android:layout_height="match_parent"
+			 tools:context=".complaintsFragment.ComplaintViewFragment">
+	<ImageView
+			android:src="@drawable/app_icon"
+			android:layout_width="358dp"
+			android:layout_height="236dp"
+			android:id="@+id/cv_image" app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginTop="8dp"
+			app:layout_constraintTop_toTopOf="parent"/>
+	<TextView
+			android:text="TextView"
+			android:layout_width="252dp"
+			android:layout_height="41dp"
+			android:id="@+id/cv_address" app:layout_constraintEnd_toEndOf="@+id/cv_image"
+			android:layout_marginEnd="12dp" android:layout_marginTop="24dp"
+			app:layout_constraintTop_toBottomOf="@+id/cv_image"/>
+	<TextView
+			android:text="Address:"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/cv_address_static" android:textColor="#000000"
+			android:textStyle="bold" android:layout_marginEnd="8dp"
+			app:layout_constraintEnd_toStartOf="@+id/cv_address" android:layout_marginStart="8dp"
+			app:layout_constraintStart_toStartOf="@+id/cv_image" app:layout_constraintHorizontal_bias="1.0"
+			app:layout_constraintTop_toTopOf="@+id/cv_address"/>
+	<TextView
+			android:text="Your message:"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/cv_message_static" android:textColor="#000000"
+			android:textStyle="bold"
+			app:layout_constraintStart_toStartOf="@+id/cv_address_static" android:layout_marginEnd="8dp"
+			app:layout_constraintEnd_toStartOf="@+id/cv_message" app:layout_constraintHorizontal_bias="1.0"
+			android:layout_marginTop="24dp" app:layout_constraintTop_toBottomOf="@+id/cv_address_static"/>
+	<TextView
+			android:text="TextView"
+			android:layout_width="214dp"
+			android:layout_height="61dp"
+			android:id="@+id/cv_message"
+			app:layout_constraintEnd_toEndOf="@+id/cv_address"
+			app:layout_constraintTop_toTopOf="@+id/cv_message_static"/>
+	<ImageView
+			android:src="@drawable/status_pending"
+			android:layout_width="87dp"
+			android:layout_height="79dp"
+			android:id="@+id/cv_state_img" app:layout_constraintEnd_toStartOf="@+id/cv_response_message"
+			android:layout_marginEnd="20dp"
+			app:layout_constraintBottom_toBottomOf="@+id/cv_response_message"/>
+	<TextView
+			android:text="Your complaint is being processed:"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/cv_state_text" android:textColor="#000000"
+			android:textStyle="bold" app:layout_constraintEnd_toEndOf="@+id/cv_message" android:layout_marginTop="76dp"
+			app:layout_constraintTop_toBottomOf="@+id/cv_message" android:layout_marginEnd="8dp"/>
+	<TextView
+			android:text="TextView"
+			android:layout_width="204dp"
+			android:layout_height="59dp"
+			android:id="@+id/cv_response_message" app:layout_constraintEnd_toEndOf="@+id/cv_state_text"
+			app:layout_constraintTop_toBottomOf="@+id/cv_state_text"/>
+	<TextView
+			android:text="Priority:"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/cv_priority_static" android:textStyle="bold"
+			android:textColor="#000000" android:layout_marginTop="52dp"
+			app:layout_constraintTop_toBottomOf="@+id/cv_message_static"
+			app:layout_constraintStart_toStartOf="@+id/cv_message_static"/>
+	<TextView
+			android:text="TextView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/cv_priority" app:layout_constraintStart_toEndOf="@+id/cv_priority_static"
+			android:layout_marginStart="16dp"
+			app:layout_constraintBottom_toBottomOf="@+id/cv_priority_static"/>
+</android.support.constraint.ConstraintLayout>

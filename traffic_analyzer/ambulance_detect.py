@@ -2,15 +2,24 @@
 
 import pickle
 import threading
-import numpy as np
-import os
 import sys
-import tensorflow as tf
 import cv2
-from distutils.version import StrictVersion
-from utils import label_map_util
+import os
+import numpy as np
 
+from utils import label_map_util
 from utils import visualization_utils as vis_util
+
+if sys.platform == "win32":
+
+    import tensorflow as tf
+    from distutils.version import StrictVersion
+
+    if StrictVersion(tf.__version__) < StrictVersion('1.12.0'):
+        raise ImportError('Please upgrade your TensorFlow installation to v1.12.*.')
+else:
+    import psutil
+
 import json
 
 import base64
@@ -26,8 +35,7 @@ sys.path.append("..")
 import time
 from object_detection.utils import ops as utils_ops
 
-if StrictVersion(tf.__version__) < StrictVersion('1.12.0'):
-  raise ImportError('Please upgrade your TensorFlow installation to v1.12.*.')
+
 
 # What model to download.
 
@@ -38,6 +46,7 @@ encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
 #MODEL_NAME = "ssd_inception_v2_coco_2017_11_17" # not bad and fast
 MODEL_NAME = "rfcn_resnet101_coco_11_06_2017" # WORKS BEST BUT takes 4 times longer per image
 #MODEL_NAME = "faster_rcnn_resnet101_coco_11_06_2017" # too slow
+#MODEL_NAME = "ssd_resnet101_v1_fpn_shared_box_predictor_oid_512x512_sync_2019_01_20"
 MODEL_FILE = MODEL_NAME + '.tar.gz'
 DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
 
@@ -47,35 +56,44 @@ PATH_TO_FROZEN_GRAPH = MODEL_NAME + '/frozen_inference_graph.pb'
 # List of the strings that is used to add correct label for each box.
 PATH_TO_LABELS = os.path.join('object_detection/data', 'mscoco_label_map.pbtxt')
 
-detection_graph = tf.Graph()
-with detection_graph.as_default():
-  od_graph_def = tf.GraphDef()
-  with tf.gfile.GFile(PATH_TO_FROZEN_GRAPH, 'rb') as fid:
-    serialized_graph = fid.read()
-    od_graph_def.ParseFromString(serialized_graph)
-    tf.import_graph_def(od_graph_def, name='')
 
 category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
 
-def load_image_into_numpy_array(image):
-  (im_width, im_height) = image.size
-  return np.array(image.getdata()).reshape(
-      (im_height, im_width, 3)).astype(np.uint8)
+if sys.platform == "win32":
+    detection_graph = tf.Graph()
+    with detection_graph.as_default():
+      od_graph_def = tf.GraphDef()
+      with tf.gfile.GFile(PATH_TO_FROZEN_GRAPH, 'rb') as fid:
+        serialized_graph = fid.read()
+        od_graph_def.ParseFromString(serialized_graph)
+        tf.import_graph_def(od_graph_def, name='')
 
-# For the sake of simplicity we will use only 2 images:
-# image1.jpg
-# image2.jpg
-# If you want to test the code with your images, just add path to the images to the TEST_IMAGE_PATHS.
-PATH_TO_TEST_IMAGES_DIR = 'object_detection/test_images'
-TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'image{}.jpg'.format(i)) for i in range(3, 6) ]
 
-# Size, in inches, of the output images.
+    def load_image_into_numpy_array(image):
+      (im_width, im_height) = image.size
+      return np.array(image.getdata()).reshape(
+          (im_height, im_width, 3)).astype(np.uint8)
+
+    # For the sake of simplicity we will use only 2 images:
+    # image1.jpg
+    # image2.jpg
+    # If you want to test the code with your images, just add path to the images to the TEST_IMAGE_PATHS.
+    PATH_TO_TEST_IMAGES_DIR = 'object_detection/test_images'
+    TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'image{}.jpg'.format(i)) for i in range(3, 6) ]
+
+    # Size, in inches, of the output images.
 sess = 0
-switch = 1
+
 data = {"gpu_temp":"10C","gpu_load":"15%","cpu_temp":"47C","cpu_load":"15%","mem_temp":"NaN","mem_load":"17%","fan_speed":"10000RPM"}
 
 def get_temps():
     global data
+    if not sys.platform == "win32":
+        temps = psutil.sensors_temperatures()
+        data["cpu_temp"] = str(int(temps["dell_smm"][0][1]))+"°C"
+        data["cpu_load"] = str(psutil.cpu_percent())+"%"
+        data["mem_load"] = str(dict(psutil.virtual_memory()._asdict())["percent"])+"%"
+        data["fan_speed"] = str(psutil.sensors_fans()["dell_smm"][0][1])+"RPM"
 
 
 def run_inference_for_single_image(image, graph):
@@ -138,38 +156,46 @@ def listener(port=8385):
 
     print('Bye!')
 
-
 cut = [115, 100, 400, 150]
 cut_send = [0, 0, 0, 0]
 img_counter = 0
 socket_switch = True
-dont_send = True
-cam = cv2.VideoCapture(0)
-#cam = cv2.VideoCapture('amb_1.mp4')
+
 thread = threading.Thread(target=listener)
 thread.start()
-with detection_graph.as_default():
-    sess = tf.Session()
+
+if sys.platform == "win32":
+    with detection_graph.as_default():
+        sess = tf.Session()
+    cam = cv2.VideoCapture(0)
+else:
+    cam = cv2.VideoCapture('debug_data/amb_1.mp4')
+    with open("debug_data/frame_data.pkl","rb") as pkl_file:
+        frame_data = pickle.load(pkl_file)
+
 switch = 0
 get_temps()
 amb_center = {'x': (400 + 550)/2, 'y': (115+215)/2}
-a = 0
-# frame_data = []
-#while 1:
-#    ret, image = cam.read()
-for i in os.listdir('images/'):
-    if not i.endswith('.jpg'):
+
+reps = -1
+reps_vid = 0
+
+while 1:
+    ret,image = cam.read()
+    reps_vid += 1
+    if not sys.platform == "win32" and not reps_vid % 2 == 0:
         continue
-    image = cv2.imread('images/' + i)
-    a += 1
-    cv2.imwrite(f'images/{a}.png', image)
+    reps += 1
     try:  # Kavşak
         t1 = time.time()
         image_np = image
         image_np_expanded = np.expand_dims(image_np, axis=0)
-        output_dict = run_inference_for_single_image(image_np_expanded, detection_graph)
+        if sys.platform == "win32":
+            output_dict = run_inference_for_single_image(image_np_expanded, detection_graph)
+        else:
+            output_dict = frame_data[reps]
+
         height, width, channels = image_np.shape
-        # frame_data.append(output_dict)
 
         out_dict = {'detection_boxes': [], 'detection_classes': [], 'detection_scores': []}
         for i in output_dict['detection_classes']:
@@ -188,8 +214,6 @@ for i in os.listdir('images/'):
                                 cont = True
                                 continue
 
-                        if cont:
-                            continue
                         out_dict['detection_classes'].append(i)
                         out_dict['detection_boxes'].append(output_dict['detection_boxes'][index])
                         out_dict['detection_scores'].append(output_dict['detection_scores'][index])
@@ -197,15 +221,9 @@ for i in os.listdir('images/'):
         out_dict['detection_classes'] = np.array(out_dict['detection_classes'])
         out_dict['detection_boxes'] = np.array(out_dict['detection_boxes'])
         out_dict['detection_scores'] = np.array(out_dict['detection_scores'])
-        for i in out_dict['detection_boxes']:
-            (left, right, top, bottom) = (i[1] * width, i[3] * width,
-                                          i[0] * height, i[2] * height)
-            with open(f'images/{a}_coordinates.txt', 'a') as f:
-                f.write(','.join(map(int, [left, right, top, bottom])))
-            if abs(((left + right)/2) - amb_center['x']) < 15 and abs(((top + bottom)/2) - amb_center['y']) < 15:
-                print('Ambulance found!')
 
         print(len(out_dict['detection_classes']), ' cars.')
+
         vis_util.visualize_boxes_and_labels_on_image_array(
             image_np,
             out_dict['detection_boxes'],
@@ -224,13 +242,14 @@ for i in os.listdir('images/'):
 
         t2 = time.time()
         print("time taken for {}".format(t2-t1))
-        if dont_send:
-            continue
+        if not sys.platform == "win32" and t2-t1 < 0.1:
+            time.sleep(0.1-(t2-t1))
         send_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         if socket_switch:
             try:
                 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                client_socket.connect(('192.168.1.36', 8485))
+                client_socket.settimeout(0.1)
+                client_socket.connect(('127.0.0.1', 8485))
                 connection = client_socket.makefile('wb')
                 socket_switch = False
             except:
@@ -254,16 +273,21 @@ for i in os.listdir('images/'):
 
         if img_counter % 10 == 0:
             get_temps()
+
     except Exception as e:
-        print(e)
+        if hasattr(e, 'message'):
+            print(e.message)
+        else:
+            print(e)
         break
+
+
 
 if not socket_switch:
     client_socket.sendall(b"Bye\n")
     cam.release()
 
-# with open('frame_data.pkl', 'wb') as f:
-#    pickle.dump(frame_data, f)
+
 cv2.destroyAllWindows()
 cam.release()
 kill = False
