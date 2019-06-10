@@ -27,7 +27,7 @@ if __name__ == '__main__':
     api.add_resource(user_info.Login, '/login', '/login/')
     api.add_resource(user_info.ReducePoints, '/reduce', '/reduce/')
 
-    api.add_resource(utility.Resources, '/resources', '/resources/')
+    # api.add_resource(utility.Resources, '/resources', '/resources/')
 
     api.add_resource(denunciation.Alert, '/denunciation', '/denunciation/')
     api.add_resource(denunciation.Denunciations, '/denunciations', '/denunciations/')
@@ -38,6 +38,6 @@ if __name__ == '__main__':
 
     api.add_resource(announcements.Announcement, '/announcements', '/announcements/')
 
-    #api.add_resource(smart_park.Empty, '/parking', '/parking/')
+    # api.add_resource(smart_park.Empty, '/parking', '/parking/')
 
     app.run(host='0.0.0.0', port=5000, ssl_context=context)
