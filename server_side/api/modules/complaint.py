@@ -7,12 +7,14 @@ import base64
 from PIL import Image
 import sys
 import datetime
+import cv2
 
 if sys.platform == "win32":
 	import tensorflow as tf
 	import numpy as np
 	import pickle
 
+	sys.path.insert(0, r'C:\Users\Tednokent01\Downloads\MyCity\traffic_analyzer')
 	from utils import label_map_util
 
 	from utils import visualization_utils as vis_util
@@ -21,10 +23,7 @@ app = Flask(__name__)
 api = Api(app)
 
 with open("modules/databases/complaints.json","r") as f:
-	complaints = json.loads(f.read())
-
-complaints_file = open("modules/databases/complaints.json","w")
-complaints_file.write(json.dumps(complaints,indent=4))
+	complaints = json.load(f)
 
 if sys.platform == "win32":
 	# Path to frozen detection graph. This is the actual model that is used for the object detection.
@@ -86,18 +85,17 @@ def process_img(img_base64):
 						min_score_thresh=0.3,
 						use_normalized_coordinates=True,
 						line_thickness=8)
-		output_dict = {'detection_classes': classes, 'detection_scores': scores}
+				cv2.imwrite('cv222.png', image_np)
+
+		output_dict = {'detection_classes': classes, 'detection_scores': scores[0]}
 		defects = []
-		defect_scores = {}
 		for i in output_dict['detection_classes']:
-			cont = False
 			index = np.where(output_dict['detection_classes'] == i)[0][0]
 			score = output_dict['detection_scores'][index]
 			if score > 0.3:
+				defects.append(score)
 
-				defects.append(defect_scores[i])
-
-		priority = sum(defects)//10
+		priority = sum(defects) // 0.5
 		if priority > 10:
 			priority = 10
 
@@ -117,19 +115,18 @@ class Complaint(Resource):
 		img_process,priority,tags = process_img(complaint["img"])
 
 		complaint["img"] = img_process
-		complaint["response"]["priority"] = priority
-		complaint["tags"] = tags
+		complaint["response"]["priority"] = str(priority)
+		complaint["tags"] = list(map(str, tags))
 		complaint["datetime"] = datetime.datetime.now().strftime('%b-%d-%I:%M %p-%G')
 
 		try:
 			complaints[complaint["id"]].append(complaint)
 		except KeyError:
-			complaints[complaint["id"]]= [complaint]
+			complaints[complaint["id"]] = [complaint]
 
 		del complaints[complaint["id"]][-1]["id"]
-		complaints_file.seek(0)
-		complaints_file.truncate()
-		complaints_file.write(json.dumps(complaints,indent=4))
+		with open('modules/databases/complaints.json', 'w') as complaints_file:
+			json.dump(complaints, complaints_file, indent=4)
 
 
 class Complaints(Resource):
