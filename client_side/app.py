@@ -40,6 +40,25 @@ def handle_my_custom_namespace_event():
 
 	emit("new", json.dumps(json_data), namespace="/denunciations_socket")
 
+
+@socketio.on("check",namespace="/complaints_socket")
+def denunciation_handle(msg):
+
+	change,data = file_check("complaints")
+	if change:
+		emit("new", data, namespace="/complaints_socket")
+
+
+@socketio.on('connect', namespace='/complaints_socket')
+def handle_my_custom_namespace_event():
+	print("[INFO]: Received socket connection!")
+
+	src = os.path.join(src_path,"complaints.json")
+	with open(src,"r") as f:
+		json_data = json.loads(f.read())
+
+	emit("new", json.dumps(json_data), namespace="/complaints_socket")
+
 @app.route('/gui/<path:path>')
 def send_img(path):
 	return send_from_directory('interface/UserData', path)
