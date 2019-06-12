@@ -93,7 +93,7 @@ def process_img(img_base64):
 			index = np.where(output_dict['detection_classes'] == i)[0][0]
 			score = output_dict['detection_scores'][index]
 			if score > 0.3:
-				defects.append(score)
+				defects.append(i)
 
 		priority = sum(defects) // 0.5
 		if priority > 10:
@@ -105,7 +105,6 @@ def process_img(img_base64):
 
 class Complaint(Resource):
 	def post(self):
-		complaint = {}
 		args = request.form.to_dict()
 
 		complaint = args
@@ -135,6 +134,12 @@ class Complaints(Resource):
 		return complaints[id]
 
 
-class ComplaintsAdmin(Resource):
+class ComplaintsUpdate(Resource):
+	def get(self):
+		args = request.args
+		complaints[args.get("id")][int(args.get("index"))]["response"]["message"] = args.get("message")
+		complaints[args["id"]][int(args["index"])]["response"]["status"] = True
+		with open('modules/databases/complaints.json', 'w') as complaints_file:
+			json.dump(complaints, complaints_file, indent=4)
+		return
 
-	def get(self): return complaints
