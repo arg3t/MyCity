@@ -51,6 +51,9 @@
 					android:id="@+id/parking"
 					android:icon="@drawable/parking"
 					android:title="Smart Parking"/>
+			<item android:id="@+id/crash"
+				  android:icon="@drawable/crash"
+				  android:title="Car Crash"/>
 
 		</menu>
 	</item>
