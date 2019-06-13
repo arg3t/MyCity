@@ -2,7 +2,6 @@ package gq.yigit.mycity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,22 +36,23 @@ import gq.yigit.mycity.complaintsFragment.ComplaintFragment;
 import gq.yigit.mycity.complaintsFragment.ComplaintViewFragment;
 import gq.yigit.mycity.complaintsFragment.ComplaintsContent;
 import gq.yigit.mycity.complaintsFragment.ComplaintsFragment;
-import gq.yigit.mycity.navigation.TransitFragment;
+import gq.yigit.mycity.oldShit.DenunciationFragment;
+import gq.yigit.mycity.oldShit.ParkFragment;
+import gq.yigit.mycity.oldShit.RateFragment;
 import gq.yigit.mycity.tools.*;
 import gq.yigit.mycity.tools.WebRequest.responseListener;
-import gq.yigit.mycity.utility.UtilityMain;
-import gq.yigit.mycity.votesFragment.VoteFragment;
-import gq.yigit.mycity.votesFragment.VotesContent;
-import gq.yigit.mycity.votesFragment.VotesFragment;
-import gq.yigit.mycity.votesFragment.VotesFragment.OnListFragmentInteractionListener;
+import gq.yigit.mycity.oldShit.utility.UtilityMain;
+import gq.yigit.mycity.oldShit.votesFragment.VoteFragment;
+import gq.yigit.mycity.oldShit.votesFragment.VotesContent;
+import gq.yigit.mycity.oldShit.votesFragment.VotesFragment;
+import gq.yigit.mycity.oldShit.votesFragment.VotesFragment.OnListFragmentInteractionListener;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import static gq.yigit.mycity.tools.ImageDownload.*;
-import static gq.yigit.mycity.votesFragment.VoteFragment.*;
+import static gq.yigit.mycity.oldShit.votesFragment.VoteFragment.*;
 
 public class MainActivity extends AppCompatActivity
 		implements
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity
 		ComplaintFragment.OnComplaintsClicked,
 		ComplaintsFragment.OnListFragmentInteractionListener,
 		ComplaintViewFragment.OnFragmentInteractionListener,
+		CrashFragment.OnFragmentInteractionListener,
 		responseListener,
 		imageListener {
 
@@ -276,7 +277,12 @@ public class MainActivity extends AppCompatActivity
 			ComplaintFragment fragment= new ComplaintFragment();
 			fragmentTransaction.replace(R.id.app_bar_main, fragment);
 			fragmentTransaction.commit();
+		}else if (id == R.id.crash){
+			CrashFragment fragment= new CrashFragment();
+			fragmentTransaction.replace(R.id.app_bar_main, fragment);
+			fragmentTransaction.commit();
 		}
+
 
 		fragmentTransaction.addToBackStack(null);
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

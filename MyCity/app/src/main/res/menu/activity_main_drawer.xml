@@ -12,15 +12,22 @@
 		</menu>
 	</item>
 
-	<item android:title="@string/foryou">
+	<item android:title="@string/interactive">
 		<menu>
 
 			<item
 					android:id="@+id/complaint"
 					android:icon="@drawable/road_cracked"
 					android:title="Complaint"/>
+
+			<item android:id="@+id/crash"
+				  android:icon="@drawable/crash"
+				  android:title="Car Crash"/>
+
 		</menu>
 	</item>
+
+	<!-- Items below gets hidden if not in presentation mode (aka. the default mode) SANA DIYOM EFE-->
 
 	<item android:title="Presentation" android:id="@+id/present_items">
 		<menu>
@@ -51,9 +58,6 @@
 					android:id="@+id/parking"
 					android:icon="@drawable/parking"
 					android:title="Smart Parking"/>
-			<item android:id="@+id/crash"
-				  android:icon="@drawable/crash"
-				  android:title="Car Crash"/>
 
 		</menu>
 	</item>

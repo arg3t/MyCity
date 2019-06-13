@@ -1,7 +1,6 @@
-package gq.yigit.mycity.utility;
+package gq.yigit.mycity.oldShit.utility;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -32,9 +31,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 
-public class UtilityWater extends Fragment implements WebRequest.responseListener {
+public class UtilityElectricity extends Fragment implements WebRequest.responseListener {
 
-	private JSONObject waterUsage;
+	private JSONObject electricityUsage;
 	private GraphView graph;
 
 	private TextView bill;
@@ -47,13 +46,13 @@ public class UtilityWater extends Fragment implements WebRequest.responseListene
 
 	private OnFragmentInteractionListener mListener;
 
-	public UtilityWater() {
+	public UtilityElectricity() {
 		// Required empty public constructor
 	}
 
 
-	public static UtilityWater newInstance(String param1, String param2) {
-		UtilityWater fragment = new UtilityWater();
+	public static UtilityElectricity newInstance(String param1, String param2) {
+		UtilityElectricity fragment = new UtilityElectricity();
 		return fragment;
 	}
 
@@ -65,17 +64,17 @@ public class UtilityWater extends Fragment implements WebRequest.responseListene
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View rootView = inflater.inflate(R.layout.fragment_utility_water, container, false);;
+		View rootView = inflater.inflate(R.layout.fragment_utility_electricity, container, false);;
 		graph = (GraphView) rootView.findViewById(R.id.utility_graph);
 
-		points = rootView.findViewById(R.id.points_utility_water);
-		bill = rootView.findViewById(R.id.bill_utility_water);
-		efficiency = rootView.findViewById(R.id.efficiency_utility_water);
+		points = rootView.findViewById(R.id.points_utility_electricity);
+		bill = rootView.findViewById(R.id.bill_utility_electricity);
+		efficiency = rootView.findViewById(R.id.efficiency_utility_electricity);
 
-		pay_bill = rootView.findViewById(R.id.pay_bill_water);
-		qr_view = rootView.findViewById(R.id.use_point_water);
+		pay_bill = rootView.findViewById(R.id.pay_bill_electricity);
+		qr_view = rootView.findViewById(R.id.use_point_electricity);
 
 		pay_bill.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -83,6 +82,8 @@ public class UtilityWater extends Fragment implements WebRequest.responseListene
 				Toast.makeText(getContext(),"Bills paid successfully!",Toast.LENGTH_LONG).show();
 			}
 		});
+
+
 
 		final ImagePopup imagePopup = new ImagePopup(getContext());
 		imagePopup.setWindowHeight(712); // Optional
@@ -107,7 +108,6 @@ public class UtilityWater extends Fragment implements WebRequest.responseListene
 		});
 
 
-
 		StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
 		staticLabelsFormatter.setHorizontalLabels(new String[] {"0", "2", "4", "6", "8", "10", "12", "14", "16", "18", "20", "22", "24"});
 		staticLabelsFormatter.setVerticalLabels(new String[] {"0", "5", "10","15","20"});
@@ -121,7 +121,7 @@ public class UtilityWater extends Fragment implements WebRequest.responseListene
 		}catch (JSONException e){
 			Log.e("[ERROR]","User data not correct");
 		}
-		request.put("type","water");
+		request.put("type","electricity");
 		WebRequest login_manager = new WebRequest(url + "/resources/",false,request,0);
 		login_manager.addListener(this);
 		login_manager.execute();
@@ -162,21 +162,20 @@ public class UtilityWater extends Fragment implements WebRequest.responseListene
 	public void receivedResponse(boolean success, String result,int reqid){
 		if(success){
 			try{
-				waterUsage = new JSONObject(result);
+				electricityUsage = new JSONObject(result);
 				LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {});
 				LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>(new DataPoint[] {});
-				for(int i = 0;i < waterUsage.getJSONArray("daily_water_usage").length();i++){
-					series.appendData(new DataPoint(i,waterUsage.getJSONArray("daily_water_usage").getInt(i)),
+				for(int i = 0;i < electricityUsage.getJSONArray("daily_electricity_usage").length();i++){
+					series.appendData(new DataPoint(i,electricityUsage.getJSONArray("daily_electricity_usage").getInt(i)),
 							true,
 							100);
 				}
 
-				for(int i = 0;i < waterUsage.getJSONArray("ideal_water_usage").length();i++){
-					series2.appendData(new DataPoint(i,waterUsage.getJSONArray("ideal_water_usage").getInt(i)),
+				for(int i = 0;i < electricityUsage.getJSONArray("ideal_electricity_usage").length();i++){
+					series2.appendData(new DataPoint(i,electricityUsage.getJSONArray("ideal_electricity_usage").getInt(i)),
 							true,
 							100);
 				}
-
 				series.setTitle("ideal");
 				series.setColor(Color.BLUE);
 				series2.setTitle("usage");
@@ -184,12 +183,12 @@ public class UtilityWater extends Fragment implements WebRequest.responseListene
 				graph.addSeries(series);
 				graph.addSeries(series2);
 
-				points.setText(String.valueOf(((Double)waterUsage.get("points")).intValue()));
-				bill.setText(String.valueOf(((Double)waterUsage.get("bill")).intValue()));
-				efficiency.setText(String.valueOf(((Double)waterUsage.get("efficiency")).intValue()));
+				points.setText(String.valueOf(((Double)electricityUsage.get("points")).intValue()));
+				bill.setText(String.valueOf(((Double)electricityUsage.get("bill")).intValue()));
+				efficiency.setText(String.valueOf(((Double)electricityUsage.get("efficiency")).intValue()));
 
 			}catch (JSONException e){
-				Log.e("[ERROR]","Cannot interpret response from water service");
+				Log.e("[ERROR]","Cannot interpret response from electric service");
 			}
 		}
 	}

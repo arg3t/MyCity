@@ -1,8 +1,7 @@
-package gq.yigit.mycity;
+package gq.yigit.mycity.oldShit;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -21,18 +19,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import gq.yigit.mycity.MainActivity;
+import gq.yigit.mycity.R;
 import gq.yigit.mycity.tools.FileActions;
 import gq.yigit.mycity.tools.WebRequest;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.net.URI;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -94,7 +90,6 @@ public class DenunciationFragment extends Fragment implements WebRequest.respons
 
 
 
-
 		submit.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -128,6 +123,7 @@ public class DenunciationFragment extends Fragment implements WebRequest.respons
 				request.execute();
 			}
 		});
+
 		img_button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {

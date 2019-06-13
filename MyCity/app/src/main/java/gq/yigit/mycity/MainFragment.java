@@ -19,9 +19,6 @@ import android.widget.TextView;
 import gq.yigit.mycity.tools.FileActions;
 import gq.yigit.mycity.tools.ImageDownload;
 import gq.yigit.mycity.tools.WebRequest;
-import gq.yigit.mycity.votesFragment.MyVotesRecyclerViewAdapter;
-import gq.yigit.mycity.votesFragment.VotesContent;
-import gq.yigit.mycity.votesFragment.VotesFragment;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -92,8 +89,7 @@ public class MainFragment extends Fragment implements WebRequest.responseListene
 		}
 		params.put("appid",key);
 
-		FileActions file_manager = new FileActions();
-		url = file_manager.readFromFile(getContext(),"server.config").trim();
+		url = FileActions.readFromFile(getContext(),"server.config").trim();
 
 		WebRequest request = new WebRequest("https://api.openweathermap.org/data/2.5/weather",true,params,0);
 		request.addListener(this);

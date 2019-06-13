@@ -7,7 +7,7 @@ import java.io.*;
 
 public class FileActions {
 
-	public void writeToFile(String data, Context context, String file_name) {
+	static public void writeToFile(String data, Context context, String file_name) {
 		try {
 			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(file_name, Context.MODE_PRIVATE));
 			outputStreamWriter.write(data);
@@ -18,7 +18,7 @@ public class FileActions {
 		}
 	}
 
-	public String readFromFile(Context context,String file_name) {
+	static public String readFromFile(Context context,String file_name) {
 
 		String ret = "";
 

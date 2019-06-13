@@ -1,10 +1,7 @@
-package gq.yigit.mycity.navigation;
+package gq.yigit.mycity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -28,7 +24,6 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
-import gq.yigit.mycity.R;
 import gq.yigit.mycity.tools.FileActions;
 import gq.yigit.mycity.tools.WebRequest;
 import org.json.JSONArray;
@@ -150,8 +145,7 @@ public class TransitFragment extends Fragment implements WebRequest.responseList
 				place_data[2] = String.valueOf(place.getLatLng().latitude);
 				place_data[3] = String.valueOf(place.getLatLng().longitude);
 
-				FileActions file_manager = new FileActions();
-				url = file_manager.readFromFile(cntxt,"server.config").trim();
+				url = FileActions.readFromFile(cntxt,"server.config").trim();
 
 				HashMap<String,String> args = new HashMap<>();
 				args.put("lat_usr",latitude);

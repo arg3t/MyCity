@@ -1,4 +1,4 @@
-package gq.yigit.mycity.utility;
+package gq.yigit.mycity.oldShit.utility;
 
 import android.content.Context;
 import android.net.Uri;
