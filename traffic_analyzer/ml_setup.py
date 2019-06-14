@@ -3,13 +3,17 @@ import os
 import tarfile
 import sys
 
-urls = ["https://s3-ap-northeast-1.amazonaws.com/mycityreport/trainedModels.tar.gz",
-		"http://download.tensorflow.org/models/object_detection/rfcn_resnet101_coco_2018_01_28.tar.gz"]
+urls = [
+	"https://s3-ap-northeast-1.amazonaws.com/mycityreport/trainedModels.tar.gz",
+	"http://download.tensorflow.org/models/object_detection/rfcn_resnet101_coco_2018_01_28.tar.gz",
+	"http://download.tensorflow.org/models/object_detection/faster_rcnn_resnet101_kitti_2018_01_28.tar.gz"
+]
 
-paths = ["../server_side/api/modules", "."]
+paths = ["../server_side/api/modules", ".", '../server_side/api/modules']
 
 for i in range(len(urls)):
-
+	if i == 0:
+		continue
 	url = urls[i]
 	print("[INFO]: Downloadinng file: {} to temp.tar.gz!".format(url.split("/")[-1]))
 

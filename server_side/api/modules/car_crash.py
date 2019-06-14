@@ -3,8 +3,23 @@ from modules import utils
 from flask import Flask, request, Response
 from flask_restful import Resource, Api
 
+from PIL import Image
+
+import base64
 import json
+import sys
 import os
+import io
+
+if sys.platform == "win32":
+    import tensorflow as tf
+    import numpy as np
+    import pickle
+
+    sys.path.insert(0, r'C:\Users\Tednokent01\Downloads\MyCity\traffic_analyzer')
+    from utils import label_map_util
+
+    from utils import visualization_utils as vis_util
 
 app = Flask(__name__)
 api = Api(app)
@@ -17,43 +32,34 @@ users_path = os.path.join(app.root_path, 'databases', 'users.json')
 with open(users_path, 'r') as f:
     users = json.load(f)
 
+if sys.platform == "win32":
+    PATH_TO_LABELS = '../../traffic_analyzer/object_detection/data/mscoco_label_map.pbtxt'
+    PATH_TO_CKPT = 'modules/faster_rcnn_resnet101_kitti_2018_01_28/frozen_inference_graph.pb'
+
+    NUM_CLASSES = 8
+
+    detection_graph = tf.Graph()
+    with detection_graph.as_default():
+        od_graph_def = tf.GraphDef()
+        with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
+            serialized_graph = fid.read()
+            od_graph_def.ParseFromString(serialized_graph)
+            tf.import_graph_def(od_graph_def, name='')
+
+    label_map = label_map_util.load_labelmap(PATH_TO_LABELS)
+    categories = label_map_util.convert_label_map_to_categories(label_map, max_num_classes=NUM_CLASSES, use_display_name=True)
+    category_index = label_map_util.create_category_index(categories)
+
+def process_img(img):
+    pass
+
 class Crash(Resource):
     def post(self):
-        args = request.form
-        reporter = args['id']
-        user = utils.find_by_id(users.values(), reporter)
-        trust = int(user["trustability"])
-        if args["accepted"] == "true" or trust > 20:
-            photo = args["photo"]
-            if utils.find_by_id(users.values(), reporter):
-                denunciation_info = args['note']
-                denunciation_priority = 5
-                denunciation_location = {
-                    "latitude": float(args['latitude']),
-                    "longitude": float(args['longitude'])
-                }
+        message = request.form['message']
+        base64_img = request.form['img']
+        id = request.form['id']
 
-                denunciation = {
-                    'id': len(crashes) + 1,
-                    'reporter': reporter,
-                    'emergency': args['emergency'],
-                    'info': denunciation_info,
-                    'photo': photo,
-                    'plates': args.get('plates'),
-                    'injuries': args.get('injuries'),
-                    'lines_blocked': args.get('lines_blocked'),
-                    'priority': denunciation_priority,
-                    'location': denunciation_location
-                }
+        process_img(Image.open(io.BytesIO(base64.b64decode(base64_img))))
 
-                crashes.append(denunciation)
 
-                with open(db_path, 'w') as f:
-                    json.dump(crashes, f, indent=4)
-
-                return {'success': True}
-            else:
-                return {'error': 'User doesn\'t exists'}
-        else:
-            return {"success": False, "penalty": "{}".format(100*(20-trust))}
-
+        return id
