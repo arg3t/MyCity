@@ -85,7 +85,6 @@ def process_img(img_base64):
 						min_score_thresh=0.3,
 						use_normalized_coordinates=True,
 						line_thickness=8)
-				cv2.imwrite('cv222.png', image_np)
 
 		output_dict = {'detection_classes': classes, 'detection_scores': scores[0]}
 		defects = []

@@ -2,7 +2,7 @@ from flask import Flask, send_from_directory
 from flask_restful import Api
 from flask_cors import CORS, cross_origin
 
-from modules import user_info, voting_system, rating_system, denunciation, navigation, bus_stops, announcements, complaint
+from modules import user_info, voting_system, rating_system, denunciation, navigation, bus_stops, announcements, complaint, car_crash
 from modules import utility
 
 app = Flask(__name__)
