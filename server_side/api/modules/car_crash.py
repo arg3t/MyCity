@@ -4,12 +4,17 @@ from flask import Flask, request, Response
 from flask_restful import Resource, Api
 
 from PIL import Image
+import cv2
 
 import base64
 import json
 import sys
 import os
 import io
+
+MIN_AREA_RATIO = 0.1
+
+MIN_SCORE_THRESH = 0.6
 
 if sys.platform == "win32":
     import tensorflow as tf
@@ -33,9 +38,11 @@ with open(users_path, 'r') as f:
     users = json.load(f)
 
 if sys.platform == "win32":
-    PATH_TO_LABELS = '../../traffic_analyzer/object_detection/data/kitti_label_map.pbtxt'
-    PATH_TO_CKPT = 'modules/faster_rcnn_resnet101_kitti_2018_01_28/frozen_inference_graph.pb'
+    # PATH_TO_LABELS = '../../traffic_analyzer/object_detection/data/kitti_label_map.pbtxt'
+    # PATH_TO_CKPT = 'modules/faster_rcnn_resnet101_kitti_2018_01_28/frozen_inference_graph.pb'
 
+    PATH_TO_LABELS = '../../traffic_analyzer/object_detection/data/mscoco_label_map.pbtxt'
+    PATH_TO_CKPT = '../../traffic_analyzer/rfcn_resnet101_coco_2018_01_28/frozen_inference_graph.pb'
     category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
 
     detection_graph = tf.Graph()
@@ -81,23 +88,48 @@ def process_img(img_base64):
                     np.squeeze(classes).astype(np.int32),
                     np.squeeze(scores),
                     category_index,
-                    min_score_thresh=0.3,
+                    min_score_thresh=MIN_SCORE_THRESH,
                     use_normalized_coordinates=True,
                     line_thickness=8)
 
-        output_dict = {'detection_classes': classes, 'detection_scores': scores[0], 'detection_boxes': boxes}
+        output_dict = {'detection_classes': np.squeeze(classes).astype(np.int32), 'detection_scores': np.squeeze(scores), 'detection_boxes': np.squeeze(boxes)}
+        with open('image_1_data.pkl', 'wb') as f:
+            pickle.dump(output_dict, f)
+        cv2.imwrite('image_1.jpg', image_np)
+        im_height, im_width, _ = image_np.shape
         cars_involved = 0
         injured_people = 0
-        for i in output_dict['detection_classes']:
-            index = np.where(output_dict['detection_classes'] == i)[0][0]
+        prev_cars = []
+        for index, i in enumerate(output_dict['detection_classes']):
             score = output_dict['detection_scores'][index]
-            if score > 0.3:
-                if output_dict['detection_classes'] == 1:
-                    cars_involved += 1
-                else:
-                    pass
+            if score > MIN_SCORE_THRESH:
+                if i in [3, 6, 8]:
+                    box = output_dict['detection_boxes'][index]
+                    (left, right, top, bottom) = (box[1] * im_width, box[3] * im_width,
+                                                  box[0] * im_height, box[2] * im_height)
 
-        return base64.b64encode(pickle.dumps(image_np)).decode('ascii'), cars_involved, injured_people
+                    avg_x = left+right/2
+                    avg_y = top+bottom/2
+                    same = False
+                    for prev_x, prev_y in prev_cars:
+                        if abs(prev_x-avg_x) < 130 and abs(prev_y-avg_y) < 130:
+                            same = True
+                            break
+
+                    if not same:
+                        cars_involved += 1
+                        prev_cars.append((avg_x, avg_y))
+
+                elif i == 1:
+                    box = output_dict['detection_boxes'][index]
+                    (left, right, top, bottom) = (box[1] * im_width, box[3] * im_width,
+                                                  box[0] * im_height, box[2] * im_height)
+
+                    if right-left > bottom-top:
+                        injured_people += 1
+
+        _, buffer = cv2.imencode('.jpg', image_np)
+        return base64.b64encode(buffer).decode('ascii'), cars_involved, injured_people
 
     return img_base64, 7, ["unprocessed"]
 
@@ -106,8 +138,69 @@ class Crash(Resource):
         message = request.form['message']
         base64_img = request.form['img']
         id = request.form['id']
+        lat, long = request.form['lat'], request.form['long']
 
-        process_img(base64_img)
+        image, car_count, injured = process_img(base64_img)
+        priority = car_count + injured
+        if priority > 10:
+            priority = 10
+
+        crash = {
+            'img': image,
+            'message': message,
+            'priority': priority,
+            'stats': {
+                'cars': car_count,
+                'injured': injured
+            },
+            'location': {
+                'latitude': lat,
+                'longitude': long
+            }
+        }
+        if id in crashes:
+            crashes[id].append(crash)
+        else:
+            crashes[id] = [crash]
+
+        with open(db_path, 'w') as f:
+            json.dump(crashes, f, indent=4)
+
+        cv2.imshow("a",load_image_into_numpy_array(Image.open(io.BytesIO(base64.b64decode(image)))))
+        cv2.waitKey(0)
 
 
-        return id
+        return crash
+
+class Box:
+    def __init__(self,coords, type):
+        self.x1 = coords[0]
+        self.y1 = coords[2]
+        self.x2 = coords[1]
+        self.y2 = coords[3]
+        self.area = (self.x2-self.x1) * (self.y2-self.y1)
+        self.type = type
+
+    def get_bigger(self,box):
+        if box.type == self.type:
+            return None
+        left = max(box.x1, self.x1)
+        right = min(box.x2, self.x2)
+        bottom = max(box.y2, self.y2)
+        top = min(box.y1, self.y1)
+
+        if not left < right and bottom < top:
+            return None
+
+        if ((box.area * (box.area < self.area)) + (self.area * (box.area > self.area))) /  (right-left)*(top-bottom) < MIN_AREA_RATIO:
+            return None
+
+        if box.area > self.area:
+            return box
+        else:
+            return self
+
+
+
+
+

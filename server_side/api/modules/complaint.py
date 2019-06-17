@@ -22,6 +22,17 @@ if sys.platform == "win32":
 app = Flask(__name__)
 api = Api(app)
 
+score_dict = {
+	1: 1,
+	2: 1,
+	3: 1,
+	4: 1,
+	5: 1,
+	6: 1,
+	7: 1,
+	8: 1
+}
+
 with open("modules/databases/complaints.json","r") as f:
 	complaints = json.load(f)
 
@@ -86,19 +97,22 @@ def process_img(img_base64):
 						use_normalized_coordinates=True,
 						line_thickness=8)
 
-		output_dict = {'detection_classes': classes, 'detection_scores': scores[0]}
+		output_dict = {'detection_classes': np.squeeze(classes).astype(np.int32), 'detection_scores': np.squeeze(scores)}
 		defects = []
-		for i in output_dict['detection_classes']:
-			index = np.where(output_dict['detection_classes'] == i)[0][0]
+		for index, i in enumerate(output_dict['detection_classes']):
 			score = output_dict['detection_scores'][index]
 			if score > 0.3:
 				defects.append(i)
 
-		priority = sum(defects) // 0.5
+		priority = 0
+		for i in defects:
+			priority += score_dict[i]
+
 		if priority > 10:
 			priority = 10
 
-		return base64.b64encode(pickle.dumps(image_np)).decode('ascii'),priority,defects
+		_, buffer = cv2.imencode('.jpg', image_np)
+		return base64.b64encode(buffer).decode('ascii'),priority,defects
 
 	return img_base64, 7,["unprocessed"]
 

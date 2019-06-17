@@ -44,7 +44,7 @@ encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
 
 #MODEL_NAME = 'ssd_mobilenet_v1_coco_2017_11_17' #not even worth trying
 #MODEL_NAME = "ssd_inception_v2_coco_2017_11_17" # not bad and fast
-MODEL_NAME = "rfcn_resnet101_coco_11_06_2017" # WORKS BEST BUT takes 4 times longer per image
+MODEL_NAME = "rfcn_resnet101_coco_2018_01_28" # WORKS BEST BUT takes 4 times longer per image
 #MODEL_NAME = "faster_rcnn_resnet101_coco_11_06_2017" # too slow
 #MODEL_NAME = "ssd_resnet101_v1_fpn_shared_box_predictor_oid_512x512_sync_2019_01_20"
 MODEL_FILE = MODEL_NAME + '.tar.gz'
