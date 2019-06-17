@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity
 		ComplaintsFragment.OnListFragmentInteractionListener,
 		ComplaintViewFragment.OnFragmentInteractionListener,
 		CrashFragment.OnFragmentInteractionListener,
+		CrashMapFragment.OnFragmentInteractionListener,
 		responseListener,
 		imageListener {
 
@@ -279,6 +280,10 @@ public class MainActivity extends AppCompatActivity
 			fragmentTransaction.commit();
 		}else if (id == R.id.crash){
 			CrashFragment fragment= new CrashFragment();
+			fragmentTransaction.replace(R.id.app_bar_main, fragment);
+			fragmentTransaction.commit();
+		}else if (id == R.id.crash_map){
+			CrashMapFragment fragment = new CrashMapFragment();
 			fragmentTransaction.replace(R.id.app_bar_main, fragment);
 			fragmentTransaction.commit();
 		}
