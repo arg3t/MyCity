@@ -57,16 +57,11 @@ fabric.properties
 
 *.pyc
 
-traffic_analyzer/ssd_mobilenet_v1_coco_2017_11_17/
-
-traffic_analyzer/ssd_inception_v2_coco_11_06_2017/
-
 \.gradle/
 
 *.iml
+*.properties
 
-traffic_analyzer/rfcn_resnet101_coco_11_06_2017/
-/traffic_analyzer/master_app/target/
-traffic_analyzer/faster_rcnn_resnet101_coco_11_06_2017/
-
-traffic_analyzer/ssd_inception_v2_coco_2017_11_17/
+traffic_analyzer/rfcn_resnet101_coco_2018_01_28/
+server_side/api/modules/faster_rcnn_resnet101_kitti_2018_01_28/
+server_side/api/modules/trainedModels/
