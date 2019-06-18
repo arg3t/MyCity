@@ -172,6 +172,10 @@ class Crash(Resource):
 
         return crash
 
+class Crashes(Resource):
+    def get(self):
+        return crashes
+
 class Box:
     def __init__(self,coords, type):
         self.x1 = coords[0]

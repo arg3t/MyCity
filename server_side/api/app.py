@@ -50,5 +50,6 @@ if __name__ == '__main__':
     api.add_resource(complaint.ComplaintsUpdate,"/complaints_update","/complaints_update/")
 
     api.add_resource(car_crash.Crash, '/crash', '/crash/')
+    api.add_resource(car_crash.Crashes, '/crashes', '/crashes/')
 
     app.run(host='0.0.0.0', port=5000, ssl_context=context, debug=True)
