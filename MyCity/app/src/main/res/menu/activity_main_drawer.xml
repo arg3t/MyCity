@@ -24,6 +24,10 @@
 				  android:icon="@drawable/crash"
 				  android:title="Car Crash"/>
 
+			<item android:id="@+id/crash_map"
+				  android:icon="@drawable/crash_map"
+				  android:title="Crash Map"/>
+
 		</menu>
 	</item>
 
