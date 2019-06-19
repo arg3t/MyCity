@@ -2,7 +2,6 @@ from modules import utils
 
 from flask import Flask, request,Response
 from flask_restful import Resource, Api
-from flask_socketio import SocketIO
 
 import json
 
@@ -11,7 +10,6 @@ import os
 app = Flask(__name__)
 api = Api(app)
 
-socketio = SocketIO(app)
 
 db_path = os.path.join(app.root_path, 'databases', 'denunciations.json')
 with open(db_path, 'r') as f:
