@@ -27,7 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class CrashMapFragment extends Fragment implements WebRequest.responseListener {
+public class CrashMapFragment extends Fragment implements WebRequest.responseListener, GoogleMap.OnCameraIdleListener {
 	// TODO: Rename parameter arguments, choose names that match
 	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 	private static final String ARG_PARAM1 = "param1";
@@ -88,6 +88,9 @@ public class CrashMapFragment extends Fragment implements WebRequest.responseLis
 		mMapView.onResume();
 		activity = this;
 
+		FileActions file_manager = new FileActions();
+		url = file_manager.readFromFile(getContext(),"server.config").trim();
+
 		try {
 			MapsInitializer.initialize(getActivity().getApplicationContext());
 		} catch (Exception e) {
@@ -106,18 +109,11 @@ public class CrashMapFragment extends Fragment implements WebRequest.responseLis
 						googleMap.setMyLocationEnabled(true);
 					}
 				}
-				markerPoints = new ArrayList<LatLng>();
 
 				googleMap.getUiSettings().setCompassEnabled(true);
 				googleMap.getUiSettings().setMyLocationButtonEnabled(true);
 				googleMap.getUiSettings().setRotateGesturesEnabled(true);
-
-				FileActions file_manager = new FileActions();
-				url = file_manager.readFromFile(getContext(),"server.config").trim();
-				String url_crashes = url + "/crashes";
-				WebRequest data_request = new WebRequest(url_crashes,true,new HashMap<String, String>(),0);
-				data_request.addListener(activity);
-				data_request.execute();
+				googleMap.setOnCameraIdleListener(activity);
 
 				CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(39.925533,32.866287)).zoom(13).build();
 				googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -127,8 +123,21 @@ public class CrashMapFragment extends Fragment implements WebRequest.responseLis
 		return rootView;
 	}
 
+	public void onCameraIdle() {
+		LatLng center = googleMap.getCameraPosition().target;
+		String url_crashes = url + "/crashes";
+		HashMap<String,String> params = new HashMap<>();
+		params.put("lat", String.valueOf(center.latitude));
+		params.put("lng", String.valueOf(center.longitude));
+		WebRequest data_request = new WebRequest(url_crashes,false,params,0);
+		data_request.addListener(this);
+		data_request.execute();
+	}
+
 	public void receivedResponse(boolean success,String response, int reqid){
 		if(success){
+			markerPoints = new ArrayList<LatLng>();
+			googleMap.clear();
 			try{
 				JSONObject crashes = new JSONObject(response);
 				Iterator<String> iter = crashes.keys();

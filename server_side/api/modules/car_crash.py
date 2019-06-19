@@ -13,9 +13,8 @@ import os
 import io
 import itertools
 import pickle
+import copy
 
-
-from object_detection.utils import visualization_utils as vis_util
 from object_detection.utils import label_map_util
 
 VEHICLE_CLASSES = [3, 6, 8]
@@ -149,19 +148,22 @@ def process_img(img_base64):
                 if right-left > bottom-top:
                     injured_people += 1
     _, buffer = cv2.imencode('.jpg', image_np)
-    image_process = image_np[:]
-    vis_util.visualize_boxes_and_labels_on_image_array(
-            image_process,
-            output_dict_processed["detection_boxes"],
-            output_dict_processed["detection_classes"],
-            output_dict_processed["detection_scores"],
-            category_index,
-            min_score_thresh=MIN_SCORE_THRESH,
-            use_normalized_coordinates=True,
-            line_thickness=8)
-    cv2.imshow("a",image_process)
-    cv2.waitKey(0)
-    return base64.b64encode(buffer).decode('ascii'), cars_involved, injured_people
+#    image_process = image_np[:]
+#    vis_util.visualize_boxes_and_labels_on_image_array(
+#            image_process,
+#            output_dict_processed["detection_boxes"],
+#            output_dict_processed["detection_classes"],
+#            output_dict_processed["detection_scores"],
+#            category_index,
+#            min_score_thresh=MIN_SCORE_THRESH,
+#            use_normalized_coordinates=True,
+#            line_thickness=8)
+#    cv2.imshow("a",image_process)
+#    cv2.waitKey(0)
+
+    for i in range(len(output_dict_processed["detection_classes"])):
+        output_dict_processed["detection_classes"][i] = category_index[output_dict_processed["detection_classes"][i]]
+    return base64.b64encode(buffer).decode('ascii'), cars_involved, injured_people,output_dict_processed
 
 
 class Crash(Resource):
@@ -171,7 +173,7 @@ class Crash(Resource):
         id = request.form['id']
         lat, long = request.form['lat'], request.form['long']
 
-        image, car_count, injured = process_img(base64_img)
+        image, car_count, injured,out = process_img(base64_img)
         priority = car_count + injured
         if priority > 10:
             priority = 10
@@ -187,7 +189,8 @@ class Crash(Resource):
             'location': {
                 'latitude': lat,
                 'longitude': long
-            }
+            },
+            "output_dict":out
         }
         if id in crashes:
             crashes[id].append(crash)
@@ -196,16 +199,29 @@ class Crash(Resource):
 
         with open(db_path, 'w') as f:
             json.dump(crashes, f, indent=4)
-
-        cv2.imshow("a",load_image_into_numpy_array(Image.open(io.BytesIO(base64.b64decode(image)))))
-        cv2.waitKey(0)
-
-
         return crash
 
 class Crashes(Resource):
-    def get(self):
-        return crashes
+    def post(self):
+        process_dict = copy.deepcopy(crashes)
+        return_dict = {}
+        for id in process_dict:
+            for i in range(len(process_dict[id])):
+                del process_dict[id][i]["img"]
+
+        for id in process_dict:
+            for i in range(len(process_dict[id])):
+                location = process_dict[id][i]['location']
+                lat, lng = float(request.form['lat']), float(request.form['lng'])
+                if abs(float(location['latitude']) - lat) < 0.3 and abs(float(location['longitude']) - lng) < 0.3:
+                    if id in return_dict:
+                        return_dict[id].append(process_dict[id][i])
+                    else:
+                        return_dict[id] = [process_dict[id][i]]
+
+        print(return_dict)
+        return return_dict
+
 
 class Box:
     def __init__(self,coords, type,index):
