@@ -8,6 +8,10 @@ from PIL import Image
 import sys
 import datetime
 import cv2
+import ssl
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
+
 
 if sys.platform == "win32":
 	import tensorflow as tf
@@ -15,12 +19,14 @@ if sys.platform == "win32":
 	import pickle
 
 	sys.path.insert(0, r'C:\Users\Tednokent01\Downloads\MyCity\traffic_analyzer')
-	from utils import label_map_util
+	from object_detection.utils import label_map_util
 
-	from utils import visualization_utils as vis_util
+	from object_detection.utils import visualization_utils as vis_util
 
 app = Flask(__name__)
 api = Api(app)
+
+context = ssl._create_unverified_context()
 
 score_dict = {
 	1: 1,
@@ -38,21 +44,11 @@ with open("modules/databases/complaints.json","r") as f:
 
 if sys.platform == "win32":
 	# Path to frozen detection graph. This is the actual model that is used for the object detection.
-	PATH_TO_CKPT =  'modules/trainedModels/ssd_mobilenet_RoadDamageDetector.pb'
 
 	# List of the strings that is used to add correct label for each box.
 	PATH_TO_LABELS = 'modules/trainedModels/crack_label_map.pbtxt'
 
 	NUM_CLASSES = 8
-
-	detection_graph = tf.Graph()
-	with detection_graph.as_default():
-		od_graph_def = tf.GraphDef()
-		with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
-			serialized_graph = fid.read()
-			od_graph_def.ParseFromString(serialized_graph)
-			tf.import_graph_def(od_graph_def, name='')
-
 	label_map = label_map_util.load_labelmap(PATH_TO_LABELS)
 	categories = label_map_util.convert_label_map_to_categories(label_map, max_num_classes=NUM_CLASSES, use_display_name=True)
 	category_index = label_map_util.create_category_index(categories)
@@ -65,39 +61,26 @@ def load_image_into_numpy_array(image):
 def process_img(img_base64):
 
 	if sys.platform == "win32":
-		img = Image.open(io.BytesIO(base64.b64decode(img_base64)))
-		with detection_graph.as_default():
-			with tf.Session(graph=detection_graph) as sess:
-				# Definite input and output Tensors for detection_graph
-				image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
-				# Each box represents a part of the image where a particular object was detected.
-				detection_boxes = detection_graph.get_tensor_by_name('detection_boxes:0')
-				# Each score represent how level of confidence for each of the objects.
-				# Score is shown on the result image, together with the class label.
-				detection_scores = detection_graph.get_tensor_by_name('detection_scores:0')
-				detection_classes = detection_graph.get_tensor_by_name('detection_classes:0')
-				num_detections = detection_graph.get_tensor_by_name('num_detections:0')
-				# the array based representation of the image will be used later in order to prepare the
-				# result image with boxes and labels on it.
-				image_np = load_image_into_numpy_array(img)
-				# Expand dimensions since the model expects images to have shape: [1, None, None, 3]
-				image_np_expanded = np.expand_dims(image_np, axis=0)
-				# Actual detection.
-				(boxes, scores, classes, num) = sess.run(
-						[detection_boxes, detection_scores, detection_classes, num_detections],
-						feed_dict={image_tensor: image_np_expanded})
-				# Visualization of the results of a detection.
-				vis_util.visualize_boxes_and_labels_on_image_array(
-						image_np,
-						np.squeeze(boxes),
-						np.squeeze(classes).astype(np.int32),
-						np.squeeze(scores),
-						category_index,
-						min_score_thresh=0.3,
-						use_normalized_coordinates=True,
-						line_thickness=8)
 
-		output_dict = {'detection_classes': np.squeeze(classes).astype(np.int32), 'detection_scores': np.squeeze(scores)}
+		url = 'https://127.0.0.1:5000/ai' # Set destination URL here
+		post_fields = {'img': img_base64,"type":"damage"}     # Set POST fields here
+
+		request = Request(url, urlencode(post_fields).encode())
+		img = load_image_into_numpy_array(Image.open(io.BytesIO(base64.b64decode(img_base64))))
+
+		output_dict = json.loads(json.loads(urlopen(request, context=context).read()))
+		print(output_dict)
+		vis_util.visualize_boxes_and_labels_on_image_array(
+				img,
+				np.array(output_dict['detection_boxes']),
+				output_dict['detection_classes'],
+				output_dict['detection_scores'],
+				category_index,
+				instance_masks=output_dict.get('detection_masks'),
+				use_normalized_coordinates=True,
+				line_thickness=8,
+				min_score_thresh=0.3
+		)
 		defects = []
 		for index, i in enumerate(output_dict['detection_classes']):
 			score = output_dict['detection_scores'][index]
@@ -111,8 +94,11 @@ def process_img(img_base64):
 		if priority > 10:
 			priority = 10
 
-		_, buffer = cv2.imencode('.jpg', image_np)
-		return base64.b64encode(buffer).decode('ascii'),priority,defects
+		buffered = io.BytesIO()
+		img = Image.fromarray(img, 'RGB')
+		img.save(buffered, format="JPEG")
+		img_str = base64.b64encode(buffered.getvalue())
+		return img_str.decode("ascii"),priority,defects
 
 	return img_base64, 7,["unprocessed"]
 
@@ -155,4 +141,3 @@ class ComplaintsUpdate(Resource):
 		with open('modules/databases/complaints.json', 'w') as complaints_file:
 			json.dump(complaints, complaints_file, indent=4)
 		return
-
