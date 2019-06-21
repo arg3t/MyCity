@@ -252,23 +252,24 @@
         }
         console.log("Update received!")
         var data = $.parseJSON(dataStr);
+        console.log(data);
         for(var key in data) {
-            console.log("aaa aaa")
+            console.log("aaa aaa");
             data[key].forEach(function (element,index) {
-                console.log("aaa bbb")
+                console.log("aaa bbb");
                 if(element["location"]["longitude"] === undefined || element["location"]["latitude"] === undefined){
                     return;
                 }
-                console.log("aaa ccc")
+                console.log("aaa ccc");
                 LatLng = {lat: parseFloat(element["location"]["latitude"]), lng: parseFloat(element["location"]["longitude"])};
-                console.log("aaa ddd")
+                console.log("aaa ddd");
                 var marker = new google.maps.Marker({
                     position: {lat: parseFloat(element["location"]["latitude"]), lng: parseFloat(element["location"]["longitude"])},
                     map: map,
                     label: element["priority"].toString(),
                     title: element["message"]
                 });
-                console.log("aaa eee")
+                console.log("aaa eee");
                 marker.addListener('click', function () {
                     document.getElementById('popup').style.display = 'block';
                     document.getElementById("priority").innerHTML = element["response"]["priority"];
