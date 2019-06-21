@@ -53,11 +53,12 @@ def load_image_into_numpy_array(image):
 context = ssl._create_unverified_context()
 
 def find_name(image):
+    try:
         known_faces = []
         known_face_names = []
         for v in users.values():
             known_faces.append(np.array(v['face_encoding']))
-            known_face_names.append(v['realname'])
+            known_face_names.append(v['id'])
 
         face_encoding = face_recognition.face_encodings(image)[0]
         results = face_recognition.compare_faces(known_faces, face_encoding)
@@ -68,19 +69,30 @@ def find_name(image):
             name = known_face_names[best_match_index]
 
         return name
+    except:
+        return None
+
+def rotate_img(img, angle):
+    (h, w) = img.shape[:2]
+    x = h if h > w else w
+    y = h if h > w else w
+    square = np.zeros((x, y, 3), np.uint8)
+    square[int((y-h)/2):int(y-(y-h)/2), int((x-w)/2):int(x-(x-w)/2)] = img
+
+    (h, w) = square.shape[:2]
+    center = (w / 2, h / 2)
+    M = cv2.getRotationMatrix2D(center, angle, 1.0)
+    rotated = cv2.warpAffine(square, M, (h, w))
+    return rotated
 
 def process_img(img_base64):
-    if 1:
-        url = 'https://10.10.26.161:5000/ai' # Set destination URL here
-        post_fields = {'img': img_base64,"type":"coco"}     # Set POST fields here
-        request = Request(url, urlencode(post_fields).encode())
-        data = urlopen(request, context=context).read().decode("ascii")
-        output_dict = json.loads(json.loads(data))
-        image_np = load_image_into_numpy_array(Image.open(io.BytesIO(base64.b64decode(img_base64))))
-    else:
-        with open('image_1_data.pkl', 'rb') as f:
-            output_dict = pickle.load(f)
-        image_np = cv2.imread("image_1.jpg")
+
+    url = 'https://127.0.0.1:5001/ai' # Set destination URL here
+    post_fields = {'img': img_base64,"type":"coco"}     # Set POST fields here
+    request = Request(url, urlencode(post_fields).encode())
+    data = urlopen(request, context=context).read().decode("ascii")
+    output_dict = json.loads(json.loads(data))
+    image_np = cv2.cvtColor(load_image_into_numpy_array(Image.open(io.BytesIO(base64.b64decode(img_base64)))),cv2.COLOR_RGB2BGR)
 
     output_dict_processed = {"detection_classes":[], "detection_scores":[], "detection_boxes":[]}
     im_height, im_width, _ = image_np.shape
@@ -131,18 +143,39 @@ def process_img(img_base64):
                     prev_cars.append((avg_x, avg_y))
             elif i == 1:
                 box = output_dict['detection_boxes'][index]
-                (left, right, top, bottom) = (box[1] * im_width, box[3] * im_width,
-                                              box[0] * im_height, box[2] * im_height)
-                person = image_np[top:bottom,left:right]
-
+                #(left, right, top, bottom) = (box[1] * im_width, box[3] * im_width,
+                #                              box[0] * im_height, box[2] * im_height)
+                (left, top, right, bottom) = box
+                person = image_np[int(top):int(bottom),int(left):int(right)]
                 if right-left > bottom-top:
-                    face_locs = face_recognition.face_locations(person)
-                    name = find_name(person)
-                    people[index] = [0, face_locs, name]
+                    rotated = rotate_img(person, 90)
+                    name = None
+                    try:
+                        face_locs = face_recognition.face_locations(rotated)[0]
+                        name = find_name(rotated)
+                    except Exception:
+                        pass
+                    (height_person,width_person)=person.shape[:2]
+                    excess=(width_person-height_person)/2
+
+                    if name is None:
+                        rotated = rotate_img(person, 270)
+                        face_locs = face_recognition.face_locations(rotated)[0]
+                        name = find_name(rotated)
+                        face_locs_processed = (top + face_locs[1]-excess,left+face_locs[2],top+face_locs[3]-excess,left+face_locs[0])
+                    else:
+                        face_locs_processed = (top + face_locs[3]-excess,right-face_locs[2],top+face_locs[1]-excess,right-face_locs[0])
+                    cv2.imshow('test.jpg', rotated)
+                    cv2.waitKey(0)
+                    cv2.destroyAllWindows()
+                    people[index] = [0, face_locs_processed, name]
                 else:
-                    face_locs = face_recognition.face_locations(person)
+                    face_locs = face_recognition.face_locations(person)[0]
+                    face_locs_processed = (top+face_locs[0],left+face_locs[1],top+face_locs[2],left+face_locs[3])
                     name = find_name(person)
-                    people[index] = [1, face_locs, name]
+                    people[index] = [1, face_locs_processed, name]
+
+
 
 
     _, buffer = cv2.imencode('.jpg', image_np)
@@ -173,6 +206,16 @@ class Crash(Resource):
         lat, long = request.form['lat'], request.form['long']
 
         image, car_count, injured,out,people = process_img(base64_img)
+        (top, right, bottom, left) = people[0][1]
+        top = int(top)
+        right = int(right)
+        left = int(left)
+        bottom = int(bottom)
+        img = load_image_into_numpy_array(Image.open(io.BytesIO(base64.b64decode(base64_img))))
+        cv2.rectangle(img,(left,top),(right,bottom),(0,255,0),3)
+        cv2.imshow('test.jpg', img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
         print(people)
         priority = car_count + injured
         if priority > 10:
