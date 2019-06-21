@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yigit007'
 socketio = SocketIO(app)
 
-src_path , file_list = "../server_side/api/modules/databases/",["denunciations","complaints"]
+src_path , file_list = "../server_side/api/modules/databases/",["denunciations","complaints","crashes"]
 changed = {}
 for file in file_list:
 	changed[file] = os.stat(os.path.join(src_path,file+".json"))
@@ -42,7 +42,7 @@ def handle_my_custom_namespace_event():
 
 
 @socketio.on("check",namespace="/complaints_socket")
-def denunciation_handle(msg):
+def compaint_handle(msg):
 
 	change,data = file_check("complaints")
 	if change:
@@ -58,6 +58,22 @@ def handle_my_custom_namespace_event():
 		json_data = json.loads(f.read())
 
 	emit("new", json.dumps(json_data), namespace="/complaints_socket")
+
+@socketio.on('check', namespace='/crashes_socket')
+def crash_handle(msg):
+	change, data = file_check("crashes")
+	if change:
+		emit("new", data, namespace='/crashes_socket')
+
+@socketio.on('connect', namespace='/crashes_socket')
+def handle_crash():
+	print("[INFO]: Received socket connection!")
+
+	src = os.path.join(src_path, 'crashes.json')
+	with open(src, 'r') as f:
+		json_data = json.loads(f.read())
+
+	emit("new", json.dumps(json_data), namespace="/crashes_socket")
 
 @app.route('/gui/<path:path>')
 def send_img(path):

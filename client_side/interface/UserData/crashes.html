@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crashes</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="socket.io/node_modules/socket.io-client/dist/socket.io.js"></script>
+    <style>
+        #map {
+            height: 100%;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+    <style>
+
+        #img:hover{
+            color: #424242;
+            -webkit-transition: all .3s ease-in;
+            -moz-transition: all .3s ease-in;
+            -ms-transition: all .3s ease-in;
+            -o-transition: all .3s ease-in;
+            transition: all .3s ease-in;
+            opacity: 1;
+            transform: scale(1.15);
+            -ms-transform: scale(1.15); /* IE 9 */
+            -webkit-transform: scale(1.15); /* Safari and Chrome */
+            max-width: 400px;
+            max-height: 400px;
+        }
+
+        #img-user{
+            max-width: 150px;
+            max-height: 150px;
+        }
+
+        .title{
+            text-align: left;
+        }
+
+        td{
+            padding: 20px 10px;
+        }
+
+        .popup{
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px;
+        }
+
+        #table,#table-user{
+            background: white;
+            padding: 40px 60px;
+        }
+
+        #content, #user-content{
+            display: inline-block;
+            margin-top: 125px;
+            background: white;
+        }
+        #submit{
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+    </style>
+
+</head>
+<body>
+<audio id="audio" src="http://www.soundjay.com/button/beep-07.wav" autoplay="false"></audio>
+<div id="map"></div>
+
+
+
+<!-- ANANA SOKIYIM JAVASCRIPT
+        Sen nası gereksiz bir dilsin amk bütün bi gecemi yedin
+         ben senenin ebeni sikiyim inşallah seni yazan programcının götüne av tüfeği girer
+         AYNISI SOCKET.IO IÇIN DE GEÇERLİ ALLAHIM KAFAYI YİCEM ADAMLAR HERALDE "ACABA NE KADAR ÖZÜRLÜ BI FRAMERWORK YAZARIZ DUYE BAŞLAMIŞLAR IŞE"-->
+
+
+<div id = "popup" align = "center" class = "popup">
+
+    <div id = "content">
+
+        <form action="." id="submission_form">
+
+            <table border="0" cellpadding="10" cellspacing="0" id = "table" class = "modal">
+                <tr>
+                    <td rowspan="2" colspan="7"><img src="cityscape.png" alt="img"id = "img"></td>
+                    <td colspan="2" class="title"><strong>Priority: </strong></td>
+                    <td colspan="1" id = "priority">7</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="title"><strong>Type: </strong></td>
+                    <td colspan="1" id = "type"> Ambulance</td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="title"><strong>Submitter: </strong></td>
+                    <td colspan="6">
+                        <a href="#" id = "user" class = "panel" onclick=
+                                "document.getElementById('popup').style.display='none';
+                                document.getElementById('user-popup').style.display='block';
+                                setUser(this.getAttribute('userid'))"
+
+                        >Efe Aydın </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="title"><strong>Message: </strong></td>
+                    <td colspan="6" id = "message">Test ambulance</td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="title"><strong>Tags: </strong></td>
+                    <td colspan="6" id = "tags">Test tags</td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="title"><strong>Message: </strong></td>
+                    <td colspan="6" id = "input">  <textarea name="message" rows="5" cols="30" id="response">Please enter response.</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="10">
+                        <input type="submit" id = "submit">
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+    </div>
+
+
+</div>
+
+<div id = "user-popup" align = "center" class="popup">
+
+    <div id = "user-content">
+        <table border="0" cellpadding="10" cellspacing="0" id = "table-user" class = "modal">
+
+            <tr>
+                <td rowspan="3" colspan="7"><img src="cityscape.png" alt="img"id = "img-user"></td>
+                <td colspan="2" class="title"><strong>Name: </strong></td>
+                <td colspan="1" id = "name">Efe Aydın</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="title"><strong>TC: </strong></td>
+                <td colspan="1" id = "tc">111111111111</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="title"><strong>Trust: </strong></td>
+                <td colspan="1" id = "trust">7</td>
+            </tr>
+
+            <tr>
+                <td colspan="4" class="title"><strong>Phone: </strong></td>
+                <td colspan="6" id="phone">
+                    0 555 555 55 55
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" class="title"><strong>E-mail: </strong></td>
+                <td colspan="6" id = "email">efeaydin@citizenview.com</td>
+            </tr>
+            <tr>
+                <td colspan="4" class="title"><strong>Health: </strong></td>
+                <td colspan="6" id = "health">Test tags</td>
+            </tr>
+        </table>
+        <button onclick=
+                        "document.getElementById('popup').style.display='block';
+                            document.getElementById('user-popup').style.display='none';"
+                style="margin-bottom: 5px;">OK</button>
+    </div>
+
+</div>
+
+<script>
+    function setUser(id) {
+        if(!(id in users)) {
+            $.get("https://" + document.domain + ":5000/users/" + id, function (dataStr, status) {
+                data_user = $.parseJSON(dataStr)
+                users[id]=data_user
+                document.getElementById("name").innerHTML = users[id]["realname"];
+                document.getElementById("tc").innerHTML = users[id]["TC"];
+                document.getElementById("trust").innerHTML = users[id]["trustability"];
+                document.getElementById("phone").innerHTML = users[id]["tel"];
+                document.getElementById("email").innerHTML = users[id]["email"];
+                document.getElementById("img-user").setAttribute("src","https://" + document.domain + ":5000"+users[id]["avatar"])
+            });
+        }else {
+            document.getElementById("name").innerHTML = users[id]["realname"];
+            document.getElementById("tc").innerHTML = users[id]["TC"];
+            document.getElementById("trust").innerHTML = users[id]["trustability"];
+            document.getElementById("phone").innerHTML = users[id]["tel"];
+            document.getElementById("email").innerHTML = users[id]["email"];
+            document.getElementById("img-user").setAttribute("src","https://" + document.domain + ":5000" + users[id]["avatar"])
+        }
+    }
+</script>
+
+<script>
+    var modal = document.getElementById('popup');
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    var map;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 39.92, lng: 32.85},
+            zoom: 13
+        });
+    }
+</script>
+
+<script>
+    var sound = document.getElementById("audio");
+    var markers = [];
+
+    var socket = io.connect('http://' + document.domain + ':' + location.port + "/crashes_socket");
+    console.log('http://' + document.domain + ":4000/crashes_socket")
+    console.log(socket);
+
+    var markers = [];
+    var denunciation_count = markers.length;
+    var users = {};
+    setInterval(function () {
+        socket.emit("check",{})
+    },1000);
+    var LatLng = null;
+    socket.on("new",function (dataStr) {
+        for (var i = 0; i < markers.length; i++) {
+            markers.pop().setMap(null);
+        }
+        console.log("Update received!")
+        var data = $.parseJSON(dataStr);
+        for(var key in data) {
+            console.log("aaa aaa")
+            data[key].forEach(function (element,index) {
+                console.log("aaa bbb")
+                if(element["location"]["longitude"] === undefined || element["location"]["latitude"] === undefined){
+                    return;
+                }
+                console.log("aaa ccc")
+                LatLng = {lat: parseFloat(element["location"]["latitude"]), lng: parseFloat(element["location"]["longitude"])};
+                console.log("aaa ddd")
+                var marker = new google.maps.Marker({
+                    position: {lat: parseFloat(element["location"]["latitude"]), lng: parseFloat(element["location"]["longitude"])},
+                    map: map,
+                    label: element["priority"].toString(),
+                    title: element["message"]
+                });
+                console.log("aaa eee")
+                marker.addListener('click', function () {
+                    document.getElementById('popup').style.display = 'block';
+                    document.getElementById("priority").innerHTML = element["response"]["priority"];
+                    if(element["response"]["status"]){
+                        document.getElementById("response").innerHTML = element["response"]["message"];
+                    }
+                    document.getElementById("submission_form").setAttribute("index",index);
+                    document.getElementById("submission_form").setAttribute("id",key);
+                    document.getElementById("type").innerHTML = "Road Damage";
+                    document.getElementById("message").innerHTML = element["content"];
+
+                    if (!(key in users)) {
+                        $.get("https://" + document.domain + ":5000/users/" + key, function (dataStr, status) {
+                            data_user = $.parseJSON(dataStr);
+                            users[key] = data_user;
+                            document.getElementById("user").innerHTML = users[key]["realname"];
+                        });
+                    } else {
+                        document.getElementById("user").innerHTML = users[key]["realname"];
+                    }
+                    document.getElementById("user").setAttribute("userid", key);
+                    document.getElementById("img").setAttribute("src", "data:image/png;base64," + element["img"])
+                });
+
+            });
+        }
+        map.setCenter(LatLng);
+
+        if (denunciation_count < markers.length) {
+            sound.play();
+        }
+        denunciation_count = markers.length;
+    });
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuOC03IHPA_6TPnfk18b0SAgD1uge4-dk&callback=initMap" async defer></script>
+
+</body>
+</html>

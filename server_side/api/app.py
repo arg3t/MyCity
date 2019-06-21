@@ -4,6 +4,7 @@ from flask_cors import CORS, cross_origin
 
 from modules import user_info, voting_system, rating_system, denunciation, navigation, bus_stops, announcements, complaint, car_crash
 from modules import utility
+from modules import user_set
 
 app = Flask(__name__)
 api = Api(app)
