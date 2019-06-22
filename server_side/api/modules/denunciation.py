@@ -48,7 +48,7 @@ class Alert(Resource):
                 denunciations.append(denunciation)
 
                 with open(db_path, 'w') as f:
-                    json.dump(denunciations, f, indent=4)
+                    json.dump(denunciations, f, indent=2)
 
                 return {'success': True}
             else:

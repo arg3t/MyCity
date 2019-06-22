@@ -31,6 +31,6 @@ for file in os.listdir("images"):
 					users[k]['face_encoding'] = list(face_encoding)
 
 			with open('modules/databases/users.json', 'w') as f:
-				users = json.dump(users, f, indent=4)
+				users = json.dump(users, f, indent=2)
 
 			os.remove(full_path)

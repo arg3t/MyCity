@@ -206,7 +206,7 @@
             document.getElementById("trust").innerHTML = users[id]["trustability"];
             document.getElementById("phone").innerHTML = users[id]["tel"];
             document.getElementById("email").innerHTML = users[id]["email"];
-            document.getElementById("img-user").setAttribute("src","https://" + document.domain + ":5000" + users[id]["avatar"])
+            document.getElementById("img-user").setAttribute("src","data:image/png;base64," + users[id]["image"])
         }
     }
     function sendUpdate(form) {

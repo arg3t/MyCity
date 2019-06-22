@@ -80,7 +80,7 @@ class Ratings(Resource):
     #    ratings.append(rating)
     #
     #    with open(db_path, 'w') as f:
-    #        json.dump(ratings, f, indent=4)
+    #        json.dump(ratings, f, indent=2)
     #
     #    return rating
 
@@ -119,7 +119,7 @@ class Rate(Resource):
                 'note': note
             }
             with open(db_path, 'w') as f:
-                json.dump(ratings, f, indent=4)
+                json.dump(ratings, f, indent=2)
 
             return {'message': 'Success'}
 

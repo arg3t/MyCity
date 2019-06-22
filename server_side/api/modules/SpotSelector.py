@@ -48,7 +48,7 @@ for i in range(len(rects)):
 	}
 
 with open("databases/locations.json","w") as f:
-	f.write(json.dumps(locs,indent=4))
+	f.write(json.dumps(locs,indent=2))
 
 
 

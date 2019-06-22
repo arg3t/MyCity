@@ -309,7 +309,7 @@ class Transit(Resource):
 
 		if change:
 			bus_data = open("modules/databases/bus.json", "w")
-			bus_data.write(json.dumps(bus_json, indent=4, sort_keys=True))
+			bus_data.write(json.dumps(bus_json, indent=2, sort_keys=True))
 			bus_data.close()
 
 		for route in travel["routes"]:
@@ -333,7 +333,7 @@ class Transit(Resource):
 
 		if change:
 			bus_data = open("modules/databases/bus.json", "w")
-			bus_data.write(json.dumps(bus_json, indent=4, sort_keys=True))
+			bus_data.write(json.dumps(bus_json, indent=2, sort_keys=True))
 			bus_data.close()
 
 		for i in range(len(shortest["routes"])):
@@ -361,7 +361,7 @@ class Transit(Resource):
 
 		if change:
 			bus_data = open("modules/databases/bus.json", "w")
-			bus_data.write(json.dumps(bus_json, indent=4, sort_keys=True))
+			bus_data.write(json.dumps(bus_json, indent=2, sort_keys=True))
 			bus_data.close()
 		return shortest
 
