@@ -73,7 +73,7 @@ class Votings(Resource):
         votings.append(voting)
 
         with open(db_path, 'w') as f:
-            json.dump(votings, f, indent=4)
+            json.dump(votings, f, indent=2)
 
         return {'message': 'Success'}
 
@@ -105,7 +105,7 @@ class Vote(Resource):
                 votings[voting_id]['votes'][str(vote_id)]['votes'] += 1
                 votings[voting_id]['voters'].append(voter_id)
                 with open(db_path, 'w') as f:
-                    json.dump(votings, f, indent=4)
+                    json.dump(votings, f, indent=2)
 
                 return {'message': 'Success'}
 

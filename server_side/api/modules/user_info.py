@@ -43,7 +43,7 @@ class Users(Resource):
         users.append(user)
 
         with open(db_path, 'w') as f:
-            json.dump(users, f, indent=4)
+            json.dump(users, f, indent=2)
 
         return user
 
@@ -95,7 +95,7 @@ class ReducePoints(Resource):
 
                 users[username]['points'] -= int(request.form['reduce'])
                 with open(db_path, 'w') as f:
-                    json.dump(users, f, indent=4)
+                    json.dump(users, f, indent=2)
             else:
                 abort(404, error="User {} doesn't exist".format(user_id))
 

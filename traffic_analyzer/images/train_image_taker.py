@@ -87,9 +87,9 @@ def cut_image():
     return cut_rects
 
 coordinates = cut_image()
-print(json.dumps(coordinates,indent=4))
+print(json.dumps(coordinates,indent=2))
 with open("coordinates.json","w") as file:
-    file.write(json.dumps(coordinates,indent=4))
+    file.write(json.dumps(coordinates,indent=2))
 
 
 

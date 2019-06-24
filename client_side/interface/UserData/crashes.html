@@ -21,21 +21,6 @@
 
     <style>
 
-        #img:hover{
-            color: #424242;
-            -webkit-transition: all .3s ease-in;
-            -moz-transition: all .3s ease-in;
-            -ms-transition: all .3s ease-in;
-            -o-transition: all .3s ease-in;
-            transition: all .3s ease-in;
-            opacity: 1;
-            transform: scale(1.15);
-            -ms-transform: scale(1.15); /* IE 9 */
-            -webkit-transform: scale(1.15); /* Safari and Chrome */
-            max-width: 400px;
-            max-height: 400px;
-        }
-
         #img-user{
             max-width: 150px;
             max-height: 150px;
@@ -69,7 +54,6 @@
 
         #content, #user-content{
             display: inline-block;
-            margin-top: 125px;
             background: white;
         }
         #submit{
@@ -95,18 +79,16 @@
 <div id = "popup" align = "center" class = "popup">
 
     <div id = "content">
-
-        <form action="." id="submission_form">
-
-            <table border="0" cellpadding="10" cellspacing="0" id = "table" class = "modal">
+        <canvas id="canvas" width="400" height="400" style="margin-top: 30px;">
+        </canvas>
+        <table border="0" cellpadding="10" cellspacing="0" id = "table" class = "modal">
                 <tr>
-                    <td rowspan="2" colspan="7"><img src="cityscape.png" alt="img"id = "img"></td>
-                    <td colspan="2" class="title"><strong>Priority: </strong></td>
-                    <td colspan="1" id = "priority">7</td>
+                    <td colspan="4" class="title"><strong>Priority: </strong></td>
+                    <td colspan="6" id = "priority">7</td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="title"><strong>Type: </strong></td>
-                    <td colspan="1" id = "type"> Ambulance</td>
+                    <td colspan="4" class="title"><strong>Type: </strong></td>
+                    <td colspan="6" id = "type"> Ambulance</td>
                 </tr>
                 <tr>
                     <td colspan="4" class="title"><strong>Submitter: </strong></td>
@@ -127,18 +109,9 @@
                     <td colspan="4" class="title"><strong>Tags: </strong></td>
                     <td colspan="6" id = "tags">Test tags</td>
                 </tr>
-                <tr>
-                    <td colspan="4" class="title"><strong>Message: </strong></td>
-                    <td colspan="6" id = "input">  <textarea name="message" rows="5" cols="30" id="response">Please enter response.</textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="10">
-                        <input type="submit" id = "submit">
-                    </td>
-                </tr>
+
             </table>
-        </form>
+
 
     </div>
 
@@ -206,7 +179,7 @@
             document.getElementById("trust").innerHTML = users[id]["trustability"];
             document.getElementById("phone").innerHTML = users[id]["tel"];
             document.getElementById("email").innerHTML = users[id]["email"];
-            document.getElementById("img-user").setAttribute("src","https://" + document.domain + ":5000" + users[id]["avatar"])
+            document.getElementById("img-user").setAttribute("src","data:image/png;base64," + users[id]["image"])
         }
     }
 </script>
@@ -232,6 +205,7 @@
 </script>
 
 <script>
+    var class_color_dict = {"person":"blue","car":"yellow"}
     var sound = document.getElementById("audio");
     var markers = [];
 
@@ -254,32 +228,22 @@
         var data = $.parseJSON(dataStr);
         console.log(data);
         for(var key in data) {
-            console.log("aaa aaa");
             data[key].forEach(function (element,index) {
-                console.log("aaa bbb");
                 if(element["location"]["longitude"] === undefined || element["location"]["latitude"] === undefined){
                     return;
                 }
-                console.log("aaa ccc");
                 LatLng = {lat: parseFloat(element["location"]["latitude"]), lng: parseFloat(element["location"]["longitude"])};
-                console.log("aaa ddd");
                 var marker = new google.maps.Marker({
                     position: {lat: parseFloat(element["location"]["latitude"]), lng: parseFloat(element["location"]["longitude"])},
                     map: map,
                     label: element["priority"].toString(),
                     title: element["message"]
                 });
-                console.log("aaa eee");
                 marker.addListener('click', function () {
                     document.getElementById('popup').style.display = 'block';
-                    document.getElementById("priority").innerHTML = element["response"]["priority"];
-                    if(element["response"]["status"]){
-                        document.getElementById("response").innerHTML = element["response"]["message"];
-                    }
-                    document.getElementById("submission_form").setAttribute("index",index);
-                    document.getElementById("submission_form").setAttribute("id",key);
-                    document.getElementById("type").innerHTML = "Road Damage";
-                    document.getElementById("message").innerHTML = element["content"];
+                    document.getElementById("priority").innerHTML = element["priority"];
+                    document.getElementById("type").innerHTML = "Car Crash";
+                    document.getElementById("message").innerHTML = element["message"];
 
                     if (!(key in users)) {
                         $.get("https://" + document.domain + ":5000/users/" + key, function (dataStr, status) {
@@ -291,7 +255,57 @@
                         document.getElementById("user").innerHTML = users[key]["realname"];
                     }
                     document.getElementById("user").setAttribute("userid", key);
-                    document.getElementById("img").setAttribute("src", "data:image/png;base64," + element["img"])
+                    var canvas = document.getElementById("canvas");
+                    var ctx = canvas.getContext("2d");
+                    var image = new Image();
+                    var rects = []
+                    image.onload = function() {
+                        if(image.height > image.width){
+                            XY_RATIO = canvas.height/image.height
+                            canvas.width = image.width * XY_RATIO
+                        }else{
+                            XY_RATIO = canvas.width/image.width
+                            canvas.height = image.height * XY_RATIO
+                        }
+                        ctx.drawImage(image, 0, 0, image.width,    image.height,     // source rectangle
+                            0, 0, canvas.width, canvas.height);
+                        for(i=0;i<element["output_dict"]["detection_classes"].length;i++){
+                            var box = element["output_dict"]["detection_boxes"][i];
+                            ctx.beginPath();
+                            ctx.lineWidth = "2";
+                            var box_class = element["output_dict"]["detection_classes"][i];
+                            ctx.strokeStyle = class_color_dict[box_class];
+                            ctx.rect(box[0]*XY_RATIO,box[2]*XY_RATIO,Math.abs(box[1]-box[0])*XY_RATIO,Math.abs(box[3]-box[2])*XY_RATIO);
+                            ctx.stroke()
+                        }
+
+                        for(i=0;i<element["people"].length;i++){
+                            ctx.beginPath();
+                            var person = element["people"][i]
+                            box = person[1]
+                            ctx.strokeStyle = "green";
+                            if(person[0]){
+                                ctx.strokeStyle = "red";
+                            }
+                            ctx.rect(box[3]*XY_RATIO,box[0]*XY_RATIO,(box[1]-box[3])*XY_RATIO,(box[0]-box[2])*XY_RATIO);
+
+                            ctx.stroke();
+                            rects.push({"x":box[3]*XY_RATIO,"y":box[0]*XY_RATIO,"w":(box[1]-box[3])*XY_RATIO,"h":(box[0]-box[2])*XY_RATIO,"id":person[2]})
+                        }
+
+                    };
+
+                    image.src = "data:image/png;base64," + element["img"]
+                    canvas.addEventListener('click', function(e) {
+                        console.log('click: ' + e.offsetX + '/' + e.offsetY);
+                        console.log(rects)
+                        var rect = collides(rects, e.offsetX, e.offsetY);
+                        if (rect) {
+                            document.getElementById('popup').style.display='none';
+                            document.getElementById('user-popup').style.display='block';
+                            setUser(rect.id);
+                        }
+                    }, false);
                 });
 
             });
@@ -303,7 +317,20 @@
         }
         denunciation_count = markers.length;
     });
-
+    function collides(rects, x, y) {
+        var isCollision = false;
+        for (var i = 0, len = rects.length; i < len; i++) {
+            var left = rects[i].x, right = rects[i].x+rects[i].w;
+            var top = rects[i].y, bottom = rects[i].y+rects[i].h;
+            if (right >= x
+                && left <= x
+                && bottom >= y
+                && top <= y) {
+                isCollision = rects[i];
+            }
+        }
+        return isCollision;
+    }
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuOC03IHPA_6TPnfk18b0SAgD1uge4-dk&callback=initMap" async defer></script>

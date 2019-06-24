@@ -116,7 +116,7 @@ while 0:
 	data = generateAvg(locs,im,data)
 
 	with open("modules/databases/park_data.json","w") as f:
-		f.write(json.dumps(data,indent=4))
+		f.write(json.dumps(data,indent=2))
 	exit(0)
 
 class Empty(Resource):

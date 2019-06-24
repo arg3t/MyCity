@@ -124,7 +124,7 @@ class Complaint(Resource):
 
 		del complaints[complaint["id"]][-1]["id"]
 		with open('modules/databases/complaints.json', 'w') as complaints_file:
-			json.dump(complaints, complaints_file, indent=4)
+			json.dump(complaints, complaints_file, indent=2)
 
 
 class Complaints(Resource):
@@ -139,5 +139,5 @@ class ComplaintsUpdate(Resource):
 		complaints[args.get("id")][int(args.get("index"))]["response"]["message"] = args.get("message")
 		complaints[args["id"]][int(args["index"])]["response"]["status"] = True
 		with open('modules/databases/complaints.json', 'w') as complaints_file:
-			json.dump(complaints, complaints_file, indent=4)
+			json.dump(complaints, complaints_file, indent=2)
 		return
