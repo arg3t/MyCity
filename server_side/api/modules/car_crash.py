@@ -20,6 +20,8 @@ import ssl
 from object_detection.utils import label_map_util
 import face_recognition
 
+AI_IP = '10.10.26.161'
+
 VEHICLE_CLASSES = [3, 6, 8]
 MIN_AREA_RATIO = 0.9
 import numpy as np
@@ -87,7 +89,7 @@ def rotate_img(img, angle):
 
 def process_img(img_base64):
 
-	url = 'https://127.0.0.1:5001/ai' # Set destination URL here
+	url = 'https://%s:5001/ai' % AI_IP # Set destination URL here
 	post_fields = {'img': img_base64,"type":"coco"}     # Set POST fields here
 	request = Request(url, urlencode(post_fields).encode())
 	data = urlopen(request, context=context).read().decode("ascii")
@@ -142,9 +144,9 @@ def process_img(img_base64):
 					prev_cars.append((avg_x, avg_y))
 			elif i == 1:
 				box = output_dict_processed['detection_boxes'][index]
-				#(left, right, top, bottom) = (box[1] * im_width, box[3] * im_width,
-				#                              box[0] * im_height, box[2] * im_height)
-				(left, top, right, bottom) = box
+				(left, right, top, bottom) = (box[1] * im_width, box[3] * im_width,
+				                              box[0] * im_height, box[2] * im_height)
+				#(left, top, right, bottom) = box
 				person = image_np[int(top):int(bottom),int(left):int(right)]
 				if right-left > bottom-top:
 					rotated = rotate_img(person, 90)
@@ -176,8 +178,10 @@ def process_img(img_base64):
 
 
 	_, buffer = cv2.imencode('.jpg', image_np)
-
 	for i in range(len(output_dict_processed["detection_classes"])):
+		box = output_dict_processed["detection_boxes"][i]
+		output_dict_processed["detection_boxes"][i] = [box[1] * im_width, box[3] * im_width, box[0] * im_height, box[2] * im_height]
+
 		output_dict_processed["detection_classes"][i] = category_index[output_dict_processed["detection_classes"][i]]["name"]
 
 	return base64.b64encode(buffer).decode('ascii'), cars_involved, injured_people,output_dict_processed,people

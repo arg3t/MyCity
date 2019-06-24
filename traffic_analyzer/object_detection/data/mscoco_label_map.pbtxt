@@ -196,7 +196,7 @@ item {
 item {
   name: "/m/04dr76w"
   id: 44
-  display_name: "bottle"
+  display_name: "Ambulance"
 }
 item {
   name: "/m/09tvcd"
@@ -336,7 +336,7 @@ item {
 item {
   name: "/m/050k8"
   id: 77
-  display_name: "cell phone"
+  display_name: "ambulance"
 }
 item {
   name: "/m/0fx9l"
