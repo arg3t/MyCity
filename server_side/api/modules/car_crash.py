@@ -73,21 +73,13 @@ def find_name(image):
         return None
 
 def rotate_img(img, angle):
-    (h, w) = img.shape[:2]
-    x = h if h > w else w
-    y = h if h > w else w
-    square = np.zeros((x, y, 3), np.uint8)
-    square[int((y-h)/2):int(y-(y-h)/2), int((x-w)/2):int(x-(x-w)/2)] = img
-
-    (h, w) = square.shape[:2]
-    center = (w / 2, h / 2)
-    M = cv2.getRotationMatrix2D(center, angle, 1.0)
-    rotated = cv2.warpAffine(square, M, (h, w))
-    return rotated
+    if angle == 90:
+        return np.rot90(img)
+    elif angle == 270:
+        return np.rot90(np.rot90(np.rot90(img)))
 
 def process_img(img_base64):
-
-    url = 'https://127.0.0.1:5001/ai' # Set destination URL here
+    url = 'https://192.168.2.238:5001/ai' # Set destination URL here
     post_fields = {'img': img_base64,"type":"coco"}     # Set POST fields here
     request = Request(url, urlencode(post_fields).encode())
     data = urlopen(request, context=context).read().decode("ascii")
@@ -143,9 +135,8 @@ def process_img(img_base64):
                     prev_cars.append((avg_x, avg_y))
             elif i == 1:
                 box = output_dict['detection_boxes'][index]
-                #(left, right, top, bottom) = (box[1] * im_width, box[3] * im_width,
-                #                              box[0] * im_height, box[2] * im_height)
-                (left, top, right, bottom) = box
+                (left, right, top, bottom) = tuple(map(int, (box[1] * im_width, box[3] * im_width,
+                                              box[0] * im_height, box[2] * im_height)))
                 person = image_np[int(top):int(bottom),int(left):int(right)]
                 if right-left > bottom-top:
                     rotated = rotate_img(person, 90)
@@ -155,22 +146,22 @@ def process_img(img_base64):
                         name = find_name(rotated)
                     except Exception:
                         pass
-                    (height_person,width_person)=person.shape[:2]
-                    excess=(width_person-height_person)/2
+                    (height_person,width_person) = person.shape[:2]
 
                     if name is None:
                         rotated = rotate_img(person, 270)
                         face_locs = face_recognition.face_locations(rotated)[0]
                         name = find_name(rotated)
-                        face_locs_processed = (top + face_locs[1]-excess,left+face_locs[2],top+face_locs[3]-excess,left+face_locs[0])
+                        (top_face, right_face, bottom_face, left_face) = face_locs
+                        face_locs_processed = (top + height_person - right_face,left+bottom_face,top + height_person - left_face,left+top_face)
                     else:
-                        face_locs_processed = (top + face_locs[3]-excess,right-face_locs[2],top+face_locs[1]-excess,right-face_locs[0])
-                    cv2.imshow('test.jpg', rotated)
-                    cv2.waitKey(0)
-                    cv2.destroyAllWindows()
+                        (top_face, right_face, bottom_face, left_face) = face_locs
+                        person = cv2.rectangle(person, (width_person - bottom_face, left_face), (width_person - top_face, right_face), (0, 255, 0), 3)
+                        face_locs_processed = (top + left_face,left + width_person - top_face,top + right_face,left + width_person - bottom_face)
                     people[index] = [0, face_locs_processed, name]
                 else:
                     face_locs = face_recognition.face_locations(person)[0]
+                    (top_face, right_face, bottom_face, left_face) = face_locs
                     face_locs_processed = (top+face_locs[0],left+face_locs[1],top+face_locs[2],left+face_locs[3])
                     name = find_name(person)
                     people[index] = [1, face_locs_processed, name]
@@ -206,7 +197,7 @@ class Crash(Resource):
         lat, long = request.form['lat'], request.form['long']
 
         image, car_count, injured,out,people = process_img(base64_img)
-        (top, right, bottom, left) = people[0][1]
+        (top, right, bottom, left) = people[0][1]     
         top = int(top)
         right = int(right)
         left = int(left)
