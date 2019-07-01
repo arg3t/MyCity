@@ -69,6 +69,8 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
         fan_rpm = new javax.swing.JLabel();
         fps_label = new javax.swing.JLabel();
         manage_button = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -276,6 +278,27 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
 
         jTabbedPane1.addTab("Cameras", jPanel2);
 
+        jLabel8.setText("deneme");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(493, 493, 493)
+                .addComponent(jLabel8)
+                .addContainerGap(1074, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(115, 115, 115)
+                .addComponent(jLabel8)
+                .addContainerGap(686, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("tab2", jPanel4);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -471,7 +494,7 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
                 System.out.println(e.toString());
                 null_reps+=1;
              }
-            if (null_reps >= 100){
+            if (null_reps >= 1000000000){
                 run = false;
                 System.out.println("socket closed");
             }
@@ -523,9 +546,11 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton manage_button;
     private javax.swing.JLabel ram_temp;
