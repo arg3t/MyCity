@@ -51,10 +51,9 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
         intersection_label = new javax.swing.JLabel();
         ambulance_label = new javax.swing.JLabel();
         fps_label = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        light_1_label = new javax.swing.JLabel();
-        light_2_label = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
+        manage_button = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -159,6 +158,27 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
         );
 
         jTabbedPane1.addTab("Loads", jPanel7);
+
+        jLabel8.setText("deneme");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(493, 493, 493)
+                .addComponent(jLabel8)
+                .addContainerGap(1074, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(115, 115, 115)
+                .addComponent(jLabel8)
+                .addContainerGap(686, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("tab2", jPanel4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -354,7 +374,7 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
                 System.out.println(e.toString());
                 null_reps+=1;
              }
-            if (null_reps >= 100){
+            if (null_reps >= 1000000000){
                 run = false;
                 System.out.println("socket closed");
             }
@@ -390,11 +410,21 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ambulance_label;
     private javax.swing.JLabel fps_label;
-    private javax.swing.JLabel intersection_label;
+    private javax.swing.JLabel gpu_temp;
+    private javax.swing.JLabel gpu_usage;
+    private javax.swing.JButton intersection_button;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel light_1_label;
     private javax.swing.JLabel light_2_label;
