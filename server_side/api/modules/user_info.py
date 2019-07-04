@@ -98,7 +98,18 @@ class ReducePoints(Resource):
                     json.dump(users, f, indent=2)
             else:
                 abort(404, error="User {} doesn't exist".format(user_id))
-
+class Image(Resource):
+    def get(self, user_id):
+        try:
+            user = copy.deepcopy(utils.find_by_id(users.values(), user_id))
+            if not user:
+                raise Exception('User not found!')
+            del user['password']
+            resp = Response(user["image"])
+            resp.headers['Access-Control-Allow-Origin'] = '*'
+            return resp
+        except:
+            abort(404, error="User {} doesn't exist".format(user_id))
 
 if __name__ == '__main__':
     api.add_resource(Users, '/users', '/users/')
