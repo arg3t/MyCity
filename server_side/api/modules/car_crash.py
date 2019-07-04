@@ -75,18 +75,18 @@ def find_name(image):
 		return None
 
 def rotate_img(img, angle):
-    if angle == 90:
-        return np.rot90(img)
-    elif angle == 270:
-        return np.rot90(np.rot90(np.rot90(img)))
+	if angle == 90:
+		return np.rot90(img)
+	elif angle == 270:
+		return np.rot90(np.rot90(np.rot90(img)))
 
 def process_img(img_base64):
-    url = 'https://192.168.2.238:5001/ai' # Set destination URL here
-    post_fields = {'img': img_base64,"type":"coco"}     # Set POST fields here
-    request = Request(url, urlencode(post_fields).encode())
-    data = urlopen(request, context=context).read().decode("ascii")
-    output_dict = json.loads(json.loads(data))
-    image_np = cv2.cvtColor(load_image_into_numpy_array(Image.open(io.BytesIO(base64.b64decode(img_base64)))),cv2.COLOR_RGB2BGR)
+	url = 'https://192.168.2.238:5001/ai' # Set destination URL here
+	post_fields = {'img': img_base64,"type":"coco"}	 # Set POST fields here
+	request = Request(url, urlencode(post_fields).encode())
+	data = urlopen(request, context=context).read().decode("ascii")
+	output_dict = json.loads(json.loads(data))
+	image_np = cv2.cvtColor(load_image_into_numpy_array(Image.open(io.BytesIO(base64.b64decode(img_base64)))),cv2.COLOR_RGB2BGR)
 
 	output_dict_processed = {"detection_classes":[], "detection_scores":[], "detection_boxes":[]}
 	im_height, im_width, _ = image_np.shape
@@ -116,56 +116,56 @@ def process_img(img_base64):
 		output_dict_processed["detection_scores"].append(output_dict["detection_scores"][box.index])
 		output_dict_processed["detection_boxes"].append(output_dict["detection_boxes"][box.index])
 
-    people = {}
-    for index, i in enumerate(output_dict['detection_classes']):
-        score = output_dict['detection_scores'][index]
-        if score > MIN_SCORE_THRESH:
-            if i in VEHICLE_CLASSES:
-                box = output_dict['detection_boxes'][index]
-                (left, right, top, bottom) = (box[1] * im_width, box[3] * im_width,
-                                              box[0] * im_height, box[2] * im_height)
-                avg_x = left+right/2
-                avg_y = top+bottom/2
-                same = False
-                for prev_x, prev_y in prev_cars:
-                    if abs(prev_x-avg_x) < 130 and abs(prev_y-avg_y) < 130:
-                        same = True
-                        break
-                if not same:
-                    cars_involved += 1
-                    prev_cars.append((avg_x, avg_y))
-            elif i == 1:
-                box = output_dict['detection_boxes'][index]
-                (left, right, top, bottom) = tuple(map(int, (box[1] * im_width, box[3] * im_width,
-                                              box[0] * im_height, box[2] * im_height)))
-                person = image_np[int(top):int(bottom),int(left):int(right)]
-                if right-left > bottom-top:
-                    rotated = rotate_img(person, 90)
-                    name = None
-                    try:
-                        face_locs = face_recognition.face_locations(rotated)[0]
-                        name = find_name(rotated)
-                    except Exception:
-                        pass
-                    (height_person,width_person) = person.shape[:2]
+	people = {}
+	for index, i in enumerate(output_dict['detection_classes']):
+		score = output_dict['detection_scores'][index]
+		if score > MIN_SCORE_THRESH:
+			if i in VEHICLE_CLASSES:
+				box = output_dict['detection_boxes'][index]
+				(left, right, top, bottom) = (box[1] * im_width, box[3] * im_width,
+											  box[0] * im_height, box[2] * im_height)
+				avg_x = left+right/2
+				avg_y = top+bottom/2
+				same = False
+				for prev_x, prev_y in prev_cars:
+					if abs(prev_x-avg_x) < 130 and abs(prev_y-avg_y) < 130:
+						same = True
+						break
+				if not same:
+					cars_involved += 1
+					prev_cars.append((avg_x, avg_y))
+			elif i == 1:
+				box = output_dict['detection_boxes'][index]
+				(left, right, top, bottom) = tuple(map(int, (box[1] * im_width, box[3] * im_width,
+											  box[0] * im_height, box[2] * im_height)))
+				person = image_np[int(top):int(bottom),int(left):int(right)]
+				if right-left > bottom-top:
+					rotated = rotate_img(person, 90)
+					name = None
+					try:
+						face_locs = face_recognition.face_locations(rotated)[0]
+						name = find_name(rotated)
+					except Exception:
+						pass
+					(height_person,width_person) = person.shape[:2]
 
-                    if name is None:
-                        rotated = rotate_img(person, 270)
-                        face_locs = face_recognition.face_locations(rotated)[0]
-                        name = find_name(rotated)
-                        (top_face, right_face, bottom_face, left_face) = face_locs
-                        face_locs_processed = (top + height_person - right_face,left+bottom_face,top + height_person - left_face,left+top_face)
-                    else:
-                        (top_face, right_face, bottom_face, left_face) = face_locs
-                        person = cv2.rectangle(person, (width_person - bottom_face, left_face), (width_person - top_face, right_face), (0, 255, 0), 3)
-                        face_locs_processed = (top + left_face,left + width_person - top_face,top + right_face,left + width_person - bottom_face)
-                    people[index] = [0, face_locs_processed, name]
-                else:
-                    face_locs = face_recognition.face_locations(person)[0]
-                    (top_face, right_face, bottom_face, left_face) = face_locs
-                    face_locs_processed = (top+face_locs[0],left+face_locs[1],top+face_locs[2],left+face_locs[3])
-                    name = find_name(person)
-                    people[index] = [1, face_locs_processed, name]
+					if name is None:
+						rotated = rotate_img(person, 270)
+						face_locs = face_recognition.face_locations(rotated)[0]
+						name = find_name(rotated)
+						(top_face, right_face, bottom_face, left_face) = face_locs
+						face_locs_processed = (top + height_person - right_face,left+bottom_face,top + height_person - left_face,left+top_face)
+					else:
+						(top_face, right_face, bottom_face, left_face) = face_locs
+						person = cv2.rectangle(person, (width_person - bottom_face, left_face), (width_person - top_face, right_face), (0, 255, 0), 3)
+						face_locs_processed = (top + left_face,left + width_person - top_face,top + right_face,left + width_person - bottom_face)
+					people[index] = [0, face_locs_processed, name]
+				else:
+					face_locs = face_recognition.face_locations(person)[0]
+					(top_face, right_face, bottom_face, left_face) = face_locs
+					face_locs_processed = (top+face_locs[0],left+face_locs[1],top+face_locs[2],left+face_locs[3])
+					name = find_name(person)
+					people[index] = [1, face_locs_processed, name]
 
 
 
@@ -187,25 +187,25 @@ class Crash(Resource):
 		id = request.form['id']
 		lat, long = request.form['lat'], request.form['long']
 
-        image, car_count, injured,out,people = process_img(base64_img)
-        (top, right, bottom, left) = people[0][1]     
-        top = int(top)
-        right = int(right)
-        left = int(left)
-        bottom = int(bottom)
-        img = load_image_into_numpy_array(Image.open(io.BytesIO(base64.b64decode(base64_img))))
-        cv2.rectangle(img,(left,top),(right,bottom),(0,255,0),3)
-        cv2.imshow('test.jpg', img)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-        print(people)
-        priority = car_count + injured
-        if priority > 10:
-            priority = 10
+		image, car_count, injured,out,people = process_img(base64_img)
+		(top, right, bottom, left) = people[0][1]	 
+		top = int(top)
+		right = int(right)
+		left = int(left)
+		bottom = int(bottom)
+		img = load_image_into_numpy_array(Image.open(io.BytesIO(base64.b64decode(base64_img))))
+		cv2.rectangle(img,(left,top),(right,bottom),(0,255,0),3)
+		cv2.imshow('test.jpg', img)
+		cv2.waitKey(0)
+		cv2.destroyAllWindows()
+		print(people)
+		priority = car_count + injured
+		if priority > 10:
+			priority = 10
 
 		crash = {
 			'img': image,
-			'message': message,
+			'message': message,		
 			'priority': priority,
 			'stats': {
 				'cars': car_count,

@@ -4,9 +4,11 @@
  
 const char* ssid = "AirTies_Air5343";
 const char* password =  "yigit007";
- 
+const int pins[2][3] = {{5,4,16},{2,14,0}};
 WiFiServer listenServer(31);
 WiFiServer broadcastServer(69);
+
+int lights[2] = {0,2};
 
 void setup() {
   
@@ -25,10 +27,15 @@ void setup() {
  
   Serial.print("Connected to WiFi. IP:");
   Serial.println(WiFi.localIP());
- 
+  for(int i = 0; i<2;i++){
+    for(int j = 0; j<3; j++){
+      pinMode(pins[i][j],OUTPUT);
+    }
+  }
   listenServer.begin();
   broadcastServer.begin();
   digitalWrite(12,HIGH);
+  
 }
  
 void loop() {
@@ -48,6 +55,21 @@ void loop() {
         message += c;
       }
       if(message != ""){
+
+        lights[0] =message.charAt(0)-'0';
+        lights[1] = message.charAt(2)-'0';
+        Serial.println(lights[0]);
+        Serial.println(lights[1]);
+        for(int i = 0; i<2;i++){
+          for(int j = 0; j<3; j++){
+              if(j == lights[i]){
+                digitalWrite(pins[i][j],HIGH);
+                continue;
+              }
+              digitalWrite(pins[i][j],LOW);
+          }
+        }
+
         Serial.println(message);
         Serial.print("Connected:");
         Serial.println(sender.connected());
@@ -56,12 +78,11 @@ void loop() {
         if(sender && sender.connected()){
           Serial.println("Bookmark 1");
           sender.println(message);
-          sender.stop();
         }
       }
       delay(10);
     }
-    
+    sender.stop();https://www.hackthebox.eu/login
     listener.stop();
  
   }

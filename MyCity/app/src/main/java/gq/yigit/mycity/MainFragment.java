@@ -71,17 +71,23 @@ public class MainFragment extends Fragment implements WebRequest.responseListene
 		swipeRefreshLayout = rootView.findViewById(R.id.simpleSwipeRefreshLayout);
 
 		HashMap<String,String> params = new HashMap<>();
-
+		Location curloc = null;
 		try {
-			while(true) {
+			for(int i = 0;i<10;i++) {
 				try {
-					Location curloc = MainActivity.locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+					curloc = MainActivity.locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 					params.put("lat", String.valueOf(curloc.getLatitude()));
 					params.put("lon", String.valueOf(curloc.getLongitude()));
 				}catch (NullPointerException e){
-					break;
+					continue;
 				}
-				break;
+			}
+			try {
+					params.put("lat", String.valueOf(curloc.getLatitude()));
+					params.put("lon", String.valueOf(curloc.getLongitude()));
+			}catch (NullPointerException e){
+				params.put("lat", "39.9123762");
+				params.put("lon", "32.8097898");
 			}
 		}catch (SecurityException e){
 			Log.e("[ERROR]", "An error occured with location permissions");
