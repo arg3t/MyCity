@@ -47,30 +47,14 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
 
         jPanel1 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
-        camera_full_label = new javax.swing.JLabel();
-        intersection_button = new javax.swing.JButton();
-        ambulance_button = new javax.swing.JButton();
-        camera_cut_label = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        gpu_usage = new javax.swing.JLabel();
-        gpu_temp = new javax.swing.JLabel();
-        cpu_usage = new javax.swing.JLabel();
-        cpu_temp = new javax.swing.JLabel();
-        ram_usage = new javax.swing.JLabel();
-        ram_temp = new javax.swing.JLabel();
-        fan_rpm = new javax.swing.JLabel();
-        fps_label = new javax.swing.JLabel();
-        manage_button = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        intersection_label = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
+        intersection_label = new javax.swing.JLabel();
+        ambulance_label = new javax.swing.JLabel();
+        fps_label = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        light_1_label = new javax.swing.JLabel();
+        light_2_label = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -96,207 +80,85 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
             }
         });
 
-        camera_full_label.setText(" ");
+        intersection_label.setAlignmentY(0.0F);
 
-        intersection_button.setText("Intersection");
-        intersection_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                intersection_buttonActionPerformed(evt);
-            }
-        });
+        ambulance_label.setName(""); // NOI18N
 
-        ambulance_button.setText("Ambulance");
-        ambulance_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ambulance_buttonActionPerformed(evt);
-            }
-        });
-
-        camera_cut_label.setText("camera_cut");
-
-        jLabel1.setText("Name");
-
-        jLabel2.setText("Usage");
-
-        jLabel3.setText("Temp");
-
-        jLabel4.setText("GPU");
-
-        jLabel5.setText("CPU");
-
-        jLabel6.setText("RAM");
-
-        gpu_usage.setText("10%");
-
-        gpu_temp.setText("10C");
-
-        cpu_usage.setText("20%");
-
-        cpu_temp.setText("76C");
-
-        ram_usage.setText("56%");
-
-        ram_temp.setText("40C");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(gpu_usage)
-                    .addComponent(cpu_usage)
-                    .addComponent(ram_usage))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ram_temp)
-                    .addComponent(cpu_temp)
-                    .addComponent(gpu_temp)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(gpu_usage)
-                    .addComponent(gpu_temp))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(cpu_usage)
-                    .addComponent(cpu_temp))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(ram_usage)
-                    .addComponent(ram_temp))
-                .addContainerGap(16, Short.MAX_VALUE))
-        );
-
-        fan_rpm.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        fan_rpm.setText("2500 RPM");
-
-        fps_label.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        fps_label.setText("60 FPS");
-
-        manage_button.setText("Management");
-        manage_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                manage_buttonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(ambulance_button, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(263, 263, 263)
-                        .addComponent(intersection_button, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 533, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(camera_full_label, javax.swing.GroupLayout.PREFERRED_SIZE, 1280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(fan_rpm, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addComponent(fps_label, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(86, 86, 86)))
-                                .addGap(18, 18, 18))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(camera_cut_label, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(manage_button, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(95, 95, 95))))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(camera_full_label, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(intersection_button, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ambulance_button)
-                            .addComponent(manage_button))
-                        .addContainerGap())
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(camera_cut_label, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(180, 180, 180)
-                                .addComponent(fan_rpm, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(fps_label, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(110, 110, 110))))
-        );
-
-        jTabbedPane1.addTab("Cameras", jPanel2);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(292, 292, 292)
-                .addComponent(intersection_label)
-                .addContainerGap(1327, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(200, 200, 200)
-                .addComponent(intersection_label)
-                .addContainerGap(614, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Ambulance", jPanel4);
+        fps_label.setText("0 FPS");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1619, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(intersection_label, javax.swing.GroupLayout.PREFERRED_SIZE, 1024, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(185, 185, 185)
+                        .addComponent(ambulance_label, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(204, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(fps_label)
+                        .addGap(168, 168, 168))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 814, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(fps_label)
+                        .addGap(88, 88, 88)
+                        .addComponent(ambulance_label, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(intersection_label, javax.swing.GroupLayout.PREFERRED_SIZE, 768, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(181, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Intersection", jPanel5);
+        jTabbedPane1.addTab("Intersection & Ambulance", jPanel5);
+
+        light_1_label.setText("Light 1:");
+
+        light_2_label.setText("Light 2: ");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(light_1_label)
+                    .addComponent(light_2_label))
+                .addContainerGap(1624, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(light_1_label)
+                .addGap(18, 18, 18)
+                .addComponent(light_2_label)
+                .addContainerGap(918, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Traffic Lights", jPanel6);
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1693, Short.MAX_VALUE)
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 978, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Loads", jPanel7);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -332,35 +194,40 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
                         System.out.println(e.toString());
                     }
                 }
-                if (jTabbedPane1.getSelectedIndex() == 2) {
-                    running = new Thread(() -> {
-                        try{
-                            onCreate(8486,"Intersection");
-                        }catch(Exception ex){
-                            System.out.println(e.toString());
-                        }
-                    });
-                    running.start();
-                } else if (jTabbedPane1.getSelectedIndex() == 1) {
-                    running = new Thread(() -> {
-                        try{
-                            onCreate(8485,"Ambulance");
-                        }catch(Exception ex){
-                            System.out.println(e.toString());
-                        }
-                    });
-                    running.start();
+                switch (jTabbedPane1.getSelectedIndex()) {
+                    case 0:
+                        running = new Thread(() -> {
+                            try{
+                                onCreate(8485,"cams");
+                            }catch(Exception ex){
+                                System.out.println(e.toString());
+                            }
+                        });
+                        running.start();
+                        break;
+                    case 1:
+                        running = new Thread(() -> {
+                            try{
+                                onCreate(8484,"lights");
+                            }catch(Exception ex){
+                                System.out.println(e.toString());
+                            }
+                        });
+                        running.start();
+                        break;
+                    case 2:
+                        running = new Thread(() -> {
+                            try{
+                                onCreate(8483,"Loads");
+                            }catch(Exception ex){
+                                System.out.println(e.toString());
+                            }
+                        });
+                        running.start();
+                        break;
                 }
             }
         });
-    }
-    
-    public void ambulanceTab() {
-        
-    }
-    
-    public void intersectionTab() {
-        
     }
     
     private void jTabbedPane1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseExited
@@ -370,56 +237,6 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
     private void jTabbedPane1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseEntered
 
     }//GEN-LAST:event_jTabbedPane1MouseEntered
-
-    private void manage_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manage_buttonActionPerformed
-        managementForm settings = new managementForm();
-        settings.setVisible(true);
-        settings.initIp();
-    }//GEN-LAST:event_manage_buttonActionPerformed
-
-    private void ambulance_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ambulance_buttonActionPerformed
-        if(running!=null){
-            try{
-                server.close();
-                client.close();
-                running.stop();
-            }catch(IOException e){
-                System.out.println("IO Exception occured");
-            }catch(Exception e){
-                System.out.println(e.toString());
-            }
-        }
-        running = new Thread(() -> {
-            try{
-                onCreate(8485,"Ambulance");
-            }catch(Exception e){
-                System.out.println(e.toString());
-            }
-        });
-        running.start();
-    }//GEN-LAST:event_ambulance_buttonActionPerformed
-
-    private void intersection_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_intersection_buttonActionPerformed
-        if(running!=null){
-            try{
-                server.close();
-                client.close();
-                running.stop();
-            }catch(IOException e){
-                System.out.println("IO Exception occured");
-            }catch(Exception e){
-                System.out.println(e.toString());
-            }
-        }
-        running = new Thread(() -> {
-            try{
-                onCreate(8486,"Intersection");
-            }catch(Exception e){
-                System.out.println(e.toString());
-            }
-        });
-        running.start();
-    }//GEN-LAST:event_intersection_buttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -452,15 +269,32 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
     }
 
     public void onCreate(int port, String name) throws Exception{
-
-        this.camera_cut_label.setIcon(new ImageIcon());
-        this.camera_full_label.setIcon(new ImageIcon());
+        boolean run = true;
+        if ("lights".equals(name)) {
+            Socket clientSocket = new Socket("192.168.2.174",69);
+            int c;
+            InputStream in = clientSocket.getInputStream();
+            String message = "";
+            while((c=in.read()) != -1){
+                if (c == 10 || c == 13) {
+                    break;
+                }
+                message += (char) c;
+            }
+            
+            this.light_1_label.setText("Light 1: " + message.charAt(0));
+            this.light_2_label.setText("Light 2: " + message.charAt(2));
+            
+            System.out.println(message);
+            return;
+        }
+        this.intersection_label.setIcon(new ImageIcon());
+        this.ambulance_label.setIcon(new ImageIcon());
         String fromClient = "";
         String toClient;
 
         server = new ServerSocket(port);
         System.out.println("wait for connection on port " + port);
-        boolean run = true;
         client = server.accept();
         System.out.println("got connection on port " + port);
         BufferedImage image = null;
@@ -486,20 +320,19 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
                         ByteArrayInputStream bis = new ByteArrayInputStream(decodedBytes);
                         image = ImageIO.read(bis);
                         bis.close();
-                        if (name == "Intersection") {
-                            this.intersection_label.setIcon(new ImageIcon(resizeImage(image,1280,720)));
-                        } else if (name == "Ambulance") {
+                        if ("cams".equals(name)) {
+                            this.intersection_label.setIcon(new ImageIcon(resizeImage(image,1024, 768)));
                             JSONObject dims = json.getJSONObject("image_sizes");
-                            this.camera_cut_label.setIcon(new ImageIcon(resizeImage(image.getSubimage(dims.getInt("x"), dims.getInt("y"), dims.getInt("width"), dims.getInt("height")),300,300)));
-                        } else {
+                            this.ambulance_label.setIcon(new ImageIcon(resizeImage(image.getSubimage(dims.getInt("x"), dims.getInt("y"), dims.getInt("width"), dims.getInt("height")),250,280)));
+                        } else if ("Loads".equals(name)) {
                             JSONObject data = json.optJSONObject("load");
-                            this.gpu_temp.setText(data.getString("gpu_temp"));
-                            this.gpu_usage.setText(data.getString("gpu_load"));
+                            /*this.gpu_temp.setText(data.getString("gpu_temp"));
+                            this.gpu_usage.setText(daqqta.getString("gpu_load"));
                             this.cpu_temp.setText(data.getString("cpu_temp"));
                             this.cpu_usage.setText(data.getString("cpu_load"));
                             this.ram_temp.setText(data.getString("mem_temp"));
                             this.ram_usage.setText(data.getString("mem_load"));
-                            this.fan_rpm.setText(data.getString("fan_speed"));
+                            this.fan_rpm.setText(data.getString("fan_speed"));*/
                         }
 
                         null_reps=0;
@@ -528,8 +361,8 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
         }
         server.close();
         client.close();
-        this.camera_cut_label.setIcon(new ImageIcon());
-        this.camera_full_label.setIcon(new ImageIcon());
+        this.ambulance_label.setIcon(new ImageIcon());
+        this.intersection_label.setIcon(new ImageIcon());
         JOptionPane.showMessageDialog(this, name +" socket server down!");
         running.stop();
 
@@ -555,32 +388,16 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
         System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ambulance_button;
-    private javax.swing.JLabel camera_cut_label;
-    private javax.swing.JLabel camera_full_label;
-    private javax.swing.JLabel cpu_temp;
-    private javax.swing.JLabel cpu_usage;
-    private javax.swing.JLabel fan_rpm;
+    private javax.swing.JLabel ambulance_label;
     private javax.swing.JLabel fps_label;
-    private javax.swing.JLabel gpu_temp;
-    private javax.swing.JLabel gpu_usage;
-    private javax.swing.JButton intersection_button;
     private javax.swing.JLabel intersection_label;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JButton manage_button;
-    private javax.swing.JLabel ram_temp;
-    private javax.swing.JLabel ram_usage;
+    private javax.swing.JLabel light_1_label;
+    private javax.swing.JLabel light_2_label;
     // End of variables declaration//GEN-END:variables
 
 

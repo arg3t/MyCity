@@ -7,6 +7,8 @@ import cv2
 import os
 import numpy as np
 
+from telnetlib import Telnet
+
 from utils import label_map_util
 from utils import visualization_utils as vis_util
 
@@ -18,7 +20,8 @@ if sys.platform == "win32":
     if StrictVersion(tf.__version__) < StrictVersion('1.12.0'):
         raise ImportError('Please upgrade your TensorFlow installation to v1.12.*.')
 else:
-    import psutil
+    # import psutil
+    pass
 
 import json
 
@@ -38,10 +41,14 @@ sys.path.append("..")
 import time
 from object_detection.utils import ops as utils_ops
 
+TELNET = False
+
 AI_IP = '10.10.26.161'
+LIGHT_IP = '192.168.2.174'
 context = ssl._create_unverified_context()
-
-
+if TELNET:
+    tn = Telnet(LIGHT_IP, 31)
+light_green = False
 
 # What model to download.
 
@@ -62,6 +69,7 @@ def load_image_into_numpy_array(image):
 
 data = {"gpu_temp":"10C","gpu_load":"15%","cpu_temp":"47C","cpu_load":"15%","mem_temp":"NaN","mem_load":"17%","fan_speed":"10000RPM"}
 
+"""
 def get_temps():
     global data
     if not sys.platform == "win32":
@@ -70,6 +78,7 @@ def get_temps():
         data["cpu_load"] = str(psutil.cpu_percent())+"%"
         data["mem_load"] = str(dict(psutil.virtual_memory()._asdict())["percent"])+"%"
         data["fan_speed"] = str(psutil.sensors_fans()["dell_smm"][0][1])+"RPM"
+"""
 
 
 def run_inference_for_single_image(image):
@@ -93,7 +102,19 @@ def listener(port=8385):
 
     print('Bye!')
 
-cut = [115, 100, 400, 150]
+def lights_on():
+    global light_green
+    light_green = True
+    tn.write(b"1-0")
+    time.sleep(1)
+    tn.write(b"2-0")
+    time.sleep(10)
+    light_green = False
+    tn.write(b"0-1")
+    time.sleep(1)
+    tn.write(b"0-2")
+
+cut = (150, 250, 250, 150)
 cut_send = [0, 0, 0, 0]
 img_counter = 0
 socket_switch = True
@@ -101,19 +122,20 @@ socket_switch = True
 thread = threading.Thread(target=listener)
 thread.start()
 
-
-cam = cv2.VideoCapture(2)
+cam = cv2.VideoCapture(1)
 
 
 switch = 0
-get_temps()
-amb_center = {'x': (400 + 550)/2, 'y': (115+215)/2}
+# get_temps()
+# (left, right, top, bottom)
+ambulance_coordinates = (65, 190, 0, 140)
 
 reps = -1
 reps_vid = 0
 
 while 1:
     ret,image = cam.read()
+    image = cv2.imread('/home/efeaydin/Masaüstü/union-county-car-accident-attorneys.jpg')
     reps_vid += 1
 
     reps += 1
@@ -138,8 +160,9 @@ while 1:
                             avg_box_y = (box[1] + box[3])/2
                             if abs(avg_x-avg_box_x) < 0.1 and abs(avg_y-avg_box_y) < 0.1:
                                 cont = True
-                                continue
-
+                                break
+                        if cont:
+                            continue
                         out_dict['detection_classes'].append(i)
                         out_dict['detection_boxes'].append(output_dict['detection_boxes'][index])
                         out_dict['detection_scores'].append(output_dict['detection_scores'][index])
@@ -148,7 +171,15 @@ while 1:
         out_dict['detection_boxes'] = np.array(out_dict['detection_boxes'])
         out_dict['detection_scores'] = np.array(out_dict['detection_scores'])
 
-        print(len(out_dict['detection_classes']), ' cars.')
+        im_height, im_width, _ = image_np.shape
+        if not light_green and TELNET:
+            for index, box in enumerate(out_dict['detection_boxes']):
+                box = tuple(map(int, (box[1] * im_width, box[3] * im_width, box[0] * im_height, box[2] * im_height)))
+                # (left, right, top, bottom)
+                if abs((box[0] + box[1])/2 - (ambulance_coordinates[0] + ambulance_coordinates[1])/2) < 25 and \
+                    abs((box[2] + box[3])/2 - (ambulance_coordinates[2] + ambulance_coordinates[3])/2) < 25:
+                    print('ambulance')
+                    threading.Thread(target=lights_on).start()
 
         vis_util.visualize_boxes_and_labels_on_image_array(
             image_np,
@@ -161,6 +192,7 @@ while 1:
             line_thickness=8,
             min_score_thresh=0.3
         )
+        cv2.imwrite('/home/efeaydin/Masaüstü/foto.jpg', image_np)
         cv2.imshow('frame', image_np)
         ex_c = [27, ord("q"), ord("Q")]
         if cv2.waitKey(1) & 0xFF in ex_c:
@@ -192,13 +224,14 @@ while 1:
                 if cut[i] < 0:
                     cut_send[i] = lens[i] + cut[i]
                 cut_send[i+1] = abs(cut[i])-abs(cut[i+1])
-            client_socket.sendall(json.dumps({"image_full":img,"image_sizes":{"x":cut_send[2],"y":cut_send[0],"width":cut_send[3],"height":cut_send[1]},"load":data}).encode('gbk')+b"\n")
+            client_socket.sendall(json.dumps({"image_full":img,"image_sizes":{"x":65,"y":0,"width":125,"height":140},"load":data}).encode('gbk')+b"\n")
             img_counter += 1
         except:
             socket_switch = True
 
         if img_counter % 10 == 0:
-            get_temps()
+            # get_temps()
+            pass
 
     except Exception as e:
         if hasattr(e, 'message'):
