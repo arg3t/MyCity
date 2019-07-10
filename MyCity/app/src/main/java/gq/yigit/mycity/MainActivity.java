@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -19,6 +20,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.*;
@@ -70,12 +72,10 @@ public class MainActivity extends AppCompatActivity
 		ComplaintViewFragment.OnFragmentInteractionListener,
 		CrashFragment.OnFragmentInteractionListener,
 		CrashMapFragment.OnFragmentInteractionListener,
-		responseListener,
-		imageListener {
+		responseListener{
 
 	public static Context cntxt;
 	public static JSONObject userData;
-	public static Bitmap userAvatar;
 	private String url;
 	private ImageView avatarView;
 	private TextView userName;
@@ -323,36 +323,29 @@ public class MainActivity extends AppCompatActivity
 
 	public void receivedResponse(boolean success,String response,int reqid){
 		if(success) {
-			try {
-				JSONArray receivedData = new JSONArray(response);
-				if(!(boolean)receivedData.get(0)){
-					Toast.makeText(cntxt,"Please login again!",Toast.LENGTH_LONG).show();
-				}else{
+			if (reqid == 0) {
+				try {
+					JSONArray receivedData = new JSONArray(response);
+					if (!(boolean) receivedData.get(0)) {
+						Toast.makeText(cntxt, "Please login again!", Toast.LENGTH_LONG).show();
+					} else {
 
-					userData = new JSONObject(receivedData.get(1).toString());
-					Log.i("[INFO]",userData.toString());
+						userData = new JSONObject(receivedData.get(1).toString());
+						Log.i("[INFO]", userData.toString());
+						byte[] decodedString = Base64.decode(userData.getString("image"), Base64.DEFAULT);
+						Bitmap img = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+						avatarView.setImageBitmap(img);
 
-					ImageDownload avatar_downloader = new ImageDownload();
-					avatar_downloader.addListener(this);
-					avatar_downloader.execute(url +"/img/"+ userData.get("id")+".png");
+						userName.setText(userData.getString("realname"));
+					}
+				} catch (Exception e) {
+					Log.e("[ERROR]", "Cannot receive userdata");
 
-					userName.setText(userData.getString("realname"));
 				}
-			}catch (Exception e){
-				Log.e("[ERROR]","Cannot receive userdata");
 			}
 		}
 	}
-	public void imageDownloaded(Bitmap img){
-		try {
-			userAvatar = img;
-			if(userAvatar != null) {
-				avatarView.setImageBitmap(img);
-			}
-		}catch(Exception e){
-			Log.e("[ERROR]","Cannot set avatar!");
-		}
-	}
+
 
 	@Override
 	public void onListFragmentInteraction(ComplaintsContent.ComplaintItem item){

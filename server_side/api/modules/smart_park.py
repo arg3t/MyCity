@@ -102,7 +102,7 @@ def im2str(im):
 	imdata = pickle.dumps(im)
 	return base64.b64encode(imdata).decode('ascii')
 
-cam = cv2.VideoCapture("http://192.168.43.246:4747/mjpegfeed")
+cam = cv2.VideoCapture(2)
 
 plt.axis("off")
 with open("modules/databases/locations.json","r") as f:
@@ -111,19 +111,18 @@ with open("modules/databases/locations.json","r") as f:
 with open("modules/databases/park_data.json","r") as f:
 	data = json.loads(f.read())
 
-while 0:
+if 0:
 	ret,im = cam.read()
 	data = generateAvg(locs,im,data)
 
 	with open("modules/databases/park_data.json","w") as f:
 		f.write(json.dumps(data,indent=2))
-	exit(0)
 
 class Empty(Resource):
 	def get(self):
 
 		ret,image = cam.read()
-		#image = cv2.imread("modules/lot.jpg")
+		#image = cv2.imread("module	s/lot.jpg")
 		backup = image.copy()
 		spot_data = generateData(locs,image,data,["0","1","2"])
 		print(spot_data)

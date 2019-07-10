@@ -2,7 +2,7 @@ from flask import Flask, send_from_directory
 from flask_restful import Api
 from flask_cors import CORS, cross_origin
 
-from modules import user_info, voting_system, rating_system, denunciation, navigation, bus_stops, announcements, complaint, car_crash
+from modules import user_info, voting_system, rating_system, denunciation, navigation, bus_stops, announcements, complaint, car_crash,smart_park
 from modules import utility
 from modules import user_set
 
@@ -31,6 +31,7 @@ if __name__ == '__main__':
     api.add_resource(user_info.Users, '/users', '/users/')
     api.add_resource(user_info.User, '/users/<path:user_id>', '/users/<path:user_id>/')
     api.add_resource(user_info.Login, '/login', '/login/')
+    api.add_resource(user_info.Image, '/img', '/img/')
     api.add_resource(user_info.ReducePoints, '/reduce', '/reduce/')
 
     # api.add_resource(utility.Resources, '/resources', '/resources/')
@@ -44,7 +45,7 @@ if __name__ == '__main__':
 
     api.add_resource(announcements.Announcement, '/announcements', '/announcements/')
 
-    # api.add_resource(smart_park.Empty, '/parking', '/parking/')
+    api.add_resource(smart_park.Empty, '/parking', '/parking/')
 
     api.add_resource(complaint.Complaint,"/complaint","/complaint/")
     api.add_resource(complaint.Complaints,"/complaints","/complaints/")
