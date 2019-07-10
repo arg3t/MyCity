@@ -4,9 +4,9 @@ import json
 
 rects = []
 
-cam = cv2.VideoCapture(2)
-ret,im = cam.read()
-cam.release()
+#cam = cv2.VideoCapture("http://192.168.43.246:4747/mjpegfeed")
+#ret,im = cam.read()
+im = cv2.imread("lot.jpg")
 if __name__ == '__main__' :
 
 	while(True):

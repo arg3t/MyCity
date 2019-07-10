@@ -93,7 +93,7 @@ def generateData(locs, img, avgs,show):
 
 		if spot in show:
 			plt.imshow(vals[spot], interpolation='nearest')
-			plt.show()
+			#plt.show()
 
 	return distances
 
@@ -101,8 +101,6 @@ def generateData(locs, img, avgs,show):
 def im2str(im):
 	imdata = pickle.dumps(im)
 	return base64.b64encode(imdata).decode('ascii')
-
-cam = cv2.VideoCapture(2)
 
 plt.axis("off")
 with open("modules/databases/locations.json","r") as f:
@@ -120,9 +118,7 @@ if 0:
 
 class Empty(Resource):
 	def get(self):
-
-		ret,image = cam.read()
-		#image = cv2.imread("module	s/lot.jpg")
+		image = cv2.imread("modules/lot.jpg")
 		backup = image.copy()
 		spot_data = generateData(locs,image,data,["0","1","2"])
 		print(spot_data)
@@ -140,6 +136,7 @@ class Empty(Resource):
 		print(spot_data)
 		if best_spot == -1:
 			print("Sorry, no spot found :(")
+			return
 		else:
 			print("Empty spot found at {}".format(int(best_spot) + 1))
 		foo = locs[best_spot]

@@ -2,7 +2,7 @@ from flask import Flask, send_from_directory
 from flask_restful import Api
 from flask_cors import CORS, cross_origin
 
-from modules import user_info, voting_system, rating_system, denunciation, navigation, bus_stops, announcements, complaint, car_crash,smart_park
+from modules import user_info, voting_system, rating_system, denunciation, navigation, bus_stops, announcements, complaint, car_crash, smart_park
 from modules import utility
 from modules import user_set
 
