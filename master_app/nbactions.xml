@@ -10,7 +10,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath ${packageClassName} ips.json</exec.args>
+                <exec.args>-classpath %classpath me.yigitcolakoglu.master_app.Main ips.json</exec.args>
                 <exec.executable>java</exec.executable>
                 <exec.workingdir>/home/efeaydin/Masaüstü/MyCity/master_app/src/main/java/me/yigitcolakoglu/master_app</exec.workingdir>
             </properties>

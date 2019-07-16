@@ -12,6 +12,8 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.Base64;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.net.ssl.HttpsURLConnection;
 import javax.swing.ImageIcon;
@@ -19,7 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import net.schmizz.sshj.common.IOUtils;
+import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
 /**
@@ -33,12 +35,16 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
      */
     public cameraForm() {
         initComponents();
-        initialize();
     }
     private ServerSocket server;
     private Socket client;
     private Thread running = null;
     private boolean listening = false;
+    private String ROBOT_IP = "10.42.0.9";
+    private String AI_IP = "10.10.26.161";
+    private Socket robotSocket;
+    private DataOutputStream out;
+    private BufferedReader in;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,40 +56,22 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
 
         jPanel1 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
-        camera_full_label = new javax.swing.JLabel();
-        ambulance_button = new javax.swing.JButton();
-        camera_cut_label = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        gpu_usage = new javax.swing.JLabel();
-        gpu_temp = new javax.swing.JLabel();
-        cpu_usage = new javax.swing.JLabel();
-        cpu_temp = new javax.swing.JLabel();
-        ram_usage = new javax.swing.JLabel();
-        ram_temp = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        fan_rpm = new javax.swing.JLabel();
-        fps_label = new javax.swing.JLabel();
-        manage_button = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        intersect_1_Y = new javax.swing.JLabel();
-        intersect_1_G = new javax.swing.JLabel();
-        intersect_1_R = new javax.swing.JLabel();
+        intersection_label = new javax.swing.JLabel();
+        ambulance_label = new javax.swing.JLabel();
+        fps_label = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        intersect_2_Y = new javax.swing.JLabel();
-        intersect_2_G = new javax.swing.JLabel();
-        intersect_2_R = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        light_1_label = new javax.swing.JLabel();
+        light_2_label = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         robot_cam_label = new javax.swing.JLabel();
+        battery_voltage_label = new javax.swing.JLabel();
+        current_drawn_label = new javax.swing.JLabel();
+        latitude_label = new javax.swing.JLabel();
+        longitude_label = new javax.swing.JLabel();
+        robot_stop = new javax.swing.JButton();
+        move_robot = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -109,14 +97,43 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
             }
         });
 
-        camera_full_label.setText(" ");
+        intersection_label.setAlignmentY(0.0F);
 
-        ambulance_button.setText("Start");
-        ambulance_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ambulance_buttonActionPerformed(evt);
-            }
-        });
+        ambulance_label.setName(""); // NOI18N
+
+        fps_label.setText("0 FPS");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(intersection_label, javax.swing.GroupLayout.PREFERRED_SIZE, 1024, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(185, 185, 185)
+                        .addComponent(ambulance_label, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(204, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(fps_label)
+                        .addGap(168, 168, 168))))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(fps_label)
+                        .addGap(88, 88, 88)
+                        .addComponent(ambulance_label, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(intersection_label, javax.swing.GroupLayout.PREFERRED_SIZE, 768, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(181, Short.MAX_VALUE))
+        );
 
         jTabbedPane1.addTab("Intersection & Ambulance", jPanel5);
 
@@ -147,16 +164,48 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
 
         jTabbedPane1.addTab("Traffic Lights", jPanel6);
 
-        fan_rpm.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        fan_rpm.setText("2500 RPM");
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1693, Short.MAX_VALUE)
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 978, Short.MAX_VALUE)
+        );
 
-        fps_label.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        fps_label.setText("60 FPS");
+        jTabbedPane1.addTab("Loads", jPanel7);
 
-        manage_button.setText("Management");
-        manage_button.addActionListener(new java.awt.event.ActionListener() {
+        battery_voltage_label.setText("Battery Voltage");
+
+        current_drawn_label.setText("Current Drawn");
+
+        latitude_label.setText("Latitude");
+
+        longitude_label.setText("Longitude");
+
+        robot_stop.setText("Stop Robot");
+        robot_stop.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                robot_stopMousePressed(evt);
+            }
+        });
+        robot_stop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                manage_buttonActionPerformed(evt);
+                robot_stopActionPerformed(evt);
+            }
+        });
+
+        move_robot.setText("Move Robot");
+        move_robot.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                move_robotMousePressed(evt);
+            }
+        });
+        move_robot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                move_robotActionPerformed(evt);
             }
         });
 
@@ -165,328 +214,48 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(camera_full_label, javax.swing.GroupLayout.PREFERRED_SIZE, 1280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(ambulance_button, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(475, 475, 475)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(robot_cam_label, javax.swing.GroupLayout.DEFAULT_SIZE, 1469, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(fan_rpm, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addComponent(fps_label, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(86, 86, 86)))
-                                .addGap(18, 18, 18))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(camera_cut_label, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(manage_button, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(95, 95, 95))))
+                            .addComponent(move_robot)
+                            .addComponent(robot_stop))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(current_drawn_label)
+                            .addComponent(longitude_label))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(battery_voltage_label)
+                            .addComponent(latitude_label))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(robot_cam_label, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(camera_full_label, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(ambulance_button)
-                            .addComponent(manage_button))
-                        .addContainerGap())
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(camera_cut_label, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(180, 180, 180)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel7)
-                                    .addComponent(fan_rpm, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(fps_label, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(110, 110, 110))))
+                        .addComponent(move_robot)
+                        .addGap(18, 18, 18)
+                        .addComponent(robot_stop)))
+                .addGap(18, 18, 18)
+                .addComponent(battery_voltage_label)
+                .addGap(18, 18, 18)
+                .addComponent(current_drawn_label, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(longitude_label)
+                .addGap(18, 18, 18)
+                .addComponent(latitude_label)
+                .addContainerGap(182, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Loads", jPanel7);
-
-        jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        intersect_1_Y.setBackground(new java.awt.Color(204, 204, 204));
-        intersect_1_Y.setForeground(new java.awt.Color(204, 204, 204));
-        intersect_1_Y.setOpaque(true);
-
-        intersect_1_G.setBackground(new java.awt.Color(204, 204, 204));
-        intersect_1_G.setForeground(new java.awt.Color(204, 204, 204));
-        intersect_1_G.setOpaque(true);
-
-        intersect_1_R.setBackground(new java.awt.Color(204, 204, 204));
-        intersect_1_R.setForeground(new java.awt.Color(204, 204, 204));
-        intersect_1_R.setOpaque(true);
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(109, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(intersect_1_G, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(intersect_1_R, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(intersect_1_Y, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(107, 107, 107))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addComponent(intersect_1_R, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(intersect_1_Y, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(intersect_1_G, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
-        );
-
-        jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        intersect_2_Y.setBackground(new java.awt.Color(204, 204, 204));
-        intersect_2_Y.setForeground(new java.awt.Color(204, 204, 204));
-        intersect_2_Y.setOpaque(true);
-
-        intersect_2_G.setBackground(new java.awt.Color(204, 204, 204));
-        intersect_2_G.setForeground(new java.awt.Color(204, 204, 204));
-        intersect_2_G.setOpaque(true);
-
-        intersect_2_R.setBackground(new java.awt.Color(204, 204, 204));
-        intersect_2_R.setForeground(new java.awt.Color(255, 153, 153));
-        intersect_2_R.setOpaque(true);
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(159, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(intersect_2_G, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(intersect_2_R, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(intersect_2_Y, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(163, 163, 163))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(intersect_2_R, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
-                .addComponent(intersect_2_Y, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(intersect_2_G, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38))
-        );
-
-        jLabel8.setText("Intersection 1");
-
-        jLabel9.setText("Intersection 2");
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(276, 276, 276)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel9)
-                .addGap(241, 241, 241))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(125, 125, 125)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 526, Short.MAX_VALUE)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel8))
-                .addGap(4, 4, 4)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Lights", jPanel4);
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(449, 449, 449)
-                .addComponent(robot_cam_label)
-                .addContainerGap(1173, Short.MAX_VALUE))
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(243, 243, 243)
-                .addComponent(robot_cam_label)
-                .addContainerGap(573, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Robot Cam", jPanel7);
-
-        jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        intersect_1_Y.setBackground(new java.awt.Color(204, 204, 204));
-        intersect_1_Y.setForeground(new java.awt.Color(204, 204, 204));
-        intersect_1_Y.setOpaque(true);
-
-        intersect_1_G.setBackground(new java.awt.Color(204, 204, 204));
-        intersect_1_G.setForeground(new java.awt.Color(204, 204, 204));
-        intersect_1_G.setOpaque(true);
-
-        intersect_1_R.setBackground(new java.awt.Color(204, 204, 204));
-        intersect_1_R.setForeground(new java.awt.Color(204, 204, 204));
-        intersect_1_R.setOpaque(true);
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(109, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(intersect_1_G, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(intersect_1_R, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(intersect_1_Y, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(107, 107, 107))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addComponent(intersect_1_R, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(intersect_1_Y, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(intersect_1_G, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
-        );
-
-        jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        intersect_2_Y.setBackground(new java.awt.Color(204, 204, 204));
-        intersect_2_Y.setForeground(new java.awt.Color(204, 204, 204));
-        intersect_2_Y.setOpaque(true);
-
-        intersect_2_G.setBackground(new java.awt.Color(204, 204, 204));
-        intersect_2_G.setForeground(new java.awt.Color(204, 204, 204));
-        intersect_2_G.setOpaque(true);
-
-        intersect_2_R.setBackground(new java.awt.Color(204, 204, 204));
-        intersect_2_R.setForeground(new java.awt.Color(255, 153, 153));
-        intersect_2_R.setOpaque(true);
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(159, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(intersect_2_G, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(intersect_2_R, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(intersect_2_Y, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(163, 163, 163))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(intersect_2_R, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
-                .addComponent(intersect_2_Y, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(intersect_2_G, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38))
-        );
-
-        jLabel8.setText("Intersection 1");
-
-        jLabel9.setText("Intersection 2");
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(276, 276, 276)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel9)
-                .addGap(241, 241, 241))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(125, 125, 125)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 526, Short.MAX_VALUE)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel8))
-                .addGap(4, 4, 4)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Lights", jPanel4);
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(449, 449, 449)
-                .addComponent(robot_cam_label)
-                .addContainerGap(1173, Short.MAX_VALUE))
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(243, 243, 243)
-                .addComponent(robot_cam_label)
-                .addContainerGap(573, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Robot Cam", jPanel7);
+        jTabbedPane1.addTab("Robot", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -507,56 +276,7 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public void initialize() {
-        jTabbedPane1.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                System.out.println("Tab: " + jTabbedPane1.getSelectedIndex());
-                if(running!=null){
-                    try{
-                        server.close();
-                        client.close();
-                        running.stop();
-                    }catch(IOException ex){
-                        System.out.println("IO Exception occured");
-                    }catch(Exception ex){
-                        System.out.println(e.toString());
-                    }
-                }
-                switch (jTabbedPane1.getSelectedIndex()) {
-                    case 0:
-                        running = new Thread(() -> {
-                            try{
-                                onCreate(8485,"cams");
-                            }catch(Exception ex){
-                                System.out.println(e.toString());
-                            }
-                        });
-                        running.start();
-                        break;
-                    case 1:
-                        running = new Thread(() -> {
-                            try{
-                                onCreate(8484,"lights");
-                            }catch(Exception ex){
-                                System.out.println(e.toString());
-                            }
-                        });
-                        running.start();
-                        break;
-                    case 2:
-                        running = new Thread(() -> {
-                            try{
-                                onCreate(8483,"Loads");
-                            }catch(Exception ex){
-                                System.out.println(e.toString());
-                            }
-                        });
-                        running.start();
-                        break;
-                }
-            }
-        });
-    }
+
     
     private void jTabbedPane1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseExited
         // TODO add your handling code here:
@@ -599,6 +319,38 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
         }
     }//GEN-LAST:event_ambulance_buttonActionPerformed
 
+    private void robot_stopMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_robot_stopMousePressed
+        try {
+            out.writeUTF("s");
+        } catch (IOException ex) {
+            System.out.println(ex.toString());
+        }
+    }//GEN-LAST:event_robot_stopMousePressed
+
+    private void move_robotMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_move_robotMousePressed
+        try {
+            out.writeUTF("m");
+        } catch (IOException ex) {
+            System.out.println(ex.toString());
+        }
+    }//GEN-LAST:event_move_robotMousePressed
+
+    private void move_robotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_move_robotActionPerformed
+        try {
+            out.writeUTF("m");
+        } catch (IOException ex) {
+            System.out.println(ex.toString());
+        }
+    }//GEN-LAST:event_move_robotActionPerformed
+
+    private void robot_stopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_robot_stopActionPerformed
+       try {
+            out.writeUTF("s");
+        } catch (IOException ex) {
+            System.out.println(ex.toString());
+        }
+    }//GEN-LAST:event_robot_stopActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -632,22 +384,43 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
 
     public void onCreate(int port, String name) throws Exception{
         boolean run = true;
-        if (name == "robot") {
+        if (name.equals("robot")) {
+            robotSocket = new Socket(ROBOT_IP, 3131);
+            out = new DataOutputStream(robotSocket.getOutputStream());
+            in = new BufferedReader(new InputStreamReader(robotSocket.getInputStream()));
             while (run) {
-                BufferedImage image = null;
-                URL img_url = new URL("http://10.10.26.141:8080/?action=snapshot");
-                image = ImageIO.read(img_url);
-                robot_cam_label.setIcon(new ImageIcon(image));
+                out.writeUTF("i");
+                String resp = in.readLine();
+                System.out.println(resp);
+                JSONObject values = new JSONObject(resp);
+                System.out.println(values.getString("lat"));
+                latitude_label.setText("Latitude: " + values.getString("lat"));
+                longitude_label.setText("Longitude: " + values.getString("lng"));
+                battery_voltage_label.setText("Battery Voltage: " + values.getString("battery_voltage"));
+                current_drawn_label.setText("Current Drawn: " + values.getString("current_drawn"));
                 
-                URL obj = new URL("http://10.10.26.164:5001/ai");
+                BufferedImage image;
+                URL img_url = new URL(String.format("http://%s:8080/?action=snapshot", ROBOT_IP));
+                image = ImageIO.read(img_url);
+                int width = image.getWidth();
+                int height = image.getHeight();
+                BufferedImage dest = new BufferedImage(height, width, image.getType());
+                Graphics2D graphics2D = dest.createGraphics();
+                graphics2D.translate((height - width) / 2, (height - width) / 2);
+                graphics2D.rotate(Math.PI / 2, height / 2, width / 2);
+                graphics2D.drawRenderedImage(image, null);
+                robot_cam_label.setIcon(new ImageIcon(dest));
+                
+                URL obj = new URL(String.format("https://%s:5001/ai", AI_IP));
                 HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
                 
                 con.setRequestMethod("POST");
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                ImageIO.write(dest, "jpg", out);
+                byte[] bytes = out.toByteArray();
+                String base64 = Base64.getEncoder().encodeToString(bytes);
                 
-                byte[] imageBytes = IOUtils.toByteArray(img_url);
-                String base64 = Base64.getEncoder().encodeToString(imageBytes);
-                
-                String params = "type=coco&img=" + base64;
+                String params = "type=damage&img=" + base64;
                 
                 con.setDoOutput(true);
 		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
@@ -665,10 +438,10 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
 		in.close();
 		
 		JSONObject json = new JSONObject(response.toString());
-                Graphics2D g2d = image.createGraphics();
             }
+            return;
         }
-        this.camera_cut_label.setIcon(new ImageIcon());
+        /*this.camera_cut_label.setIcon(new ImageIcon());
         this.camera_full_label.setIcon(new ImageIcon());
         String fromClient = "";
         String toClient;
@@ -748,34 +521,32 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
             javax.swing.JLabel[][] labels = {{intersect_1_R,intersect_1_Y,intersect_1_G},{intersect_2_R,intersect_2_Y,intersect_2_G}};
             int[] lights = {0,0};
             while(run) {
-                    BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
-                    fromClient = in.readLine();
+                fromClient = in.readLine();
 
-                    if(fromClient != null) {
-                        if(fromClient.trim().equals("Bye")) {
-                            run = false;
-                            System.out.println("socket closed");
-                        }else{
-                            System.out.println("received data in size: " + fromClient.length());
-                            System.out.println(fromClient);
-                            lights[0] = Character.getNumericValue(fromClient.charAt(0));
-                            lights[1] = Character.getNumericValue(fromClient.charAt(2));
-                            for(int i = 0;i < 2;i++){
-                                for(int j = 0;j<3;j++){
-                                    if(lights[i] == j){
-                                        labels[i][j].setBackground(new java.awt.Color(colors[j][0], colors[j][1], colors[j][2]));
-                                        continue;
-                                    }
-                                    labels[i][j].setBackground(new java.awt.Color(204,204,204));
+                if(fromClient != null) {
+                    if(fromClient.trim().equals("Bye")) {
+                        run = false;
+                        System.out.println("socket closed");
+                    }else{
+                        System.out.println("received data in size: " + fromClient.length());
+                        System.out.println(fromClient);
+                        lights[0] = Character.getNumericValue(fromClient.charAt(0));
+                        lights[1] = Character.getNumericValue(fromClient.charAt(2));
+                        for(int i = 0;i < 2;i++){
+                            for(int j = 0;j<3;j++){
+                                if(lights[i] == j){
+                                    labels[i][j].setBackground(new java.awt.Color(colors[j][0], colors[j][1], colors[j][2]));
+                                    continue;
                                 }
+                                labels[i][j].setBackground(new java.awt.Color(204,204,204));
                             }
                         }
+                    }
                 }
-        
-        
-    }
-        }
+            }
+        }*/
     }
 
     public static BufferedImage resizeImage(final Image image, int width, int height) {
@@ -810,7 +581,7 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
                 try{
                     onCreate(8485,"cams");
                 }catch(Exception ex){
-                    System.out.println(e.toString());
+                    System.out.println(ex.toString());
                 }
             });
             running.start();
@@ -825,12 +596,12 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
                 });
                 running.start();
             break;
-            case 2:
+            case 3:
                 running = new Thread(() -> {
                 try{
                     onCreate(0,"robot");
                 }catch(Exception ex){
-                    System.out.println(e.toString());
+                    System.out.println(ex.toString());
                 }
                 });
                 running.start();
@@ -839,42 +610,24 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
             
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ambulance_button;
-    private javax.swing.JLabel camera_cut_label;
-    private javax.swing.JLabel camera_full_label;
-    private javax.swing.JLabel cpu_temp;
-    private javax.swing.JLabel cpu_usage;
-    private javax.swing.JLabel fan_rpm;
+    private javax.swing.JLabel ambulance_label;
+    private javax.swing.JLabel battery_voltage_label;
+    private javax.swing.JLabel current_drawn_label;
     private javax.swing.JLabel fps_label;
-    private javax.swing.JLabel gpu_temp;
-    private javax.swing.JLabel gpu_usage;
-    private javax.swing.JLabel intersect_1_G;
-    private javax.swing.JLabel intersect_1_R;
-    private javax.swing.JLabel intersect_1_Y;
-    private javax.swing.JLabel intersect_2_G;
-    private javax.swing.JLabel intersect_2_R;
-    private javax.swing.JLabel intersect_2_Y;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel intersection_label;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JButton manage_button;
-    private javax.swing.JLabel ram_temp;
-    private javax.swing.JLabel ram_usage;
+    private javax.swing.JLabel latitude_label;
+    private javax.swing.JLabel light_1_label;
+    private javax.swing.JLabel light_2_label;
+    private javax.swing.JLabel longitude_label;
+    private javax.swing.JButton move_robot;
     private javax.swing.JLabel robot_cam_label;
+    private javax.swing.JButton robot_stop;
     // End of variables declaration//GEN-END:variables
 
 
