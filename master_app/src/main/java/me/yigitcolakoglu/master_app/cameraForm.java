@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +24,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
+import java.security.cert.*;
+import java.security.*;
+import javax.net.ssl.*;
+import javax.swing.JSlider;
 
 /**
  *
@@ -35,13 +40,14 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
      */
     public cameraForm() {
         initComponents();
+        disableSslVerification();
     }
     private ServerSocket server;
     private Socket client;
     private Thread running = null;
     private boolean listening = false;
     private String ROBOT_IP = "10.42.0.9";
-    private String AI_IP = "10.10.26.161";
+    private String AI_IP = "10.10.26.110";
     private Socket robotSocket;
     private DataOutputStream out;
     private BufferedReader in;
@@ -83,7 +89,7 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
         longitude_label = new javax.swing.JLabel();
         robot_stop = new javax.swing.JButton();
         move_robot = new javax.swing.JButton();
-        jSlider1 = new javax.swing.JSlider();
+        cam_slider = new javax.swing.JSlider();
         jPanel6 = new javax.swing.JPanel();
         light_1_label = new javax.swing.JLabel();
         light_2_label = new javax.swing.JLabel();
@@ -154,8 +160,6 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
         gpu_usage.setText("10%");
 
         gpu_temp.setText("40C");
-
-        jLabel6.setIcon(new javax.swing.ImageIcon("/home/colakoglu/Downloads/MyCity/master_app/src/main/java/me/yigitcolakoglu/master_app/fan.png")); // NOI18N
 
         fan_rpm.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         fan_rpm.setText("1000RPM");
@@ -298,54 +302,60 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
             }
         });
 
+        cam_slider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                cam_sliderStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(robot_cam_label, javax.swing.GroupLayout.PREFERRED_SIZE, 576, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 231, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(battery_voltage_label)
+                    .addComponent(current_drawn_label)
+                    .addComponent(longitude_label)
+                    .addComponent(latitude_label))
+                .addGap(278, 278, 278)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(move_robot)
+                        .addComponent(robot_stop))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(battery_voltage_label)
-                            .addComponent(current_drawn_label)
-                            .addComponent(longitude_label)
-                            .addComponent(latitude_label))
-                        .addGap(278, 278, 278)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(move_robot)
-                                .addComponent(robot_stop))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(robot_cam_label, javax.swing.GroupLayout.PREFERRED_SIZE, 1375, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 228, Short.MAX_VALUE))
+                        .addGap(4, 4, 4)
+                        .addComponent(cam_slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(204, 204, 204))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(robot_cam_label, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(battery_voltage_label)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(current_drawn_label, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14)
-                        .addComponent(longitude_label)
-                        .addGap(18, 18, 18)
-                        .addComponent(latitude_label))
+                        .addGap(16, 16, 16)
+                        .addComponent(robot_cam_label, javax.swing.GroupLayout.PREFERRED_SIZE, 768, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(move_robot)
-                        .addGap(18, 18, 18)
-                        .addComponent(robot_stop)
-                        .addGap(18, 18, 18)
-                        .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(146, Short.MAX_VALUE))
+                        .addGap(197, 197, 197)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(battery_voltage_label)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(current_drawn_label, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(14, 14, 14)
+                                .addComponent(longitude_label)
+                                .addGap(18, 18, 18)
+                                .addComponent(latitude_label))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(move_robot)
+                                .addGap(18, 18, 18)
+                                .addComponent(robot_stop)
+                                .addGap(18, 18, 18)
+                                .addComponent(cam_slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Robot", jPanel2);
@@ -474,7 +484,7 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Traffic Lights", jPanel6);
@@ -497,8 +507,9 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1624, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -585,6 +596,27 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
         }
     }//GEN-LAST:event_robot_stopMousePressed
 
+    private void cam_sliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cam_sliderStateChanged
+        JSlider source = (JSlider)evt.getSource();
+        if (!source.getValueIsAdjusting()) {
+            source.setValue(50);
+        }
+        int val = (int)source.getValue();
+        if (val < 50) {
+            try {
+                out.writeUTF("+");
+            } catch (IOException ex) {
+                System.out.println(ex.toString());
+            }
+        } else if (val > 50) {
+            try {
+                out.writeUTF("-");
+            } catch (IOException ex) {
+                System.out.println(ex.toString());
+            }
+        }
+    }//GEN-LAST:event_cam_sliderStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -615,7 +647,46 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
 
         }});
     }
+    private static void disableSslVerification() {
+        try
+        {
+            // Create a trust manager that does not validate certificate chains
+            TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
+                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
+                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                }
+                public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                }
+            }
+            };
 
+            // Install the all-trusting trust manager
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+            // Create all-trusting host name verifier
+            HostnameVerifier allHostsValid = new HostnameVerifier() {
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            };
+
+            // Install the all-trusting host verifier
+            HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private static String encodeValue(String value) {
+        try {
+            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException ex) {
+            throw new RuntimeException(ex.getCause());
+        }
+    }
     public void onCreate(int port, String name) throws Exception{
         boolean run = true;
         if (name.equals("robot")) {
@@ -625,9 +696,7 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
             while (run) {
                 out.writeUTF("i");
                 String resp = in.readLine();
-                System.out.println(resp);
                 JSONObject values = new JSONObject(resp);
-                System.out.println(values.getString("lat"));
                 latitude_label.setText("Latitude: " + values.getString("lat"));
                 longitude_label.setText("Longitude: " + values.getString("lng"));
                 battery_voltage_label.setText("Battery Voltage: " + values.getString("battery_voltage"));
@@ -643,35 +712,33 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
                 graphics2D.translate((height - width) / 2, (height - width) / 2);
                 graphics2D.rotate(Math.PI / 2, height / 2, width / 2);
                 graphics2D.drawRenderedImage(image, null);
-                robot_cam_label.setIcon(new ImageIcon(dest));
+                robot_cam_label.setIcon(new ImageIcon(resizeImage(dest,576,768)));
                 
                 URL obj = new URL(String.format("https://%s:5001/ai", AI_IP));
                 HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
                 
                 con.setRequestMethod("POST");
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
-                ImageIO.write(dest, "jpg", out);
+                ImageIO.write(dest, "PNG", out);
                 byte[] bytes = out.toByteArray();
                 String base64 = Base64.getEncoder().encodeToString(bytes);
-                
-                String params = "type=damage&img=" + base64;
+                String params = "type=damage&img=" + encodeValue(base64);
                 
                 con.setDoOutput(true);
-		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-		wr.writeBytes(params);
-		wr.flush();
-		wr.close();
+                DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                wr.writeBytes(params);
+                wr.flush();
+                wr.close();
 
-		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
 
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
-		
-		JSONObject json = new JSONObject(response.toString());
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+                JSONObject json = new JSONObject(response.toString());
             }
             return;
         }
@@ -820,7 +887,7 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
             });
             running.start();
             break;
-            case 1:
+            case 2:
                 running = new Thread(() -> {
                 try{
                     onCreate(69,"lights");
@@ -830,7 +897,7 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
                 });
                 running.start();
             break;
-            case 3:
+            case 1:
                 running = new Thread(() -> {
                 try{
                     onCreate(0,"robot");
@@ -846,6 +913,7 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ambulance_label;
     private javax.swing.JLabel battery_voltage_label;
+    private javax.swing.JSlider cam_slider;
     private javax.swing.JLabel cpu_temp;
     private javax.swing.JLabel cpu_usage;
     private javax.swing.JLabel current_drawn_label;
@@ -876,7 +944,6 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JSlider jSlider1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel latitude_label;
     private javax.swing.JLabel light_1_label;

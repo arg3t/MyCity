@@ -73,6 +73,11 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                                     "lng":39
                                 }
                                 conn.send((json.dumps(data, ensure_ascii=False)+"\n").encode('gbk'))
+                            elif recieved == '+':
+                                cam.run_timed(time_sp=50, speed_sp=750)
+                            elif recieved == '-':
+                                cam.run_timed(time_sp=50, speed_sp=-750)
+
                     except BrokenPipeError:
                         print("[INFO]: Client disconnected")
                         stop()
