@@ -331,24 +331,44 @@
                       <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                       <Component id="robot_cam_label" min="-2" pref="576" max="-2" attributes="0"/>
                       <EmptySpace pref="231" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="battery_voltage_label" min="-2" max="-2" attributes="0"/>
-                          <Component id="current_drawn_label" min="-2" max="-2" attributes="0"/>
-                          <Component id="longitude_label" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="latitude_label" alignment="1" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="278" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                              <Component id="move_robot" min="-2" max="-2" attributes="0"/>
-                              <Component id="robot_stop" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="battery_voltage_label" min="-2" max="-2" attributes="0"/>
+                                  <Component id="current_drawn_label" min="-2" max="-2" attributes="0"/>
+                                  <Component id="longitude_label" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="latitude_label" alignment="1" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="278" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                      <Component id="move_robot" min="-2" max="-2" attributes="0"/>
+                                      <Component id="robot_stop" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="ai_checkbox" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cam_slider" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="204" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                              <Component id="cam_slider" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="forward_button" max="32767" attributes="0"/>
+                                  <Component id="back_button" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="453" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="left_button" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+                              <Component id="right_button" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="398" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="204" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -380,9 +400,20 @@
                                       <Component id="cam_slider" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="ai_checkbox" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="121" max="-2" attributes="0"/>
+                              <Component id="forward_button" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="right_button" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="left_button" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                              <Component id="back_button" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="30" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -422,7 +453,6 @@
                 <Property name="text" type="java.lang.String" value="Stop Robot"/>
               </Properties>
               <Events>
-                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="robot_stopMousePressed"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="robot_stopActionPerformed"/>
               </Events>
             </Component>
@@ -431,13 +461,53 @@
                 <Property name="text" type="java.lang.String" value="Move Robot"/>
               </Properties>
               <Events>
-                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="move_robotMousePressed"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="move_robotActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JSlider" name="cam_slider">
               <Events>
                 <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="cam_sliderStateChanged"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="ai_checkbox">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Send to AI"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="forward_button">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&#x2227;"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="forward_buttonMousePressed"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="forward_buttonMouseReleased"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="back_button">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&#x2228;"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="back_buttonMousePressed"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="back_buttonMouseReleased"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="right_button">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&gt;"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="right_buttonMousePressed"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="right_buttonMouseReleased"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="left_button">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&lt;"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="left_buttonMousePressed"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="left_buttonMouseReleased"/>
               </Events>
             </Component>
           </SubComponents>

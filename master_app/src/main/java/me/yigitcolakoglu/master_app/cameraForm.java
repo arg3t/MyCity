@@ -5,6 +5,9 @@
  */
 package me.yigitcolakoglu.master_app;
 import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
 import java.io.*;
 import java.net.*;
 import java.awt.Graphics2D;
@@ -28,6 +31,7 @@ import java.security.cert.*;
 import java.security.*;
 import javax.net.ssl.*;
 import javax.swing.JSlider;
+import org.json.JSONArray;
 
 /**
  *
@@ -45,9 +49,10 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
     private ServerSocket server;
     private Socket client;
     private Thread running = null;
+    private Thread moverThread = null;
     private boolean listening = false;
     private String ROBOT_IP = "10.42.0.9";
-    private String AI_IP = "10.10.26.110";
+    private String AI_IP = "10.10.26.161";
     private Socket robotSocket;
     private DataOutputStream out;
     private BufferedReader in;
@@ -90,6 +95,11 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
         robot_stop = new javax.swing.JButton();
         move_robot = new javax.swing.JButton();
         cam_slider = new javax.swing.JSlider();
+        ai_checkbox = new javax.swing.JCheckBox();
+        forward_button = new javax.swing.JButton();
+        back_button = new javax.swing.JButton();
+        right_button = new javax.swing.JButton();
+        left_button = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         light_1_label = new javax.swing.JLabel();
         light_2_label = new javax.swing.JLabel();
@@ -279,11 +289,6 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
         longitude_label.setText("Longitude");
 
         robot_stop.setText("Stop Robot");
-        robot_stop.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                robot_stopMousePressed(evt);
-            }
-        });
         robot_stop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 robot_stopActionPerformed(evt);
@@ -291,11 +296,6 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
         });
 
         move_robot.setText("Move Robot");
-        move_robot.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                move_robotMousePressed(evt);
-            }
-        });
         move_robot.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 move_robotActionPerformed(evt);
@@ -308,6 +308,48 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
             }
         });
 
+        ai_checkbox.setText("Send to AI");
+
+        forward_button.setText("∧");
+        forward_button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                forward_buttonMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                forward_buttonMouseReleased(evt);
+            }
+        });
+
+        back_button.setText("∨");
+        back_button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                back_buttonMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                back_buttonMouseReleased(evt);
+            }
+        });
+
+        right_button.setText(">");
+        right_button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                right_buttonMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                right_buttonMouseReleased(evt);
+            }
+        });
+
+        left_button.setText("<");
+        left_button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                left_buttonMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                left_buttonMouseReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -316,20 +358,34 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
                 .addGap(19, 19, 19)
                 .addComponent(robot_cam_label, javax.swing.GroupLayout.PREFERRED_SIZE, 576, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 231, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(battery_voltage_label)
-                    .addComponent(current_drawn_label)
-                    .addComponent(longitude_label)
-                    .addComponent(latitude_label))
-                .addGap(278, 278, 278)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(move_robot)
-                        .addComponent(robot_stop))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(cam_slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(204, 204, 204))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(battery_voltage_label)
+                            .addComponent(current_drawn_label)
+                            .addComponent(longitude_label)
+                            .addComponent(latitude_label))
+                        .addGap(278, 278, 278)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(move_robot)
+                                .addComponent(robot_stop))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ai_checkbox)
+                                    .addComponent(cam_slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(204, 204, 204))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(forward_button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(back_button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(453, 453, 453))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(left_button)
+                        .addGap(64, 64, 64)
+                        .addComponent(right_button)
+                        .addGap(398, 398, 398))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -354,8 +410,18 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
                                 .addGap(18, 18, 18)
                                 .addComponent(robot_stop)
                                 .addGap(18, 18, 18)
-                                .addComponent(cam_slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(cam_slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(ai_checkbox)
+                        .addGap(121, 121, 121)
+                        .addComponent(forward_button)
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(right_button)
+                            .addComponent(left_button))
+                        .addGap(7, 7, 7)
+                        .addComponent(back_button)))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Robot", jPanel2);
@@ -572,14 +638,6 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
         }
     }//GEN-LAST:event_move_robotActionPerformed
 
-    private void move_robotMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_move_robotMousePressed
-        try {
-            out.writeUTF("m");
-        } catch (IOException ex) {
-            System.out.println(ex.toString());
-        }
-    }//GEN-LAST:event_move_robotMousePressed
-
     private void robot_stopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_robot_stopActionPerformed
         try {
             out.writeUTF("s");
@@ -587,14 +645,6 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
             System.out.println(ex.toString());
         }
     }//GEN-LAST:event_robot_stopActionPerformed
-
-    private void robot_stopMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_robot_stopMousePressed
-        try {
-            out.writeUTF("s");
-        } catch (IOException ex) {
-            System.out.println(ex.toString());
-        }
-    }//GEN-LAST:event_robot_stopMousePressed
 
     private void cam_sliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cam_sliderStateChanged
         JSlider source = (JSlider)evt.getSource();
@@ -616,6 +666,78 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
             }
         }
     }//GEN-LAST:event_cam_sliderStateChanged
+
+    private void forward_buttonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forward_buttonMousePressed
+        moverThread = new Thread(() -> {
+                try {
+                    while (true) {
+                        out.writeUTF("f");
+                        Thread.sleep(500);
+                    }
+                } catch(Exception ex){
+                    System.out.println(ex.toString());
+                }
+            });
+        moverThread.start();
+    }//GEN-LAST:event_forward_buttonMousePressed
+
+    private void forward_buttonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forward_buttonMouseReleased
+        moverThread.stop();
+    }//GEN-LAST:event_forward_buttonMouseReleased
+
+    private void right_buttonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_right_buttonMousePressed
+        moverThread = new Thread(() -> {
+                try {
+                    while (true) {
+                        out.writeUTF("r");
+                        Thread.sleep(500);
+                    }
+                } catch(Exception ex){
+                    System.out.println(ex.toString());
+                }
+            });
+        moverThread.start();
+    }//GEN-LAST:event_right_buttonMousePressed
+
+    private void right_buttonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_right_buttonMouseReleased
+        moverThread.stop();
+    }//GEN-LAST:event_right_buttonMouseReleased
+
+    private void back_buttonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_back_buttonMousePressed
+        moverThread = new Thread(() -> {
+                try {
+                    while (true) {
+                        out.writeUTF("b");
+                        Thread.sleep(500);
+                    }
+                } catch(Exception ex){
+                    System.out.println(ex.toString());
+                }
+            });
+        moverThread.start();
+    }//GEN-LAST:event_back_buttonMousePressed
+
+    private void back_buttonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_back_buttonMouseReleased
+        moverThread.stop();
+    }//GEN-LAST:event_back_buttonMouseReleased
+
+    private void left_buttonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_left_buttonMousePressed
+        moverThread = new Thread(() -> {
+                try {
+                    while (true) {
+                        out.writeUTF("l");
+                        Thread.sleep(500);
+                    }
+                } catch(Exception ex){
+                    System.out.println(ex.toString());
+                }
+            });
+        moverThread.start();
+    }//GEN-LAST:event_left_buttonMousePressed
+
+    private void left_buttonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_left_buttonMouseReleased
+       moverThread.stop();
+    }//GEN-LAST:event_left_buttonMouseReleased
 
     /**
      * @param args the command line arguments
@@ -691,16 +813,22 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
         boolean run = true;
         if (name.equals("robot")) {
             robotSocket = new Socket(ROBOT_IP, 3131);
+            robotSocket.setSoTimeout(1000);
             out = new DataOutputStream(robotSocket.getOutputStream());
             in = new BufferedReader(new InputStreamReader(robotSocket.getInputStream()));
             while (run) {
                 out.writeUTF("i");
-                String resp = in.readLine();
+                String resp;
+                try {
+                    resp = in.readLine();
+                } catch  (SocketTimeoutException ex) {
+                    resp = "{\"battery_voltage\":\"TIMEOUT\",\"current_drawn\":\"TIMEOUT\",\"lat\":\"TIMEOUT\",\"lng\":\"TIMEOUT\"}";
+                }
                 JSONObject values = new JSONObject(resp);
-                latitude_label.setText("Latitude: " + values.getString("lat"));
-                longitude_label.setText("Longitude: " + values.getString("lng"));
-                battery_voltage_label.setText("Battery Voltage: " + values.getString("battery_voltage"));
-                current_drawn_label.setText("Current Drawn: " + values.getString("current_drawn"));
+                latitude_label.setText("Latitude: " + values.get("lat"));
+                longitude_label.setText("Longitude: " + values.get("lng"));
+                battery_voltage_label.setText("Battery Voltage: " + values.get("battery_voltage"));
+                current_drawn_label.setText("Current Drawn: " + values.get("current_drawn"));
                 
                 BufferedImage image;
                 URL img_url = new URL(String.format("http://%s:8080/?action=snapshot", ROBOT_IP));
@@ -712,33 +840,62 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
                 graphics2D.translate((height - width) / 2, (height - width) / 2);
                 graphics2D.rotate(Math.PI / 2, height / 2, width / 2);
                 graphics2D.drawRenderedImage(image, null);
-                robot_cam_label.setIcon(new ImageIcon(resizeImage(dest,576,768)));
-                
-                URL obj = new URL(String.format("https://%s:5001/ai", AI_IP));
-                HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
-                
-                con.setRequestMethod("POST");
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                ImageIO.write(dest, "PNG", out);
-                byte[] bytes = out.toByteArray();
-                String base64 = Base64.getEncoder().encodeToString(bytes);
-                String params = "type=damage&img=" + encodeValue(base64);
-                
-                con.setDoOutput(true);
-                DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-                wr.writeBytes(params);
-                wr.flush();
-                wr.close();
+                dest = resizeImage(dest,576,768);
+                width = dest.getWidth();
+                height = dest.getHeight();
+                // robot_cam_label.setIcon(new ImageIcon(dest));
+                if (ai_checkbox.isSelected()) {
+                    URL obj = new URL(String.format("https://%s:5001/ai", AI_IP));
+                    HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
+                    con.setRequestMethod("POST");
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    ImageIO.write(dest, "PNG", out);
+                    byte[] bytes = out.toByteArray();
+                    String base64 = Base64.getEncoder().encodeToString(bytes);
+                    String params = "type=damage&img=" + encodeValue(base64);
 
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
+                    con.setDoOutput(true);
+                    DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                    wr.writeBytes(params);
+                    wr.flush();
+                    wr.close();
+
+                    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+                    JSONObject json = new JSONObject(response.toString());
+                    JSONArray detection_classes = json.getJSONArray("detection_classes");
+                    System.out.println(detection_classes);
+                    JSONArray detection_scores = json.getJSONArray("detection_scores");
+                    System.out.println(detection_scores);
+                    JSONArray detection_boxes = json.getJSONArray("detection_boxes");
+                    Graphics2D graph = dest.createGraphics();
+                    graph.setColor(Color.RED);
+                    graph.setStroke(new BasicStroke(10));
+                    graph.setFont(new Font("Arial Black", Font.BOLD, 20));
+                    for (int i = 0; i < detection_scores.length(); i++) {
+                        if (detection_scores.getDouble(i) < 0.4) {
+                            continue;
+                        }
+
+                        JSONArray box = detection_boxes.getJSONArray(i);
+                        int left = (int)(box.getDouble(1) * width);
+                        int right = (int)(box.getDouble(3) * width);
+                        int top = (int)(box.getDouble(0) * height);
+                        int bottom = (int)(box.getDouble(2) * height);
+                        graph.setColor(Color.RED);
+                        graph.drawRect(left, top, right - left, bottom - top);
+                        graph.setColor(Color.BLUE);
+                        graph.drawString(Integer.toString((int)(detection_scores.getDouble(i) * 100)) + "%", left, top - 5);
+                    }
                 }
-                in.close();
-                JSONObject json = new JSONObject(response.toString());
+                robot_cam_label.setIcon(new ImageIcon(dest));
             }
             return;
         }
@@ -911,13 +1068,16 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
             
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox ai_checkbox;
     private javax.swing.JLabel ambulance_label;
+    private javax.swing.JButton back_button;
     private javax.swing.JLabel battery_voltage_label;
     private javax.swing.JSlider cam_slider;
     private javax.swing.JLabel cpu_temp;
     private javax.swing.JLabel cpu_usage;
     private javax.swing.JLabel current_drawn_label;
     private javax.swing.JLabel fan_rpm;
+    private javax.swing.JButton forward_button;
     private javax.swing.JLabel fps_label;
     private javax.swing.JLabel gpu_temp;
     private javax.swing.JLabel gpu_usage;
@@ -946,12 +1106,14 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
     private javax.swing.JPanel jPanel8;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel latitude_label;
+    private javax.swing.JButton left_button;
     private javax.swing.JLabel light_1_label;
     private javax.swing.JLabel light_2_label;
     private javax.swing.JLabel longitude_label;
     private javax.swing.JButton move_robot;
     private javax.swing.JLabel ram_temp;
     private javax.swing.JLabel ram_usage;
+    private javax.swing.JButton right_button;
     private javax.swing.JLabel robot_cam_label;
     private javax.swing.JButton robot_stop;
     // End of variables declaration//GEN-END:variables
