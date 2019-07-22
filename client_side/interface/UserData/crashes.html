@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crashes</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="socket.io/node_modules/socket.io-client/dist/socket.io.js"></script>
+    <style>
+        #map {
+            height: 100%;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+    <style>
+
+        #img-user{
+            max-width: 150px;
+            max-height: 150px;
+        }
+
+        .title{
+            text-align: left;
+        }
+
+        td{
+            padding: 20px 10px;
+        }
+
+        .popup{
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px;
+        }
+
+        #table,#table-user{
+            background: white;
+            padding: 40px 60px;
+        }
+
+        #content, #user-content{
+            display: inline-block;
+            background: white;
+        }
+        #submit{
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+    </style>
+
+</head>
+<body>
+<audio id="audio" src="http://www.soundjay.com/button/beep-07.wav" autoplay="false"></audio>
+<div id="map"></div>
+
+
+
+<!-- ANANA SOKIYIM JAVASCRIPT
+        Sen nası gereksiz bir dilsin amk bütün bi gecemi yedin
+         ben senenin ebeni sikiyim inşallah seni yazan programcının götüne av tüfeği girer
+         AYNISI SOCKET.IO IÇIN DE GEÇERLİ ALLAHIM KAFAYI YİCEM ADAMLAR HERALDE "ACABA NE KADAR ÖZÜRLÜ BI FRAMERWORK YAZARIZ DUYE BAŞLAMIŞLAR IŞE"-->
+
+
+<div id = "popup" align = "center" class = "popup">
+
+    <div id = "content">
+        <canvas id="canvas" width="400" height="400" style="margin-top: 30px;">
+        </canvas>
+        <table border="0" cellpadding="10" cellspacing="0" id = "table" class = "modal">
+                <tr>
+                    <td colspan="4" class="title"><strong>Priority: </strong></td>
+                    <td colspan="6" id = "priority">7</td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="title"><strong>Type: </strong></td>
+                    <td colspan="6" id = "type"> Ambulance</td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="title"><strong>Submitter: </strong></td>
+                    <td colspan="6">
+                        <a href="#" id = "user" class = "panel" onclick=
+                                "document.getElementById('popup').style.display='none';
+                                document.getElementById('user-popup').style.display='block';
+                                setUser(this.getAttribute('userid'))"
+
+                        >Efe Aydın </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="title"><strong>Message: </strong></td>
+                    <td colspan="6" id = "message">Test ambulance</td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="title"><strong>Tags: </strong></td>
+                    <td colspan="6" id = "tags">Test tags</td>
+                </tr>
+
+            </table>
+
+
+    </div>
+
+
+</div>
+
+<div id = "user-popup" align = "center" class="popup">
+
+    <div id = "user-content">
+        <table border="0" cellpadding="10" cellspacing="0" id = "table-user" class = "modal">
+
+            <tr>
+                <td rowspan="3" colspan="7"><img src="cityscape.png" alt="img"id = "img-user"></td>
+                <td colspan="2" class="title"><strong>Name: </strong></td>
+                <td colspan="1" id = "name">Efe Aydın</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="title"><strong>TC: </strong></td>
+                <td colspan="1" id = "tc">111111111111</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="title"><strong>Trust: </strong></td>
+                <td colspan="1" id = "trust">7</td>
+            </tr>
+
+            <tr>
+                <td colspan="4" class="title"><strong>Phone: </strong></td>
+                <td colspan="6" id="phone">
+                    0 555 555 55 55
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" class="title"><strong>E-mail: </strong></td>
+                <td colspan="6" id = "email">efeaydin@citizenview.com</td>
+            </tr>
+            <tr>
+                <td colspan="4" class="title"><strong>Health: </strong></td>
+                <td colspan="6" id = "health">Test tags</td>
+            </tr>
+        </table>
+        <button onclick=
+                        "document.getElementById('popup').style.display='block';
+                            document.getElementById('user-popup').style.display='none';"
+                style="margin-bottom: 5px;">OK</button>
+    </div>
+
+</div>
+
+<script>
+    function setUser(id) {
+        if(!(id in users)) {
+            $.get("https://" + document.domain + ":5000/users/" + id, function (dataStr, status) {
+                data_user = $.parseJSON(dataStr)
+                users[id]=data_user
+                document.getElementById("name").innerHTML = users[id]["realname"];
+                document.getElementById("tc").innerHTML = users[id]["TC"];
+                document.getElementById("trust").innerHTML = users[id]["trustability"];
+                document.getElementById("phone").innerHTML = users[id]["tel"];
+                document.getElementById("email").innerHTML = users[id]["email"];
+                document.getElementById("img-user").setAttribute("src","https://" + document.domain + ":5000"+users[id]["avatar"])
+            });
+        }else {
+            document.getElementById("name").innerHTML = users[id]["realname"];
+            document.getElementById("tc").innerHTML = users[id]["TC"];
+            document.getElementById("trust").innerHTML = users[id]["trustability"];
+            document.getElementById("phone").innerHTML = users[id]["tel"];
+            document.getElementById("email").innerHTML = users[id]["email"];
+            document.getElementById("img-user").setAttribute("src","data:image/png;base64," + users[id]["image"])
+        }
+    }
+</script>
+
+<script>
+    var modal = document.getElementById('popup');
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    var map;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 39.92, lng: 32.85},
+            zoom: 13
+        });
+    }
+</script>
+
+<script>
+    var class_color_dict = {"person":"blue","car":"yellow"}
+    var sound = document.getElementById("audio");
+    var markers = [];
+
+    var socket = io.connect('http://' + document.domain + ':' + location.port + "/crashes_socket");
+    console.log('http://' + document.domain + ":4000/crashes_socket")
+    console.log(socket);
+
+    var markers = [];
+    var denunciation_count = markers.length;
+    var users = {};
+    setInterval(function () {
+        socket.emit("check",{})
+    },1000);
+    var LatLng = null;
+    socket.on("new",function (dataStr) {
+        for (var i = 0; i < markers.length; i++) {
+            markers.pop().setMap(null);
+        }
+        console.log("Update received!")
+        var data = $.parseJSON(dataStr);
+        console.log(data);
+        for(var key in data) {
+            data[key].forEach(function (element,index) {
+                if(element["location"]["longitude"] === undefined || element["location"]["latitude"] === undefined){
+                    return;
+                }
+                LatLng = {lat: parseFloat(element["location"]["latitude"]), lng: parseFloat(element["location"]["longitude"])};
+                var marker = new google.maps.Marker({
+                    position: {lat: parseFloat(element["location"]["latitude"]), lng: parseFloat(element["location"]["longitude"])},
+                    map: map,
+                    label: element["priority"].toString(),
+                    title: element["message"]
+                });
+                marker.addListener('click', function () {
+                    document.getElementById('popup').style.display = 'block';
+                    document.getElementById("priority").innerHTML = element["priority"];
+                    document.getElementById("type").innerHTML = "Car Crash";
+                    document.getElementById("message").innerHTML = element["message"];
+
+                    if (!(key in users)) {
+                        $.get("https://" + document.domain + ":5000/users/" + key, function (dataStr, status) {
+                            data_user = $.parseJSON(dataStr);
+                            users[key] = data_user;
+                            document.getElementById("user").innerHTML = users[key]["realname"];
+                        });
+                    } else {
+                        document.getElementById("user").innerHTML = users[key]["realname"];
+                    }
+                    document.getElementById("user").setAttribute("userid", key);
+                    var canvas = document.getElementById("canvas");
+                    var ctx = canvas.getContext("2d");
+                    var image = new Image();
+                    var rects = []
+                    image.onload = function() {
+                        if(image.height > image.width){
+                            XY_RATIO = canvas.height/image.height
+                            canvas.width = image.width * XY_RATIO
+                        }else{
+                            XY_RATIO = canvas.width/image.width
+                            canvas.height = image.height * XY_RATIO
+                        }
+                        ctx.drawImage(image, 0, 0, image.width,    image.height,     // source rectangle
+                            0, 0, canvas.width, canvas.height);
+                        for(i=0;i<element["output_dict"]["detection_classes"].length;i++){
+                            var box = element["output_dict"]["detection_boxes"][i];
+                            ctx.beginPath();
+                            ctx.lineWidth = "2";
+                            var box_class = element["output_dict"]["detection_classes"][i];
+                            ctx.strokeStyle = class_color_dict[box_class];
+                            ctx.rect(box[0]*XY_RATIO,box[2]*XY_RATIO,Math.abs(box[1]-box[0])*XY_RATIO,Math.abs(box[3]-box[2])*XY_RATIO);
+                            ctx.stroke()
+                        }
+
+                        for(i=0;i<element["people"].length;i++){
+                            ctx.beginPath();
+                            var person = element["people"][i]
+                            box = person[1]
+                            ctx.strokeStyle = "green";
+                            if(person[0]){
+                                ctx.strokeStyle = "red";
+                            }
+                            ctx.rect(box[3]*XY_RATIO,box[0]*XY_RATIO,(box[1]-box[3])*XY_RATIO,(box[0]-box[2])*XY_RATIO);
+
+                            ctx.stroke();
+                            rects.push({"x":box[3]*XY_RATIO,"y":box[0]*XY_RATIO,"w":(box[1]-box[3])*XY_RATIO,"h":(box[0]-box[2])*XY_RATIO,"id":person[2]})
+                        }
+
+                    };
+
+                    image.src = "data:image/png;base64," + element["img"]
+                    canvas.addEventListener('click', function(e) {
+                        console.log('click: ' + e.offsetX + '/' + e.offsetY);
+                        console.log(rects)
+                        var rect = collides(rects, e.offsetX, e.offsetY);
+                        if (rect) {
+                            document.getElementById('popup').style.display='none';
+                            document.getElementById('user-popup').style.display='block';
+                            setUser(rect.id);
+                        }
+                    }, false);
+                });
+
+            });
+        }
+        map.setCenter(LatLng);
+
+        if (denunciation_count < markers.length) {
+            sound.play();
+        }
+        denunciation_count = markers.length;
+    });
+    function collides(rects, x, y) {
+        var isCollision = false;
+        for (var i = 0, len = rects.length; i < len; i++) {
+            var left = rects[i].x, right = rects[i].x+rects[i].w;
+            var top = rects[i].y, bottom = rects[i].y+rects[i].h;
+            if (right >= x
+                && left <= x
+                && bottom >= y
+                && top <= y) {
+                isCollision = rects[i];
+            }
+        }
+        return isCollision;
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuOC03IHPA_6TPnfk18b0SAgD1uge4-dk&callback=initMap" async defer></script>
+
+</body>
+</html>

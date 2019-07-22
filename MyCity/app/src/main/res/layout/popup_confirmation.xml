@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				xmlns:app="http://schemas.android.com/apk/res-auto"
+				xmlns:tools="http://schemas.android.com/tools"
+				android:orientation="vertical" android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingBottom="15dp">
+
+	<TextView
+			android:text="If this alert is wrong, you will receive a penalty of "
+			android:layout_width="244dp"
+			android:layout_height="wrap_content"
+			android:id="@+id/confirm_text"
+			android:textStyle="normal|bold"
+			android:textSize="18sp"
+			android:layout_alignParentTop="true"
+			android:layout_centerHorizontal="true" android:textColor="#000000"
+			android:layout_marginTop="20dp"
+			app:layout_constraintTop_toBottomOf="@+id/imageView" app:layout_constraintStart_toStartOf="parent"
+			android:layout_marginStart="8dp" android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintHorizontal_bias="0.0"/>
+
+	<Button
+			android:id="@+id/confirm_button"
+			android:layout_width="200dp"
+			android:layout_height="wrap_content"
+			android:text="OK"
+			android:paddingRight="5dp"
+			android:textSize="18sp"
+			style="@android:style/Widget.Button"
+			tools:ignore="RtlHardcoded,RtlSymmetry"
+			android:layout_alignParentBottom="true"
+			android:background="@android:color/holo_red_dark"
+			android:layout_alignStart="@+id/imageView"
+			android:layout_marginTop="36dp"
+			app:layout_constraintTop_toBottomOf="@+id/confirm_text" app:layout_constraintStart_toStartOf="parent"
+			android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+	<ImageView
+			android:layout_width="191dp"
+			android:layout_height="181dp" app:srcCompat="@drawable/warning"
+			android:layout_centerHorizontal="true" android:id="@+id/imageView"
+			android:layout_alignParentTop="true"
+			app:layout_constraintTop_toTopOf="parent"
+			android:layout_marginTop="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+			app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"/>
+
+</android.support.constraint.ConstraintLayout>

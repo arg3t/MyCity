@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>UserInterface</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id = "basics">
+    <span class="inline"><img src="https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.ELnJq_JhiyfewhCMKOkNfwHaHa%26pid%3DApi&f=1" id="userpic" alt=""></span>
+    <br>
+    <span class="inline">
+        <table>
+            <tr>
+                <td class="table-header"><solid>Name:</solid></td>
+                <td id = "name"></td>
+                <td class="table-header"><solid>TC:</solid></td>
+                <td id = "tc"></td>
+            </tr>
+            <tr>
+                <td class="table-header"><solid>Phone Number:</solid></td>
+                <td id = "number"></td>
+                <td class="table-header"><solid>E-Mail:</solid></td>
+                <td id = "email"></td>
+            </tr>
+            <tr>
+                <td class="table-header"><solid>Health info:</solid></td>
+                <td id = "health"></td>
+            </tr>
+        </table>
+    </span>
+    <script>
+        setInterval(function() {
+            $.get("http://127.0.0.1:3000/get", function(data, status){
+                userData = $.parseJSON(data)
+                if (status == "success") {
+                    console.log(data)
+                    document.getElementById("userpic").src = "https://0.0.0.0:5000" + userData["avatar"];
+                    document.getElementById("name").innerHTML = userData["realname"];
+                    document.getElementById("tc").innerHTML = userData["TC"];
+                    document.getElementById("health").innerHTML = userData["health"].join(", ");
+                    document.getElementById("number").innerHTML = userData["tel"];
+                    document.getElementById("email").innerHTML = userData["email"];
+                }
+            });
+        }, 2000);
+    </script>
+</div>
+</body>
+</html>

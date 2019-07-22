@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent"
+			  tools:context=".MainFragment"
+			  android:orientation="vertical"
+				android:layout_marginTop="@dimen/fragment_margin">
+
+	<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="20dp"
+			android:layout_marginLeft="25dp">
+		<TextView
+				android:text="Ankara,Çankaya"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/city_name" android:textSize="20sp"
+				android:layout_marginBottom="14dp" android:textColor="@android:color/black"/>
+		<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+			<ImageView
+					android:layout_width="150dp"
+					android:layout_height="50dp" app:srcCompat="@mipmap/ic_launcher" android:id="@+id/forecast_img"
+					android:layout_weight="1"/>
+			<TextView
+					android:text="20 °C"
+					android:layout_width="200dp"
+					android:layout_height="wrap_content" android:id="@+id/temp_text" android:layout_weight="1"
+					android:textSize="35sp" android:textColor="#000000" android:layout_marginLeft="5dp"/>
+			<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="310dp"
+					android:layout_height="match_parent" android:layout_weight="1"
+					android:layout_marginLeft="12dp">
+				<TextView
+						android:text="TextView"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content" android:id="@+id/humidity" android:textColor="#000000"/>
+				<TextView
+						android:text="TextView"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content" android:id="@+id/pressure" android:textColor="#000000"/>
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+	<TextView
+			android:text="Announcements:"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" android:id="@+id/announcement_title" android:textSize="24sp"
+			android:textColor="#000000" android:layout_marginBottom="15dp" android:layout_marginLeft="7dp"/>
+	<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+												  android:id="@+id/simpleSwipeRefreshLayout"
+												  android:layout_width="match_parent"
+												  android:layout_height="match_parent">
+		<android.support.v7.widget.RecyclerView
+				android:layout_width="match_parent"
+				android:layout_height="match_parent" android:id="@+id/anouncements" android:layout_marginLeft="14dp"/>
+	</android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Voting Results</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div class="row">
+    <div class="col-md-6">
+        <canvas id="voteResults"></canvas>
+    </div>
+    <div class="col-md-6" id="res"></div>
+</div>
+    <br>
+    <script>
+    var ctx = document.getElementById('voteResults').getContext('2d');
+    var config = {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: [
+                ],
+                backgroundColor: [
+                ],
+                label: ''
+            }],
+            labels: []
+        },
+        options: {
+            responsive: true
+        }
+	};
+	window.myPie = new Chart(ctx, config);
+
+    function getRandomColor() {
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    $.get("https://127.0.0.1:5000/votings", function(dataStr, status){
+
+        data = $.parseJSON(dataStr)
+        if (status == "success") {
+            data.forEach(function(element) {
+                var a = document.createElement('a');
+                var linkText = document.createTextNode(element["name"]);
+                a.appendChild(linkText);
+                a.title = element["name"];
+                a.href = "javascript:graph(" + element["id"] + ");";
+                document.getElementById("res").appendChild(a);
+                document.getElementById("res").appendChild(document.createElement("br"));
+            });
+        }
+    });
+
+    function graph(id) {
+        $.get("https://127.0.0.1:5000/votings/" + id, function(dataStr, status){
+            data = $.parseJSON(dataStr)
+            if (status == "success") {
+                config["data"]["datasets"][0]["label"] = data["name"]
+                config["data"]["datasets"][0]["data"] = []
+                config["data"]["datasets"][0]["backgroundColor"] = []
+                config["data"]["labels"] = []
+                for (var key in data["votes"]) {
+                    config["data"]["datasets"][0]["data"].push(data["votes"][key]["votes"]);
+                    config["data"]["datasets"][0]["backgroundColor"].push(getRandomColor());
+                    config["data"]["labels"].push(data["votes"][key]["name"]);
+                }
+
+                window.myPie.update();
+            }
+        });
+    }
+    </script>
+</body>
+</html>

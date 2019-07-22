@@ -1,0 +1,162 @@
+import cv2
+import numpy as np
+import json
+from pysolar.solar import *
+from datetime import datetime
+from flask import Flask, request
+from flask_restful import Resource, Api, abort
+import base64
+import pickle
+from PIL import Image
+from matplotlib import pyplot as plt
+from io import BytesIO
+
+app = Flask(__name__)
+api = Api(app)
+
+def generateAvg(locs, img, avgs):
+	time = datetime.strptime( "2019-04-27 17:52:00 -0300","%Y-%m-%d %H:%M:%S %z")
+	altitude = int(get_altitude(39.9127938,32.8073577,time))
+
+	loc_images = {}
+
+	for i in locs:
+		temp = locs[i]
+		crop_img = img[temp["y1"]:temp["y2"], temp["x1"]:temp["x2"]]
+		loc_images[i]=[crop_img]
+
+
+
+	vals = {}
+	if str(altitude) in avgs:
+		vals = avgs[str(altitude)]
+	else:
+		for spot in loc_images:
+			vals[spot] = loc_images[spot]
+
+	for spot in loc_images:
+		for col in range(len(vals[spot][0])):
+			for pix in range(len(vals[spot][0][col])):
+
+				vals[spot][0][col][pix] = [
+					np.uint8((int(vals[spot][0][col][pix][0]) + int(loc_images[spot][0][col][pix][0]))/2),
+					np.uint8((int(vals[spot][0][col][pix][1]) + int(loc_images[spot][0][col][pix][1]))/2),
+					np.uint8((int(vals[spot][0][col][pix][2]) + int(loc_images[spot][0][col][pix][2]))/2)]
+
+
+	for i in vals:
+		vals[i] = vals[i][0].tolist()
+
+	avgs[altitude] = vals
+
+	return avgs
+
+def generateData(locs, img, avgs,show):
+
+	time = datetime.strptime( "2019-04-27 17:52:00 -0300","%Y-%m-%d %H:%M:%S %z")
+	altitude = int(get_altitude(39.9127938,32.8073577,time))
+
+	loc_images = {}
+	distances = {}
+
+	for i in locs:
+		temp = locs[i]
+		crop_img = img[temp["y1"]:temp["y2"], temp["x1"]:temp["x2"]]
+		loc_images[i]=[crop_img]
+
+	vals = {}
+
+	if str(altitude) in avgs:
+
+		for spot in avgs[str(altitude)]:
+			vals[spot] = np.array(avgs[str(altitude)][spot])
+	else:
+
+		for spot in loc_images:
+			vals[spot] = loc_images[spot]
+
+	for spot in loc_images:
+		foo = np.zeros((len(vals[spot]),len(vals[spot][0])),dtype=int)
+		distances[spot] = 0
+		for col in range(len(vals[spot])):
+			for pix in range(len(vals[spot][col])):
+				vals[spot][col][pix] = [
+					np.uint8(abs(int(vals[spot][col][pix][0]) - int(loc_images[spot][0][col][pix][0]))),
+					np.uint8(abs(int(vals[spot][col][pix][1]) - int(loc_images[spot][0][col][pix][1]))),
+					np.uint8(abs(int(vals[spot][col][pix][2]) - int(loc_images[spot][0][col][pix][2])))]
+
+				distances[spot] += np.sum(vals[spot][col][pix])
+
+				foo[col][pix] = np.max(vals[spot][col][pix])
+		distances[spot] = int(distances[spot]/vals[spot].size)
+		vals[spot] = foo
+
+		if spot in show:
+			plt.imshow(vals[spot], interpolation='nearest')
+			#plt.show()
+
+	return distances
+
+
+def im2str(im):
+	imdata = pickle.dumps(im)
+	return base64.b64encode(imdata).decode('ascii')
+
+plt.axis("off")
+with open("modules/databases/locations.json","r") as f:
+	locs = json.loads(f.read())
+
+with open("modules/databases/park_data.json","r") as f:
+	data = json.loads(f.read())
+cam=cv2.VideoCapture(5)
+if 0:
+	ret,im = cam.read()
+	data = generateAvg(locs,im,data)
+
+	with open("modules/databases/park_data.json","w") as f:
+		f.write(json.dumps(data,indent=2))
+
+class Empty(Resource):
+	def get(self):
+		image = cv2.imread("modules/lot.jpg")
+		backup = image.copy()
+		spot_data = generateData(locs,image,data,["0","1","2"])
+		print(spot_data)
+		best_spot = -1
+		for loc in spot_data:
+			spot_data[loc] = spot_data[loc] < 30
+			color = (0,255*spot_data[loc],255*(not spot_data[loc]))
+			cv2.rectangle(image,(locs[loc]["x1"],locs[loc]["y1"]),(locs[loc]["x2"],locs[loc]["y2"]),color,5)
+			if spot_data[loc]:
+				if best_spot == -1:
+					best_spot = loc
+					continue
+				if locs[loc]["priority"] < locs[best_spot]["priority"]:
+					best_spot = loc
+		print(spot_data)
+		if best_spot == -1:
+			print("Sorry, no spot found :(")
+			return
+		else:
+			print("Empty spot found at {}".format(int(best_spot) + 1))
+		foo = locs[best_spot]
+		crop_img = backup[foo["y1"]:foo["y2"], foo["x1"]:foo["x2"]].copy(order='C')
+
+		crop_img = Image.fromarray(crop_img,"RGB")
+		buffered = BytesIO()
+		crop_img.save(buffered, format="JPEG")
+		img = base64.b64encode(buffered.getvalue()).decode("ascii")
+
+		return {"lat":foo["lat"], "lng":foo["lng"], "img":img}
+
+
+
+
+
+
+
+
+
+
+
+

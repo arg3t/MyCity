@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	  xmlns:tools="http://schemas.android.com/tools"
+	  tools:showIn="navigation_view">
+
+	<item android:title="@string/transport">
+		<menu>
+			<item
+					android:id="@+id/transit"
+					android:icon="@drawable/subway"
+					android:title="Public Transit"/>
+		</menu>
+	</item>
+
+	<item android:title="@string/interactive">
+		<menu>
+
+			<item
+					android:id="@+id/complaint"
+					android:icon="@drawable/road_cracked"
+					android:title="Complaint"/>
+
+			<item android:id="@+id/crash"
+				  android:icon="@drawable/crash"
+				  android:title="Car Crash"/>
+
+			<item android:id="@+id/crash_map"
+				  android:icon="@drawable/crash_map"
+				  android:title="Crash Map"/>
+
+		</menu>
+	</item>
+
+	<!-- Items below gets hidden if not in presentation mode (aka. the default mode) SANA DIYOM EFE-->
+
+	<item android:title="Presentation" android:id="@+id/present_items">
+		<menu>
+			<item
+					android:id="@+id/rating"
+					android:icon="@drawable/star"
+					android:title="Rate"/>
+			<item
+					android:id="@+id/voting"
+					android:icon="@drawable/vote"
+					android:title="Vote"/>
+			<item
+					android:id="@+id/utilities"
+					android:icon="@drawable/utility"
+					android:title="Utilities"/>
+
+			<item
+					android:id="@+id/denunciation"
+					android:icon="@drawable/denunciation"
+					android:title="Denunciation"/>
+
+			<item
+					android:id="@+id/qr_code"
+					android:icon="@drawable/qr_code"
+					android:title="QR Code"/>
+
+			<item
+					android:id="@+id/parking"
+					android:icon="@drawable/parking"
+					android:title="Smart Parking"/>
+
+		</menu>
+	</item>
+
+</menu>
