@@ -9,9 +9,10 @@ from PIL import Image
 import base64
 import io
 import json
+import re
 
 import tensorflow as tf
-import sys
+import sys,getpass
 import numpy as np
 from flask import Flask, send_from_directory
 from flask_restful import Api
@@ -30,7 +31,7 @@ PATH_TO_FROZEN_DAMAGE_GRAPH =  'modules/trainedModels/ssd_mobilenet_RoadDamageDe
 linux_def = {"detection_boxes":[(106, 188, 480, 452)],"detection_scores":[0.99],"detection_classes":[1]}
 detection_graph_coco = None
 detection_graph_damage = None
-if sys.platform == "win32":
+if getpass.getuser() == "tedankara":
     detection_graph_coco = tf.Graph()
     detection_graph_damage = tf.Graph()
     with detection_graph_coco.as_default():
@@ -51,11 +52,24 @@ def load_image_into_numpy_array(image):
     return np.array(image.getdata()).reshape(
             (im_height, im_width, 3)).astype(np.uint8)
 
+def decode_base64(data, altchars=b'+/'):
+    """Decode base64, padding being optional.
+
+    :param data: Base64 data as an ASCII byte string
+    :returns: The decoded byte string.
+
+    """
+    data = re.sub(rb'[^a-zA-Z0-9%s]+' % altchars, b'', bytes(data,"utf-8"))  # normalize
+    missing_padding = len(data) % 4
+    if missing_padding:
+        data += b'='* (4 - missing_padding)
+    return base64.b64decode(data, altchars)
+
 def run_inference_for_single_image(image, graph,type):
     global switches
     global sess_coco
     global sess_damage
-    if not sys.platform == "win32":
+    if not getpass.getuser() == "tedankara":
         return linux_def
     with graph.as_default():
         if(switches[type]):
@@ -117,7 +131,7 @@ def run_inference_for_single_image(image, graph,type):
                     [detection_boxes, detection_scores, detection_classes, num_detections],
                     feed_dict={image_tensor: image})
 
-            output_dict = {'detection_classes': np.squeeze(classes).astype(np.int32), 'detection_scores': np.squeeze(scores)}
+            output_dict = {'detection_classes': np.squeeze(classes).astype(np.int32), 'detection_scores': np.squeeze(scores),'detection_boxes': np.squeeze(boxes)}
 
     return output_dict
 
@@ -125,7 +139,8 @@ def run_inference_for_single_image(image, graph,type):
 class Process(Resource):
     def post(self):
         base64_img = request.form['img']
-        image = Image.open(io.BytesIO(base64.b64decode(base64_img)))
+        image = Image.open(io.BytesIO(decode_base64(base64_img)))
+
         type = request.form["type"]
         image_np = load_image_into_numpy_array(image)
         image_np_expanded = np.expand_dims(image_np, axis=0)
@@ -133,9 +148,12 @@ class Process(Resource):
             output_dict = run_inference_for_single_image(image_np_expanded, detection_graph_coco,type)
         elif type == "damage":
             output_dict = run_inference_for_single_image(image_np_expanded, detection_graph_damage,type)
+        if getpass.getuser() == "tedankara":
+        	output_dict["detection_boxes"] = output_dict["detection_boxes"].tolist()
+        	output_dict["detection_scores"] = output_dict["detection_scores"].tolist()
+        	output_dict["detection_classes"] = output_dict["detection_classes"].tolist()
 
-
-        return json.dumps(output_dict,cls=NumpyEncoder)
+        return output_dict
 
 
 class NumpyEncoder(json.JSONEncoder):

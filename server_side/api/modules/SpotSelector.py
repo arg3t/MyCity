@@ -4,9 +4,9 @@ import json
 
 rects = []
 
-cam = cv2.VideoCapture(2)
+cam = cv2.VideoCapture(5)
 ret,im = cam.read()
-cam.release()
+#im = cv2.imread("lot.jpg")
 if __name__ == '__main__' :
 
 	while(True):

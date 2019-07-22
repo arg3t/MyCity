@@ -2,17 +2,19 @@
 
 import pickle
 import threading
-import sys
+import sys,getpass
 import cv2
 import os
 import numpy as np
+import psutil
+import subprocess
 
 from telnetlib import Telnet
 
 from utils import label_map_util
 from utils import visualization_utils as vis_util
 
-if sys.platform == "win32":
+if getpass.getuser() == "tedankara":
 
     import tensorflow as tf
     from distutils.version import StrictVersion
@@ -30,6 +32,7 @@ from PIL import Image
 from io import BytesIO
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
+from imutils.video import VideoStream
 import ssl
 
 switch = 1
@@ -41,9 +44,9 @@ sys.path.append("..")
 import time
 from object_detection.utils import ops as utils_ops
 
-TELNET = False
+TELNET = True
 
-AI_IP = '10.10.26.161'
+AI_IP = '127.0.0.1'
 LIGHT_IP = '192.168.2.174'
 context = ssl._create_unverified_context()
 if TELNET:
@@ -69,16 +72,18 @@ def load_image_into_numpy_array(image):
 
 data = {"gpu_temp":"10C","gpu_load":"15%","cpu_temp":"47C","cpu_load":"15%","mem_temp":"NaN","mem_load":"17%","fan_speed":"10000RPM"}
 
-"""
+
 def get_temps():
     global data
-    if not sys.platform == "win32":
-        temps = psutil.sensors_temperatures()
-        data["cpu_temp"] = str(int(temps["dell_smm"][0][1]))+"°C"
-        data["cpu_load"] = str(psutil.cpu_percent())+"%"
-        data["mem_load"] = str(dict(psutil.virtual_memory()._asdict())["percent"])+"%"
-        data["fan_speed"] = str(psutil.sensors_fans()["dell_smm"][0][1])+"RPM"
-"""
+    temps = psutil.sensors_temperatures()
+    result = subprocess.run(['nvidia-smi', '--query-gpu=utilization.memory', '--format=csv'] , stdout=subprocess.PIPE)
+    data["gpu_load"] = result.stdout.decode("utf-8").split("\n")[1]
+    result = subprocess.run(['nvidia-smi', '--query-gpu=temperature.gpu', '--format=csv'] , stdout=subprocess.PIPE)
+    data["gpu_temp"] = result.stdout.decode("utf-8").split("\n")[1]+"°C"
+    data["cpu_temp"] = str(int(temps["coretemp"][0][1]))+"°C"
+    data["cpu_load"] = str(psutil.cpu_percent())+"%"
+    data["mem_load"] = str(dict(psutil.virtual_memory()._asdict())["percent"])+"%"
+    data["fan_speed"] = str(psutil.sensors_fans()["dell_smm"][0][1])+"RPM"
 
 
 def run_inference_for_single_image(image):
@@ -88,7 +93,7 @@ def run_inference_for_single_image(image):
     post_fields = {'img': img_base64,"type":"coco"}     # Set POST fields here
     request = Request(url, urlencode(post_fields).encode())
     data = urlopen(request, context=context).read().decode("ascii")
-    output_dict = json.loads(json.loads(data))
+    output_dict = json.loads(data)
     return output_dict
 
 kill = True
@@ -122,20 +127,19 @@ socket_switch = True
 thread = threading.Thread(target=listener)
 thread.start()
 
-cam = cv2.VideoCapture(1)
+cam = VideoStream(src=0).start()
 
 
 switch = 0
-# get_temps()
+get_temps()
 # (left, right, top, bottom)
-ambulance_coordinates = (65, 190, 0, 140)
+ambulance_coordinates = (150, 400, 250, 400)
 
 reps = -1
 reps_vid = 0
 
 while 1:
-    ret,image = cam.read()
-    image = cv2.imread('/home/efeaydin/Masaüstü/union-county-car-accident-attorneys.jpg')
+    image = cam.read()
     reps_vid += 1
 
     reps += 1
@@ -145,6 +149,7 @@ while 1:
         output_dict = run_inference_for_single_image(image_np)
 
         height, width, channels = image_np.shape
+        cv2.imshow('frmmi', image[ambulance_coordinates[2]:ambulance_coordinates[3], ambulance_coordinates[0]:ambulance_coordinates[1]])
 
         out_dict = {'detection_boxes': [], 'detection_classes': [], 'detection_scores': []}
         for index,i in enumerate(output_dict['detection_classes']):
@@ -192,11 +197,10 @@ while 1:
             line_thickness=8,
             min_score_thresh=0.3
         )
-        cv2.imwrite('/home/efeaydin/Masaüstü/foto.jpg', image_np)
-        cv2.imshow('frame', image_np)
-        ex_c = [27, ord("q"), ord("Q")]
-        if cv2.waitKey(1) & 0xFF in ex_c:
-            break
+        #cv2.imshow('frame', image_np)
+        #ex_c = [27, ord("q"), ord("Q")]
+        #if cv2.waitKey(1) & 0xFF in ex_c:
+        #    break
 
         t2 = time.time()
         print("time taken for {}".format(t2-t1))
@@ -224,13 +228,13 @@ while 1:
                 if cut[i] < 0:
                     cut_send[i] = lens[i] + cut[i]
                 cut_send[i+1] = abs(cut[i])-abs(cut[i+1])
-            client_socket.sendall(json.dumps({"image_full":img,"image_sizes":{"x":65,"y":0,"width":125,"height":140},"load":data}).encode('gbk')+b"\n")
+            client_socket.sendall(json.dumps({"image_full":img,"image_sizes":{"x":90,"y":0,"width":140,"height":140},"load":data}).encode('gbk')+b"\n")
             img_counter += 1
         except:
             socket_switch = True
 
         if img_counter % 10 == 0:
-            # get_temps()
+            get_temps()
             pass
 
     except Exception as e:
@@ -248,6 +252,6 @@ if not socket_switch:
 
 
 cv2.destroyAllWindows()
-cam.release()
+cam.stop()
 kill = False
 thread.join()

@@ -65,7 +65,7 @@ back to rank 4.
 
 import functools
 import inspect
-import sys
+import sys,getpass
 import tensorflow as tf
 
 from tensorflow.python.ops import control_flow_ops

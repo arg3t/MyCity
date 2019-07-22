@@ -8,7 +8,7 @@ import cv2
 
 import base64
 import json
-import sys
+import sys,getpass
 import os
 import io
 import itertools
@@ -28,7 +28,7 @@ import numpy as np
 
 MIN_SCORE_THRESH = 0.6
 
-if sys.platform == "win32":
+if getpass.getuser() == "tedankara":
     sys.path.insert(0, r'C:\Users\Tednokent01\Downloads\MyCity\traffic_analyzer')
 
 PATH_TO_LABELS = os.path.join('object_detection/data', 'mscoco_label_map.pbtxt')
@@ -75,10 +75,10 @@ def find_name(image):
         return None
 
 def rotate_img(img, angle):
-	if angle == 90:
-		return np.rot90(img)
-	elif angle == 270:
-		return np.rot90(np.rot90(np.rot90(img)))
+    if angle == 90:
+        return np.rot90(img)
+    elif angle == 270:
+        return np.rot90(np.rot90(np.rot90(img)))
 
 def process_img(img_base64):
     url = 'https://{}:5001/ai'.format(AI_IP) # Set destination URL here
@@ -150,23 +150,23 @@ def process_img(img_base64):
                         pass
                     (height_person,width_person) = person.shape[:2]
 
-					if name is None:
-						rotated = rotate_img(person, 270)
-						face_locs = face_recognition.face_locations(rotated)[0]
-						name = find_name(rotated)
-						(top_face, right_face, bottom_face, left_face) = face_locs
-						face_locs_processed = (top + height_person - right_face,left+bottom_face,top + height_person - left_face,left+top_face)
-					else:
-						(top_face, right_face, bottom_face, left_face) = face_locs
-						person = cv2.rectangle(person, (width_person - bottom_face, left_face), (width_person - top_face, right_face), (0, 255, 0), 3)
-						face_locs_processed = (top + left_face,left + width_person - top_face,top + right_face,left + width_person - bottom_face)
-					people[index] = [0, face_locs_processed, name]
-				else:
-					face_locs = face_recognition.face_locations(person)[0]
-					(top_face, right_face, bottom_face, left_face) = face_locs
-					face_locs_processed = (top+face_locs[0],left+face_locs[1],top+face_locs[2],left+face_locs[3])
-					name = find_name(person)
-					people[index] = [1, face_locs_processed, name]
+                    if name is None:
+                        rotated = rotate_img(person, 270)
+                        face_locs = face_recognition.face_locations(rotated)[0]
+                        name = find_name(rotated)
+                        (top_face, right_face, bottom_face, left_face) = face_locs
+                        face_locs_processed = (top + height_person - right_face,left+bottom_face,top + height_person - left_face,left+top_face)
+                    else:
+                        (top_face, right_face, bottom_face, left_face) = face_locs
+                        person = cv2.rectangle(person, (width_person - bottom_face, left_face), (width_person - top_face, right_face), (0, 255, 0), 3)
+                        face_locs_processed = (top + left_face,left + width_person - top_face,top + right_face,left + width_person - bottom_face)
+                    people[index] = [0, face_locs_processed, name]
+                else:
+                    face_locs = face_recognition.face_locations(person)[0]
+                    (top_face, right_face, bottom_face, left_face) = face_locs
+                    face_locs_processed = (top+face_locs[0],left+face_locs[1],top+face_locs[2],left+face_locs[3])
+                    name = find_name(person)
+                    people[index] = [1, face_locs_processed, name]
 
 
 
@@ -188,21 +188,21 @@ class Crash(Resource):
         id = request.form['id']
         lat, long = request.form['lat'], request.form['long']
 
-		image, car_count, injured,out,people = process_img(base64_img)
-		(top, right, bottom, left) = people[0][1]	 
-		top = int(top)
-		right = int(right)
-		left = int(left)
-		bottom = int(bottom)
-		img = load_image_into_numpy_array(Image.open(io.BytesIO(base64.b64decode(base64_img))))
-		cv2.rectangle(img,(left,top),(right,bottom),(0,255,0),3)
-		cv2.imshow('test.jpg', img)
-		cv2.waitKey(0)
-		cv2.destroyAllWindows()
-		print(people)
-		priority = car_count + injured
-		if priority > 10:
-			priority = 10
+        image, car_count, injured,out,people = process_img(base64_img)
+        (top, right, bottom, left) = people[0][1]     
+        top = int(top)
+        right = int(right)
+        left = int(left)
+        bottom = int(bottom)
+        img = load_image_into_numpy_array(Image.open(io.BytesIO(base64.b64decode(base64_img))))
+        cv2.rectangle(img,(left,top),(right,bottom),(0,255,0),3)
+        cv2.imshow('test.jpg', img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+        print(people)
+        priority = car_count + injured
+        if priority > 10:
+            priority = 10
 
         crash = {
             'img': image,

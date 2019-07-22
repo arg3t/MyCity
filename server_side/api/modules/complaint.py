@@ -5,7 +5,7 @@ import json
 import io
 import base64
 from PIL import Image
-import sys
+import sys,getpass
 import datetime
 import cv2
 import ssl
@@ -13,7 +13,7 @@ from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 
-if sys.platform == "win32":
+if getpass.getuser() == "tedankara":
 	import tensorflow as tf
 	import numpy as np
 	import pickle
@@ -42,7 +42,7 @@ score_dict = {
 with open("modules/databases/complaints.json","r") as f:
 	complaints = json.load(f)
 
-if sys.platform == "win32":
+if getpass.getuser() == "tedankara":
 	# Path to frozen detection graph. This is the actual model that is used for the object detection.
 
 	# List of the strings that is used to add correct label for each box.
@@ -60,15 +60,15 @@ def load_image_into_numpy_array(image):
 
 def process_img(img_base64):
 
-	if sys.platform == "win32":
+	if getpass.getuser() == "tedankara":
 
-		url = 'https://127.0.0.1:5000/ai' # Set destination URL here
+		url = 'https://127.0.0.1:5001/ai' # Set destination URL here
 		post_fields = {'img': img_base64,"type":"damage"}     # Set POST fields here
 
 		request = Request(url, urlencode(post_fields).encode())
 		img = load_image_into_numpy_array(Image.open(io.BytesIO(base64.b64decode(img_base64))))
 
-		output_dict = json.loads(json.loads(urlopen(request, context=context).read()))
+		output_dict = json.loads(urlopen(request, context=context).read())
 		print(output_dict)
 		vis_util.visualize_boxes_and_labels_on_image_array(
 				img,
