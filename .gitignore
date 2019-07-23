@@ -65,3 +65,7 @@ fabric.properties
 traffic_analyzer/rfcn_resnet101_coco_2018_01_28/
 server_side/api/modules/faster_rcnn_resnet101_kitti_2018_01_28/
 server_side/api/modules/trainedModels/
+backups/
+server_side/api/modules/rfcn_resnet101_coco_2018_01_28/
+server_side/api/modules/trainedModels/
+traffic_analyzer/rfcn_resnet101_coco_2018_01_28/
