@@ -364,9 +364,9 @@
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="left_button" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                               <Component id="right_button" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="398" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="393" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -404,12 +404,12 @@
                               <Component id="ai_checkbox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="121" max="-2" attributes="0"/>
                               <Component id="forward_button" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="right_button" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="left_button" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                               <Component id="back_button" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>

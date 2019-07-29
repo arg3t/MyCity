@@ -65,7 +65,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                             if recieved == 's':
                                 stop()
                             elif recieved == 'm':
-                                move(500)
+                                move(200)
                             elif recieved == 'i':
                                 data = {
                                     "battery_voltage":power.measured_volts,
@@ -80,12 +80,16 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                                 cam.run_timed(time_sp=100, speed_sp=-750)
                             elif recieved == 'f':
                                 stop()
-                                motor1.run_timed(time_sp=500, speed_sp=500)
-                                motor2.run_timed(time_sp=500, speed_sp=500)
+                                motor1.run_forever(speed_sp=400)
+                                motor2.run_forever(speed_sp=400)
                             elif recieved == 'b':
                                 stop()
-                                motor1.run_timed(time_sp=500, speed_sp=-500)
-                                motor2.run_timed(time_sp=500, speed_sp=-500)
+                                motor1.run_forever(speed_sp=-400)
+                                motor2.run_forever(speed_sp=-400)
+                            elif recieved == 'l':
+                                motor1.run_forever(speed_sp=400)
+                            elif recieved == 'r':
+                                motor2.run_forever(speed_sp=400)
 
                     except BrokenPipeError:
                         print("[INFO]: Client disconnected")

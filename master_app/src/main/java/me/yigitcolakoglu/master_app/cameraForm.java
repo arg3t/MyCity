@@ -383,9 +383,9 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
                         .addGap(453, 453, 453))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(left_button)
-                        .addGap(64, 64, 64)
+                        .addGap(70, 70, 70)
                         .addComponent(right_button)
-                        .addGap(398, 398, 398))))
+                        .addGap(393, 393, 393))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -415,11 +415,11 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
                         .addComponent(ai_checkbox)
                         .addGap(121, 121, 121)
                         .addComponent(forward_button)
-                        .addGap(10, 10, 10)
+                        .addGap(4, 4, 4)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(right_button)
                             .addComponent(left_button))
-                        .addGap(7, 7, 7)
+                        .addGap(13, 13, 13)
                         .addComponent(back_button)))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
@@ -668,76 +668,68 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
     }//GEN-LAST:event_cam_sliderStateChanged
 
     private void forward_buttonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forward_buttonMousePressed
-        moverThread = new Thread(() -> {
-                try {
-                    while (true) {
-                        out.writeUTF("f");
-                        Thread.sleep(500);
-                    }
-                } catch(Exception ex){
-                    System.out.println(ex.toString());
-                }
-            });
-        moverThread.start();
+        try {
+            out.writeUTF("f");
+        } catch(Exception ex){
+            System.out.println(ex.toString());
+        }
     }//GEN-LAST:event_forward_buttonMousePressed
 
     private void forward_buttonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forward_buttonMouseReleased
-        moverThread.stop();
+        try {
+            out.writeUTF("s");
+        } catch(Exception ex){
+            System.out.println(ex.toString());
+        }
     }//GEN-LAST:event_forward_buttonMouseReleased
 
-    private void right_buttonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_right_buttonMousePressed
-        moverThread = new Thread(() -> {
-                try {
-                    while (true) {
-                        out.writeUTF("r");
-                        Thread.sleep(500);
-                    }
-                } catch(Exception ex){
-                    System.out.println(ex.toString());
-                }
-            });
-        moverThread.start();
-    }//GEN-LAST:event_right_buttonMousePressed
-
-    private void right_buttonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_right_buttonMouseReleased
-        moverThread.stop();
-    }//GEN-LAST:event_right_buttonMouseReleased
-
     private void back_buttonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_back_buttonMousePressed
-        moverThread = new Thread(() -> {
-                try {
-                    while (true) {
-                        out.writeUTF("b");
-                        Thread.sleep(500);
-                    }
-                } catch(Exception ex){
-                    System.out.println(ex.toString());
-                }
-            });
-        moverThread.start();
+        try {
+            out.writeUTF("b");
+        } catch(Exception ex){
+            System.out.println(ex.toString());
+        }
     }//GEN-LAST:event_back_buttonMousePressed
 
     private void back_buttonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_back_buttonMouseReleased
-        moverThread.stop();
+        try {
+            out.writeUTF("s");
+        } catch(Exception ex){
+            System.out.println(ex.toString());
+        }
     }//GEN-LAST:event_back_buttonMouseReleased
 
     private void left_buttonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_left_buttonMousePressed
-        moverThread = new Thread(() -> {
-                try {
-                    while (true) {
-                        out.writeUTF("l");
-                        Thread.sleep(500);
-                    }
-                } catch(Exception ex){
-                    System.out.println(ex.toString());
-                }
-            });
-        moverThread.start();
+        try {
+            out.writeUTF("r");
+        } catch(Exception ex){
+            System.out.println(ex.toString());
+        }
     }//GEN-LAST:event_left_buttonMousePressed
 
     private void left_buttonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_left_buttonMouseReleased
-       moverThread.stop();
+        try {
+            out.writeUTF("s");
+        } catch(Exception ex){
+            System.out.println(ex.toString());
+        }
     }//GEN-LAST:event_left_buttonMouseReleased
+
+    private void right_buttonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_right_buttonMousePressed
+        try {
+            out.writeUTF("l");
+        } catch(Exception ex){
+            System.out.println(ex.toString());
+        }
+    }//GEN-LAST:event_right_buttonMousePressed
+
+    private void right_buttonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_right_buttonMouseReleased
+        try {
+            out.writeUTF("s");
+        } catch(Exception ex){
+            System.out.println(ex.toString());
+        }
+    }//GEN-LAST:event_right_buttonMouseReleased
 
     /**
      * @param args the command line arguments
@@ -880,7 +872,7 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
                     graph.setStroke(new BasicStroke(10));
                     graph.setFont(new Font("Arial Black", Font.BOLD, 20));
                     for (int i = 0; i < detection_scores.length(); i++) {
-                        if (detection_scores.getDouble(i) < 0.4) {
+                        if (detection_scores.getDouble(i) < 0.3) {
                             continue;
                         }
 
@@ -1025,13 +1017,13 @@ public class cameraForm extends javax.swing.JFrame implements ChangeListener{
         if(running!=null){
            try{
                 server.close();
-                        client.close();
-                        running.stop();
-                    }catch(IOException ex){
-                        System.out.println("IO Exception occured");
-                    }catch(Exception ex){
-                        System.out.println(ex.toString());
-                    }
+                client.close();
+                running.stop();
+            }catch(IOException ex){
+                System.out.println("IO Exception occured");
+            }catch(Exception ex){
+                System.out.println(ex.toString());
+            }
         }
         switch (jTabbedPane1.getSelectedIndex()) {
             case 0:
